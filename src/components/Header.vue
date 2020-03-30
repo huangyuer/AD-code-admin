@@ -19,8 +19,7 @@ export default {
   display: flex;
   width: 100%;
   height: 80px;
-  box-shadow: 0px 2px 4px 0px rgba(229, 229, 229, 0.5);
-  background: #4373f9;
+  background: #009966;
   position: fixed;
   top: 0;
   left: 0;

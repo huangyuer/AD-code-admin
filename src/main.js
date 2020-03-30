@@ -34,6 +34,8 @@ Axios.defaults.baseURL = '/api'
 Axios.defaults.headers.post['Content-Type'] = 'application/json';
 
 Vue.config.productionTip = false
+Vue.use(ElementUI);
+Vue.use(VueQuillEditor);
 
 router.afterEach((to,from,next) => {
   window.scrollTo(0,0);
@@ -52,12 +54,13 @@ router.beforeEach((to, from, next) => {
   }else {
     router.push({name:'Login'})
   }
-
 });
 
+
+if(store.getters.getMenus.length<=0){
+   store.dispatch('common/getMenus')
+}
 /* eslint-disable no-new */
-Vue.use(ElementUI);
-Vue.use(VueQuillEditor);
 new Vue({
   el: '#app',
   router,

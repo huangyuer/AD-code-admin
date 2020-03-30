@@ -94,7 +94,7 @@ export default {
   .login-btn {
     width: 320px;
     height: 44px;
-    background: rgba(67, 115, 249, 1);
+    background: #009966;
     border-radius: 4px;
     font-size: 16px;
     font-family: PingFangSC-Medium;

@@ -12,7 +12,7 @@ module.exports = {
     assetsPublicPath: '/',
     proxyTable: {
       '/api':{
-        target: "http://card.kurite.com/admin/v1/",
+        target: "http://ad.kurite.com/api/v1/",
         changeOrigin:true,
         pathRewrite:{
             '^/api':''
