@@ -14,11 +14,21 @@
       </div>
       <div class="add-detail-select-block">
         <span>板块/分类：</span>
-        <select-tool
+        <!-- <select-tool
           :options="blockOptions"
           :value="''"
           @selectOption="select_block"
-        ></select-tool>
+        ></select-tool> -->
+          <el-select
+    
+    placeholder="请选择"
+    @change="select_block"
+    value-key="_id"
+    clearable
+    popper-class="select-active"
+  >
+    <el-option v-for="item in blockOptions" :key="item._id" :label="item.name" :value="item"></el-option>
+  </el-select>
       </div>
     </div>
     <div class="add-detail-col_2">

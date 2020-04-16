@@ -1,4 +1,4 @@
-import { getMenus, getMenuTypes, getMenuTags } from "@/api/common";
+import { uploadFile,getMenus, getMenuTypes, getMenuTags } from "@/api/common";
 
 const state = {
   getMenus: [],
@@ -13,6 +13,21 @@ const mutations = {
 };
 
 const actions = {
+  uploadFile({ commit },file) {
+    let form = new FormData();
+    // 文件对象
+    form.append("file",file);
+    return new Promise((resolve, reject) => {
+      uploadFile(form)
+        .then(response => {
+          const { data } = response;
+          resolve(data);
+        })
+        .catch(error => {
+          reject(error);
+        });
+    });
+  },
   getMenus({ commit }) {
     return new Promise((resolve, reject) => {
       getMenus()

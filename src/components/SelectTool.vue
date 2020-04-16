@@ -6,14 +6,9 @@
     @change="handleChange"
     value-key="_id"
     :clearable="!multiple&&true"
+    popper-class="select-active"
   >
-    <el-option
-      v-for="item in options"
-      :key="item._id"
-      :label="item.name"
-      :value="item"
-    >
-    </el-option>
+    <el-option v-for="item in options" :key="item._id" :label="item.name" :value="item"></el-option>
   </el-select>
 </template>
 <script>
@@ -30,6 +25,10 @@ export default {
         return {};
       }
     },
+    type:{
+      type:String,
+      default:''
+    },
     multiple: {
       type: Boolean,
       default: false
@@ -40,6 +39,20 @@ export default {
       curValue: this.value
     };
   },
+  // watch: {
+  //   curValue:{
+  //     handler(newV, oldV) { 
+  //       // this.curValue = '';
+  //       console.log("999999999999",newV,oldV)
+  //   },deep: true},
+  //    options:{
+  //      handler(newV, oldV) { 
+  //       this.curValue = '';
+  //       console.log("888888",newV)
+  //   },
+  //    deep: true
+  //    },
+  // },
   created() {
     if (Object.prototype.toString.call(this.curValue) == "[object String]") {
       console.log("----", typeof this.curValue);
@@ -66,6 +79,11 @@ export default {
 </script>
 <style lang="less" scoped>
 @aaa: ~">>>";
+.select-active {
+  .selected {
+    color: #009966;
+  }
+}
 @{aaa} .el-tag {
   font-size: 15px;
   font-family: PingFangSC-Regular, PingFang SC;
@@ -88,7 +106,7 @@ export default {
     height: 100%;
     border-radius: 4px;
     width: 100%;
-    border: 1px solid rgba(229, 229, 229, 1);
+    border: 1px solid rgba(229, 229, 229, 1) !important;
     &::-webkit-input-placeholder {
       font-weight: 400;
       color: #666666;
@@ -114,7 +132,7 @@ export default {
     position: relative;
     background-color: #c0c4cc;
     right: 0px;
-    top: 15px;
+    top: 10px;
     border-radius: 50%;
     text-align: center;
     position: relative;

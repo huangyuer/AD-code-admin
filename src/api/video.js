@@ -1,31 +1,31 @@
 import request from '@/utils/request'
 
-export function uploadFile(data) {
+export function getVideos(data) {
     return request({
-        url: '/uploadFile',
+        url: '/getVideos',
         method: 'post',
         data
     })
 }
 
-export function getMenus(data) {
+export function addVideo(data) {
     return request({
-        url: '/getMenus',
-        method: 'post',
-    })
-}
-
-export function getMenuTypes(data) {
-    return request({
-        url: '/getMenuTypes',
+        url: '/addVideo',
         method: 'post',
         data
     })
 }
 
-export function getMenuTags(data) {
+export function delVideo(data) {
     return request({
-        url: '/getMenuTags',
+        url: '/delVideo',
+        method: 'post',
+        data
+    })
+}
+export function updateVideo(data) {
+    return request({
+        url: '/updateVideo',
         method: 'post',
         data
     })

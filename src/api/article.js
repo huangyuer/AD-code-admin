@@ -1,31 +1,32 @@
 import request from '@/utils/request'
 
-export function uploadFile(data) {
+export function getArticles(data) {
     return request({
-        url: '/uploadFile',
+        url: '/getArticles',
         method: 'post',
         data
     })
 }
 
-export function getMenus(data) {
+export function delArticle(data) {
     return request({
-        url: '/getMenus',
-        method: 'post',
-    })
-}
-
-export function getMenuTypes(data) {
-    return request({
-        url: '/getMenuTypes',
+        url: '/delArticle',
         method: 'post',
         data
     })
 }
 
-export function getMenuTags(data) {
+export function addArticle(data) {
     return request({
-        url: '/getMenuTags',
+        url: '/addArticle',
+        method: 'post',
+        data
+    })
+}
+
+export function updateArticle(data) {
+    return request({
+        url: '/updateArticle',
         method: 'post',
         data
     })

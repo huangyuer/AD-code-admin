@@ -22,9 +22,9 @@ export default {
     };
   },
   methods: {
-    change() {
+    change(val,v) {
       this.$emit("input", this.input);
-      console.log("ppppp", this.input);
+      console.log("ppppp",val);
     }
   },
   watch: {

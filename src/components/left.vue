@@ -1,6 +1,10 @@
 <template>
   <div class="left-container">
-    <el-scrollbar class="pageleftscrollbar" :native="false">
+    <!-- <div v-for="item in routerLi" :key="item.id">{{item.title}}</div> -->
+    <div class="nav">
+      <router-link v-for="(item,key) in routerLi" :key="key" :to="item.link">{{item.title}}</router-link>
+    </div>
+    <!-- <el-scrollbar class="pageleftscrollbar" :native="false">
       <el-collapse v-model="activeNames" @change="handleChange" class="left-collapse-box">
         <el-collapse-item
           v-for="(item,key) in collapseItem"
@@ -17,7 +21,7 @@
           >{{index.title}}</div>
         </el-collapse-item>
       </el-collapse>
-    </el-scrollbar>
+    </el-scrollbar>-->
   </div>
 </template>
 
@@ -26,10 +30,18 @@ export default {
   name: "Left",
   data() {
     return {
+      routerLi: [
+        { title: "文章管理", link: "/article" },
+        { title: "视频管理", link: "/video" },
+        { title: "积分管理", link: "/integral" },
+        { title: "留言管理", link: "/message" },
+        { title: "用户管理", link: "/user" },
+        { title: "素材管理", link: "/media" }
+      ],
 
       curkey: 0,
       cureq: 0,
-      activeNames: [1,2,3],
+      activeNames: [1, 2, 3],
       collapseItem: [
         {
           title: "详情管理",
@@ -98,7 +110,7 @@ export default {
               break;
             case 2:
               this.fucChange(parentKey, childrenEq);
-              this.$router.push({ path: '/userStastics/visitorInfo' });
+              this.$router.push({ path: "/userStastics/visitorInfo" });
               break;
           }
           break;
@@ -106,7 +118,7 @@ export default {
           switch (childrenEq + 1) {
             case 1:
               this.fucChange(parentKey, childrenEq);
-              this.$router.push({ path: '/education/onlineExam' });
+              this.$router.push({ path: "/education/onlineExam" });
               break;
           }
           break;
@@ -117,31 +129,34 @@ export default {
         this.fucChange(0, 0);
       } else if (this.$route.path.indexOf("weiDetail") != -1) {
         this.fucChange(0, 3);
-      }else if (this.$route.path.indexOf("material") != -1){
+      } else if (this.$route.path.indexOf("material") != -1) {
         this.fucChange(0, 4);
-      }else if (this.$route.path.indexOf("home") != -1){
+      } else if (this.$route.path.indexOf("home") != -1) {
         this.fucChange(0, 1);
-      }else if (this.$route.path.indexOf("memberCompany") !=-1){
+      } else if (this.$route.path.indexOf("memberCompany") != -1) {
         this.fucChange(0, 2);
-      }else if (this.$route.path.indexOf("education") != -1){
+      } else if (this.$route.path.indexOf("education") != -1) {
         this.fucChange(2, 0);
-      }else if (this.$route.path.indexOf("memberInfo") != -1){
+      } else if (this.$route.path.indexOf("memberInfo") != -1) {
         this.fucChange(1, 0);
-      }else if (this.$route.path.indexOf("visitorInfo") != -1){
+      } else if (this.$route.path.indexOf("visitorInfo") != -1) {
         this.fucChange(1, 1);
-      }else{
-        console.log("dhhuuuhhhmembercompany",this.$route.path.indexOf("memberCompany"));
+      } else {
+        console.log(
+          "dhhuuuhhhmembercompany",
+          this.$route.path.indexOf("memberCompany")
+        );
       }
     },
-    getPath(){
+    getPath() {
       this.init();
     }
   },
   created() {
     this.init();
   },
-  watch:{
-    '$route':'getPath'
+  watch: {
+    $route: "getPath"
   }
 };
 </script>
@@ -150,135 +165,44 @@ export default {
 @aaa: ~">>>";
 .left-container {
   min-height: 100%;
-  .pageleftscrollbar {
-    width: 200px;
-    position: fixed;
-    top: 0;
-    bottom: 15px;
-    margin-top: 80px;
-    transition: padding-top 0.3s;
-    box-shadow: 4px -4px 4px 0.1px rgba(229, 229, 229, 0.5);
-    background: #ffffff;
-    z-index: 10;
-  }
-  @{aaa}.el-scrollbar__wrap {
-    overflow-x: hidden;
-  }
-  .left-collapse-box {
+  width: 200px;
+  height: 100%;
+  .nav {
     display: flex;
     flex-direction: column;
-    border: none;
-    .left-collapse {
-      position: relative;
+    align-items: center;
+    a {
+      width: 164px;
+      height: 36px;
+      line-height: 36px;
 
-      @{aaa} .el-collapse-item__header {
-        position: relative;
-        font-size: 18px;
-        color: #242424;
-        padding: 20px 0 10px 0;
-        border: none;
-        width: 141px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        margin-left: 59px;
-        .el-collapse-item__arrow {
-          margin: 0 34px 0 auto;
-        }
+      border-radius: 30px;
+      text-align: center;
+      font-size: 16px;
+      font-family: PingFangSC-Regular, PingFang SC;
+      font-weight: 400;
+      color: rgba(51, 51, 51, 1);
+      margin: 4px 0;
+      &:first-child {
+        margin-top: 25px;
+      }
+      &:hover {
+        background: rgba(0, 153, 102, 1);
+        color: #ffffff;
+      }
+      &.navitemActive {
+        background: rgba(0, 153, 102, 1);
+        color: #ffffff;
       }
 
-      @{aaa}.el-collapse-item__wrap {
-        border: none;
-      }
-      @{aaa}.el-collapse-item__content {
-        position: relative;
-        &::after {
-          position: absolute;
-          content: "";
-          left: 33px;
-          bottom: 0px;
-          width: 141px;
-          border-bottom: 1px solid #efefef;
-        }
-      }
-      .left-collapse-item {
-        font-size: 16px;
-        color: #999999;
-        height: 40px;
-        display: flex;
-        align-items: center;
-        border-left: 6px solid #fff;
-        padding-left: 58px;
-        font-family:PingFangSC-Regular;
-        cursor: pointer;
-        &:hover {
-          color: #4373f9;
-          background: #f8faff;
-          border-left: 6px solid #4373f9;
-        }
-        &.leftacive {
-          color: #4373f9;
-          background: #f8faff;
-          border-left: 6px solid #4373f9;
-          font-family:PingFangSC-Medium;
-        }
-      }
-    }
-    .detail-icon {
-      @{aaa} .el-collapse-item__header {
-        &::after {
-          content: "";
-          position: absolute;
-          left: -33px;
-          top: 32px;
-          background-image: url("../assets/icon-detail.png");
-          background-repeat: no-repeat;
-          width: 22px;
-          height: 22px;
-          background-size: 100%;
-        }
-      }
-    }
-    .user-icon {
-      @{aaa} .el-collapse-item__header {
-        &::after {
-          content: "";
-          position: absolute;
-          left: -33px;
-          top: 32px;
-          background-image: url("../assets/icon-stastic.png");
-          background-repeat: no-repeat;
-          width: 22px;
-          height: 22px;
-          background-size: 100%;
-        }
-      }
-    }
-    .education-icon {
-      @{aaa} .el-collapse-item__header {
-        &::after {
-          content: "";
-          position: absolute;
-          left: -33px;
-          top: 32px;
-          background-image: url("../assets/icon-education.png");
-          background-repeat: no-repeat;
-          width: 22px;
-          height: 22px;
-          background-size: 100%;
-        }
-      }
-      @{aaa}.el-collapse-item__content {
-        position: relative;
-        &::after {
-          position: absolute;
-          content: "";
-          left: 33px;
-          bottom: 0px;
-          width: 141px;
-          border: none;
-        }
-      }
+      // &.router-link-exact-active {
+      //  color: red;
+      //   &::after {
+      //     width: 100%;
+      //     bottom: 0;
+      //     transform: scale(1, 1);
+      //   }
+      // }
     }
   }
 }

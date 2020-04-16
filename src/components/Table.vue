@@ -52,18 +52,18 @@ export default {
   .table-thead {
     height: 60px;
     line-height: 60px;
-    background: rgba(249, 251, 255, 1);
-    border: 1px solid rgba(218, 228, 255, 1);
+background:rgba(255,255,255,1);
+border:1px solid rgba(229,229,229,1);
     display: flex;
     flex-direction: row;
     flex: 3;
     padding-left: 30px;
 
     span {
-      font-size: 16px;
-      font-family: PingFangSC-Medium;
-      font-weight: 500;
-      color: rgba(67, 115, 249, 1);
+     font-size:16px;
+font-family:PingFangSC-Medium,PingFang SC;
+font-weight:500;
+color:rgba(51,51,51,1);
 
       &:nth-child(1) {
         flex: 1.5;

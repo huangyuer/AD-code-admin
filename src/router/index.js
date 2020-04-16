@@ -15,79 +15,126 @@ import MaterialVid from '@/views/details/material/components/MaterialVid'
 Vue.use(Router)
 
 let router= new Router({
-  linkExactActiveClass: 'navitemActive',
-  routes: [{
-      path: '/',
-      redirect: 'block/officialMic',
-      name: 'Block',
-      component: Block,
-      meta:{
-        requireAuth:true,
-      },
-      children: [{
-        path: 'block/officialMic',
-        name: 'OfficialMic',
-        component: OfficialMic,
-        meta:{
-          requireAuth:true,
-        },
-      }, {
-        path: 'block/officialWeb',
-        name: 'OfficialWeb',
-        component: OfficialWeb
-      }]
-    },
-    {
+  linkActiveClass: 'navitemActive',
+  routes: [
+        {
       path: '/login',
       component: () => import('@/views/login'),
       name: 'Login',
     },
-     {
-      path: '/detail',
-      name: 'Detail',
-      component: Detail,
-      meta:{
-        type:'官网',
-      },
+    {
+      path: '/article',
+      component: () => import('@/views/articleManagement'),
+      name: 'Article',
     },
     {
-      path: '/weiDetail',
-      name: 'WeiDetail',
-      component: Detail,
-      meta:{
-        type:'官微',
-      },
+      path: '/article/add',
+      component: () => import('@/views/articleManagement/components/addArticle.vue'),
+      name: 'AddArticle',
     },
     {
-      path: '/home',
-      name: 'Home',
-      component: Home,
+      path: '/article/alter',
+      component: () => import('@/views/articleManagement/components/alterArticle.vue'),
+      name: 'AlterArticle',
     },
     {
-      path: '/memberCompany',
-      name: 'MemberCompany',
-      component: MemberCompany,
+      path: '/video',
+      component: () => import('@/views/videoManagement'),
+      name: 'Video',
     },
     {
-      path: '/material/materialPic',
-      name: 'Material',
-      component: Material,
-      meta:{
-        requireAuth:true,
-      },
-      children: [{
-        path: '/material/materialPic',
-        name: 'MaterialPic',
-        component: MaterialPic,
-        meta:{
-          requireAuth:true,
-        },
-      }, {
-        path:'/material/materialVid',
-        name:'MaterialVid',
-        component:MaterialVid,
-      }]
+      path: '/video/alter',
+      component: () => import('@/views/videoManagement/components/alterVideo.vue'),
+      name: 'AlterVideo',
     },
+    {
+      path: '/Video/add',
+      component: () => import('@/views/videoManagement/components/addVideo.vue'),
+      name: 'AddVideo',
+    },
+    {
+      path: '/message',
+      component: () => import('@/views/messageManagement'),
+      name: 'Message',
+    },
+    {
+      path: '/message/check',
+      component: () => import('@/views/messageManagement/components/messageCheck.vue'),
+      name: 'MessageCheck',
+    },
+    
+    // {
+    //   path: '/',
+    //   redirect: 'block/officialMic',
+    //   name: 'Block',
+    //   component: Block,
+    //   meta:{
+    //     requireAuth:true,
+    //   },
+    //   children: [{
+    //     path: 'block/officialMic',
+    //     name: 'OfficialMic',
+    //     component: OfficialMic,
+    //     meta:{
+    //       requireAuth:true,
+    //     },
+    //   }, {
+    //     path: 'block/officialWeb',
+    //     name: 'OfficialWeb',
+    //     component: OfficialWeb
+    //   }]
+    // },
+    // {
+    //   path: '/login',
+    //   component: () => import('@/views/login'),
+    //   name: 'Login',
+    // },
+    //  {
+    //   path: '/detail',
+    //   name: 'Detail',
+    //   component: Detail,
+    //   meta:{
+    //     type:'官网',
+    //   },
+    // },
+    // {
+    //   path: '/weiDetail',
+    //   name: 'WeiDetail',
+    //   component: Detail,
+    //   meta:{
+    //     type:'官微',
+    //   },
+    // },
+    // {
+    //   path: '/home',
+    //   name: 'Home',
+    //   component: Home,
+    // },
+    // {
+    //   path: '/memberCompany',
+    //   name: 'MemberCompany',
+    //   component: MemberCompany,
+    // },
+    // {
+    //   path: '/material/materialPic',
+    //   name: 'Material',
+    //   component: Material,
+    //   meta:{
+    //     requireAuth:true,
+    //   },
+    //   children: [{
+    //     path: '/material/materialPic',
+    //     name: 'MaterialPic',
+    //     component: MaterialPic,
+    //     meta:{
+    //       requireAuth:true,
+    //     },
+    //   }, {
+    //     path:'/material/materialVid',
+    //     name:'MaterialVid',
+    //     component:MaterialVid,
+    //   }]
+    // },
     // {
     //   path:'/material',
     //   name:'material',

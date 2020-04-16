@@ -24,6 +24,7 @@ export default {
   top: 0;
   left: 0;
   z-index: 20;
+  box-shadow:0px 2px 4px 0px rgba(229,229,229,0.5);
   .headerlogo {
     width: 340px;
     display: flex;

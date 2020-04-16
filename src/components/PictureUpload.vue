@@ -1,32 +1,31 @@
 <template>
   <el-upload
     class="picture-uploader"
-    action=""
+    action
     :show-file-list="false"
     :on-success="handleAvatarSuccess"
     :on-change="onchange"
     list-type="picture"
     :auto-upload="false"
-
   >
-    <el-button
-      size="mini"
-      slot="trigger"
-    >{{valueBtn}}</el-button>
+    <el-button size="mini" slot="trigger">{{valueBtn}}</el-button>
     <div class="picture-upload-btn">
       <span>{{value}}</span>
 
-      <div
-        slot="tip"
-        class="picture-upload__tip"
-      >{{tip}}</div>
+      <div slot="tip" class="picture-upload__tip">{{tip}}</div>
     </div>
-    <img
-      v-if="imageUrl&&isImg"
+    <img v-if="imageUrl&&isImg&&!isVideo" :src="imageUrl" class="picture-box" />
+    <video
+      v-if="imageUrl&&isImg&&isVideo"
+      style="object-fit: cover;"
+      preload="metadata"
       :src="imageUrl"
-      class="picture-box"
-    >
-
+      :class="{upvideo:true,
+              activeborder:true
+              }"
+      width="200"
+      height="120"
+    ></video>
   </el-upload>
 </template>
 
@@ -34,6 +33,10 @@
 export default {
   name: "FileUpload",
   props: {
+    isVideo: {
+      type: Boolean,
+      default: false
+    },
     value: {
       type: String,
       default: ""
@@ -46,7 +49,7 @@ export default {
       type: String,
       default: ""
     },
-       imgIndex: {
+    imgIndex: {
       type: Number,
       default: 0
     },
@@ -54,15 +57,25 @@ export default {
       type: Boolean,
       default: true
     },
-    imgUrl:{
+    imgUrl: {
       type: String,
       default: ""
     }
   },
   data() {
     return {
-      imageUrl: this.imgUrl||require("@/assets/default-picture.png")
+      imageUrl: this.imgUrl
     };
+  },
+  watch: {
+    imgUrl: {
+      //深度监听，可监听到对象、数组的变化
+      handler(newV, oldV) {
+        // do something, 可使用this
+        this.imageUrl = newV;
+      },
+      deep: true
+    }
   },
   methods: {
     handleAvatarSuccess(res, file) {
@@ -80,7 +93,7 @@ export default {
         _this.imageUrl = e.target.result; //将图片路径赋值给src
       };
       reader.readAsDataURL(file);
-      this.$emit('imgFile',file,this.imgIndex)
+      this.$emit("imgFile", file, this.imgIndex);
     }
   }
 };
@@ -120,7 +133,7 @@ export default {
 
   .picture-box {
     width: 200px;
-    height: 130px;
+    max-height: 132px;
   }
 
   @{aaa} .el-button--mini {

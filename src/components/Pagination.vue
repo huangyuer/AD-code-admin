@@ -53,7 +53,7 @@ export default {
     }
 
     div:first-child {
-      color: #4373f9;
+      color: #009966;
     }
   }
   @{aaa} .el-icon-arrow-left {
@@ -70,6 +70,9 @@ export default {
       top: -10px;
     }
   }
+  @{aaa} .btn-prev,@{aaa}.btn-next{
+    background: transparent;
+  }
   @{aaa} .el-icon-arrow-right {
     position: relative;
     &::before {
@@ -83,6 +86,9 @@ export default {
       left: -4px;
       top: -10px;
     }
+  }
+  @{aaa} .el-input__inner{
+    background: transparent;
   }
 }
 </style>

@@ -18,5 +18,6 @@ export default {
   font-family: PingFangSC-Medium, PingFang SC;
   font-weight: 500;
   color: rgba(36, 36, 36, 1);
+  padding-bottom:30px;
 }
 </style>

@@ -11,12 +11,8 @@
       class="app-content"
       v-else
     >
-      <el-scrollbar
-        class="pageappscrollbar"
-        :native="true"
-      >
+
         <left></left>
-      </el-scrollbar>
       <right-panel>
         <router-view :key="$route.path + $route.meta.type"></router-view>
       </right-panel>
@@ -40,6 +36,7 @@ export default {
 
 <style lang="less">
 @import "./common/font/font.css";
+@aaa: ~">>>";
 /* #app {
   display: flex;
 } */
@@ -50,7 +47,7 @@ html,
 body {
   height: 100%;
   font-family: "PingFangSC-Regular";
-  overflow: auto!important;
+  overflow: hidden;
 }
 #app {
   height: 100%;
@@ -60,7 +57,7 @@ body {
 .app-content {
   display: flex;
   padding-top: 80px;
-  height: 100%;
+  height: calc(100% - 80px);
   > .el-scrollbar__view {
     width: 100%;
   }
@@ -68,4 +65,5 @@ body {
 a {
   text-decoration: none;
 }
+
 </style>

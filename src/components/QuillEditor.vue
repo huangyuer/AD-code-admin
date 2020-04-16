@@ -166,6 +166,7 @@ export default {
 
   .quill-editor {
     flex: 1;
+    background: #fff;
     height: 100%;
     flex-direction: column;
     display: flex;

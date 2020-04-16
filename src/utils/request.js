@@ -1,7 +1,8 @@
 import axios from 'axios'
 import { MessageBox, Message } from 'element-ui'
 import store from '@/store'
-import { getToken } from '@/utils/auth'
+import router from '../router'
+import { getToken,removeToken } from '@/utils/auth'
 
 // create an axios instance
 const service = axios.create({
@@ -25,7 +26,7 @@ service.interceptors.request.use(
   },
   error => {
     // do something with request error
-    console.log(error) // for debug
+    console.log("sss1122222",error) // for debug
     return Promise.reject(error)
   }
 )
@@ -43,8 +44,8 @@ service.interceptors.response.use(
    * You can also judge the status by HTTP Status Code
    */
   response => {
+    console.log("ssss",res)
     const res = response.data
-console.log("ssss",res)
     // if the custom code is not 20000, it is judged as an error.
     if (res.code===1) {
       // Message({
@@ -62,7 +63,8 @@ console.log("ssss",res)
           type: 'warning'
         }).then(() => {
           store.dispatch('user/resetToken').then(() => {
-            location.reload()
+            // location.reload()
+            router.push({name:'Login'})
           })
         })
       }
@@ -72,10 +74,15 @@ console.log("ssss",res)
     }
   },
   error => {
-    console.log('err' + error) // for debug
+    console.log('errsssss3' ,error.response.status) // for debug
+    if(error.response.status==401){
+      store.dispatch('user/resetToken').then(() => {
+        router.push({name:'Login'})
+      })
+    }
     // Message({
     //   message: error.message,
-    //   type: 'error',
+    //   type: 'error',   
     //   duration: 5 * 1000
     // })
     return Promise.reject('连接超时')
