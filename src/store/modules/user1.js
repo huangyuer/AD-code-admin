@@ -7,7 +7,7 @@ import {
   updateUser,
   getUserImportFile,
   importUser
-} from "@/api/user";
+} from "@/api/user1";
 import { getToken, setToken, removeToken } from "@/utils/auth";
 // import router, { resetRouter } from '@/router'
 import axios from "axios";

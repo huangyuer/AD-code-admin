@@ -77,7 +77,7 @@
 <script>
 import InputTool from "@/components/InputTool";
 import SelectTool from "@/components/SelectTool";
-import QuillEditor from "@/components/QuillEditor";
+import QuillEditor from "@/components/QuillEditor1";
 import RightTitle from "@/components/RightTitle";
 import PictureUpload from "@/components/PictureUpload";
 import FileUpload from "@/components/FileUpload";
