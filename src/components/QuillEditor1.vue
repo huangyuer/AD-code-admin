@@ -12,13 +12,16 @@
   </div>
 </template>
 <script>
+// import { quillEditor } from "vue-quill-editor";
+// import * as Quill from "quill";
 const toolbarOptions = [
   ["bold", "italic", "underline", "strike"],
   ["blockquote", "code-block"],
   // [{ 'header': 1 }, { 'header': 2 }],
   [{ list: "ordered" }, { list: "bullet" }],
   [{ script: "sub" }, { script: "super" }],
-  // [{ 'indent': '-1' }, { 'indent': '+1' }],
+  // ["sourceEditor"],
+  [{ indent: "-1" }, { indent: "+1" }],
   // [{ 'direction': 'rtl' }],
   [{ size: ["small", false, "large", "huge"] }],
   // [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
@@ -46,6 +49,12 @@ export default {
       deep: true
     }
   },
+  mounted() {
+    //在使用的页面中初始化按钮样式
+    // const sourceEditorButton = document.querySelector(".ql-sourceEditor");
+    // sourceEditorButton.classList.add("el-icon-edit-outline");
+    // sourceEditorButton.title = "源码编辑";
+  },
   data() {
     return {
       content: this.value,
@@ -58,7 +67,17 @@ export default {
           },
           toolbar: {
             container: toolbarOptions,
-            centerDialogVisible: false
+            centerDialogVisible: false,
+            handlers: {
+              self: this,
+              indent: function(val, r) {
+                //添加工具方法
+                if (val == "+1") this.quill.format("indent", "1");
+                else {
+                  this.quill.format("indent", "-1");
+                }
+              }
+            }
           }
         }
       }
