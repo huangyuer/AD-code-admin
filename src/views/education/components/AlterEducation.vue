@@ -275,19 +275,19 @@ groupIds.push(el._id);
       }
     }
   }
-  .commit-btn {
-    width: 100px;
-    height: 36px;
-    background: rgba(67, 115, 249, 1);
-    border-radius: 4px;
-    line-height: 36px;
-    text-align: center;
-    font-size: 16px;
-    font-family: PingFangSC-Medium;
-    font-weight: 500;
-    color: rgba(255, 255, 255, 1);
-    cursor: pointer;
-    margin-top: 30px;
-  }
+  // .commit-btn {
+  //   width: 100px;
+  //   height: 36px;
+  //   background: rgba(67, 115, 249, 1);
+  //   border-radius: 4px;
+  //   line-height: 36px;
+  //   text-align: center;
+  //   font-size: 16px;
+  //   font-family: PingFangSC-Medium;
+  //   font-weight: 500;
+  //   color: rgba(255, 255, 255, 1);
+  //   cursor: pointer;
+  //   margin-top: 30px;
+  // }
 }
 </style>

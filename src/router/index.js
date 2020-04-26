@@ -43,6 +43,11 @@ let router= new Router({
       name: 'Video',
     },
     {
+      path: '/videoLive',
+      component: () => import('@/views/videoLive'),
+      name: 'VideoLive',
+    },
+    {
       path: '/video/alter',
       component: () => import('@/views/videoManagement/components/alterVideo.vue'),
       name: 'AlterVideo',

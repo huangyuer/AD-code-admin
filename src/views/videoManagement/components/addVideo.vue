@@ -51,7 +51,7 @@
       ></el-input>
     </div>
 
-    <el-button type="primary" class="add-commit" @click="submit">提交</el-button>
+    <el-button type="primary" class="commit-btn" @click="submit">提交</el-button>
   </div>
 </template>
 <script>
@@ -278,18 +278,18 @@ export default {
       }
     }
   }
-  .add-commit {
-    background: #4373f9;
-    width: 100px;
-    height: 36px;
-    border-radius: 4px;
-    font-size: 16px;
-    font-weight: 500;
-    padding: 0;
-    border-color: transparent;
-    margin-top: 30px;
-    margin-bottom: 30px;
-  }
+  // .commit-btn {
+  //   background: #4373f9;
+  //   width: 100px;
+  //   height: 36px;
+  //   border-radius: 4px;
+  //   font-size: 16px;
+  //   font-weight: 500;
+  //   padding: 0;
+  //   border-color: transparent;
+  //   margin-top: 30px;
+  //   margin-bottom: 30px;
+  // }
   .quill-editor-container {
     display: flex;
     padding-top: 20px;

@@ -66,4 +66,19 @@ a {
   text-decoration: none;
 }
 
+
+
+// 公共样式
+    .commit-btn {
+    background: #009966;
+    width: 100px;
+    height: 36px;
+    border-radius: 4px;
+    font-size: 16px;
+    font-weight: 500;
+    padding: 0;
+    border-color: transparent;
+    margin-top: 30px;
+    margin-bottom: 30px;
+  }
 </style>

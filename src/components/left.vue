@@ -33,6 +33,7 @@ export default {
       routerLi: [
         { title: "文章管理", link: "/article" },
         { title: "视频管理", link: "/video" },
+        { title: "视频直播", link: "/videoLive" },
         { title: "积分管理", link: "/integral" },
         { title: "留言管理", link: "/message" },
         { title: "用户管理", link: "/user" },
