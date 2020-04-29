@@ -17,6 +17,11 @@ Vue.use(Router)
 let router= new Router({
   linkActiveClass: 'navitemActive',
   routes: [
+    {
+      path: '/demo',
+      component: () => import('@/components/demo'),
+      name: 'Demo',
+    },
         {
       path: '/login',
       component: () => import('@/views/login'),
