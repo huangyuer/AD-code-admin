@@ -26,7 +26,7 @@ export function addArticle(data) {
 
 export function updateArticle(data) {
     return request({
-        url: '/updateArticle',
+        url: '/upArticle',
         method: 'post',
         data
     })

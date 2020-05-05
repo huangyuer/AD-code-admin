@@ -43,7 +43,9 @@ router.afterEach((to,from,next) => {
 });
 
 router.beforeEach((to, from, next) => {
-  
+  if(store.getters.getMenus.length<=0&&getToken()){
+     store.dispatch('common/getMenus')
+  }
   if(Object.is(to.name,'Login')) {
     next();
     return
@@ -57,9 +59,6 @@ router.beforeEach((to, from, next) => {
 });
 
 
-if(store.getters.getMenus.length<=0){
-   store.dispatch('common/getMenus')
-}
 /* eslint-disable no-new */
 new Vue({
   el: '#app',

@@ -34,8 +34,10 @@ export default {
         { title: "文章管理", link: "/article" },
         { title: "视频管理", link: "/video" },
         { title: "视频直播", link: "/videoLive" },
-        { title: "积分管理", link: "/integral" },
         { title: "留言管理", link: "/message" },
+        { title: "医院地图", link: "/hospitalMap" },
+        { title: "积分商城", link: "/pointsShop" },
+        { title: "积分管理", link: "/integral" },
         { title: "用户管理", link: "/user" },
         { title: "素材管理", link: "/media" }
       ],

@@ -30,3 +30,16 @@ export function updateVideo(data) {
         data
     })
 }
+export function getLive(data) {
+    return request({
+        url: '/getLive',
+        method: 'post',
+    })
+}
+export function upLive(data) {
+    return request({
+        url: '/upLive',
+        method: 'post',
+        data
+    })
+}

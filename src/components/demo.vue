@@ -7,8 +7,7 @@
     :data="tableData"
     tooltip-effect="dark"
     style="width: 100%"
-    @selection-change="handleSelectionChange"
-    @sort-change="sortChange">
+ >
     <el-table-column
       type="selection"
       width="55">
@@ -16,7 +15,7 @@
     <el-table-column
       label="日期"
       width="120"
-      :sortable="'custom'"
+      sortable
       prop="childMenu"
       >
       <template slot-scope="scope">{{ scope.row.childMenu }}</template>
@@ -25,7 +24,7 @@
       prop="clickNum"
       label="姓名"
       width="120"
-      :sortable="'custom'">
+      sortable>
     </el-table-column>
     <el-table-column
       prop="address"

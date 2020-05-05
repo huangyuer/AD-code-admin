@@ -9,31 +9,50 @@
       <div class="add-select-block">
         <span>分类：</span>
         <el-select
-          v-model="menuVal"
+          v-model="typeVal"
           placeholder="请选择"
-          @change="select_block"
+          @change="select_type"
           value-key="_id"
           clearable
           popper-class="select-active"
         >
-          <el-option
-            v-for="item in this.$store.getters.getMenus"
-            :key="item._id"
-            :label="item.name"
-            :value="item"
-          ></el-option>
+          <el-option v-for="item in typeData" :key="item._id" :label="item.name" :value="item"></el-option>
         </el-select>
       </div>
     </div>
     <div class="add-col_2">
+      <div class="add-select-category">
+        <span>库存分类：</span>
+        <el-select
+          v-model="stockType"
+          placeholder="请选择"
+          @change="select_stock"
+          value-key="_id"
+          clearable
+          popper-class="select-active"
+        >
+          <el-option v-for="item in stockData" :key="item._id" :label="item.name" :value="item"></el-option>
+        </el-select>
+      </div>
+      <div class="add-input-name" style="padding-top:20px" v-if="stockType=='有限库存'">
+        <span>库存：</span>
+        <input-tool :value="stockNum" @input="input_stock" style="width:180px"></input-tool>
+      </div>
+      <div class="add-input-name" style="padding-top:20px">
+        <span>积分：</span>
+        <input-tool :value="score" @input="input_score" style="width:180px"></input-tool>
+      </div>
+    </div>
+    <div class="add-col_2">
       <picture-upload
-        :imgUrl="imgUrl"
+        :imgUrl="coverUrl"
         :value="'封面：'"
         :valueBtn="'选取图片'"
         :tip="'建议图片尺寸140*90px'"
-        @imgFile="imgFile"
+        @imgFile="coverFile"
       ></picture-upload>
       <picture-upload
+        v-if="typeVal=='科普视频'"
         style="margin-left:55px"
         :isVideo="true"
         :imgUrl="videoUrl"
@@ -42,22 +61,40 @@
         @imgFile="videoFile"
       ></picture-upload>
     </div>
+    <div class="add-col_2" v-if="typeVal=='实体书'">
+      <picture-upload
+        :imgUrl="goodsUrl"
+        :value="'商品图：'"
+        :valueBtn="'选取图片'"
+        :tip="'建议图片尺寸140*90px'"
+        @imgFile="goodsFile"
+      ></picture-upload>
+    </div>
+    <div class="add-input-intro" v-if="typeVal=='入场券'">
+      <span>入场券内容：</span>
+      <input-tool :value="qtText" @input="input_qtText"></input-tool>
+    </div>
     <div class="add-input-intro content">
-      <span>
-        <span :class="{active :active}" @click="selectLink">链接</span>
-        <span>|</span>
-        <span :class="{active :!active}" @click="selectLink">内容</span>
-      </span>
+      <span>内容:</span>
+
       <!-- <input-tool @input="input_content"></input-tool> -->
       <el-input
         style="width:856px;margin-top:12px"
         type="textarea"
         :autosize="{ minRows: 23}"
-        placeholder="请输入视频简介…"
-        v-model="content"
+        placeholder="请输入商品简介…"
+        v-model="introduction"
       ></el-input>
     </div>
-
+    <div class="member-radio">
+      <span>选择类型：</span>
+      <div class="icon-radio" @click="importAdd">
+        <img :src="importChecked" alt />上架
+      </div>
+      <div class="icon-radio" @click="importReduce">
+        <img :src="importUnchecked" alt />下架
+      </div>
+    </div>
     <el-button type="primary" class="commit-btn" @click="submit">提交</el-button>
   </div>
 </template>
@@ -69,9 +106,10 @@ import RightTitle from "@/components/RightTitle";
 import PictureUpload from "@/components/PictureUpload";
 import FileUpload from "@/components/FileUpload";
 import ChoosePic from "@/components/ChoosePic";
-
+import radioChecked from "@/assets/icon-radio-checked.svg";
+import radioUnchecked from "@/assets/icon-radio.svg";
 export default {
-  name: "AddVideo",
+  name: "addGoods",
   props: {
     type: {
       default: "添加"
@@ -88,98 +126,132 @@ export default {
   },
   data() {
     return {
+      typeData: ["实体书", "电子书", "科普视频", "入场券"],
+      stockData: ["库存类型", "有限库存", "无限库存"],
+      importChecked: radioChecked,
+      importUnchecked: radioUnchecked,
       name: "",
-      imgUrl: "",
+      coverUrl: "",
+      goodsUrl: "",
       videoUrl: "",
       active: true,
       title: "",
-      menuVal: "",
+      score: "",
       typeVal: "",
-      tagVal: "",
-      menuType: [],
-      menuTag: [],
-      fileId: "",
-      videoId: "",
-      intro: "",
-      content: "",
-      contentHtml: ""
+      introduction: "",
+      stockType: "",
+      stockNum: "",
+      coverImg: "",
+      goodsImg: "",
+      qtText: "",
+      video: "",
+      isDel: false
     };
+  },
+  watch: {
+    isDel: {
+      //深度监听，可监听到对象、数组的变化
+      handler(newV, oldV) {
+        // do something, 可使用this
+        if (newV) {
+          this.importUnchecked = radioChecked;
+          this.importChecked = radioUnchecked;
+        } else {
+          this.importChecked = radioChecked;
+          this.importUnchecked = radioUnchecked;
+        }
+      },
+      deep: true
+    }
   },
   created() {
     this.init();
-    this.name = "视频管理-" + this.type + "详情";
+    this.name = "积分商城-" + this.type + "商品";
   },
   methods: {
     init() {},
-    selectLink() {
-      this.active = !this.active;
-    },
-    input_content(val) {
-      if (this.active) {
-        this.link = val;
-        this.content = "";
-        this.contentHtml = "";
-      } else {
-        this.link = "";
-        this.content = val;
-        this.contentHtml = val;
+    importAdd() {
+      if (this.importChecked === radioUnchecked) {
+        this.importChecked = radioChecked;
+        this.importUnchecked = radioUnchecked;
+        this.isDel = false;
+        // this.$set(this.importUserData, "type", '新增');
       }
     },
-    imgFile(val) {
+    importReduce() {
+      if (this.importUnchecked === radioUnchecked) {
+        this.importUnchecked = radioChecked;
+        this.importChecked = radioUnchecked;
+        this.isDel = true;
+        // this.$set(this.importUserData, "type", '解绑');
+      }
+    },
+
+    coverFile(val) {
       this.$store.dispatch("common/uploadFile", val).then(res => {
-        this.fileId = res.fileId;
+        this.coverImg = res.fileId;
+      });
+    },
+    goodsFile(val) {
+      this.$store.dispatch("common/uploadFile", val).then(res => {
+        this.goodsImg = res.fileId;
       });
     },
     videoFile(val) {
       this.$store.dispatch("common/uploadFile", val).then(res => {
-        this.videoId = res.fileId;
+        this.video = res.fileId;
       });
     },
+
     select_type(val) {
       this.typeVal = val;
-      let params = {
-        menu: this.menuVal,
-        type: this.typeVal
-      };
-      this.menuTag = [];
-      this.$store.dispatch("common/getMenuTags", params).then(res => {
-        this.menuTag = res;
-        this.tagVal = "";
-      });
     },
-    select_block(val) {
-      this.menuVal = val;
-      this.menuType = [];
-      this.$store.dispatch("common/getMenuTypes", { menu: val }).then(res => {
-        this.menuType = res;
-        this.menuTag = [];
-        this.typeVal = "";
-        this.tagVal = "";
-      });
-    },
-    select_tag(val) {
-      console.log("ssss2222");
+    select_stock(val) {
+      this.stockType = val;
     },
     input_title(val) {
       this.title = val;
     },
-    input_intro(val) {
-      this.intro = val;
+    input_stock(val) {
+      this.stockNum = val;
+    },
+    input_score(val) {
+      this.score = val;
+    },
+    input_qtText(val) {
+      this.qtText = val;
     },
 
     submit() {
+      if (this.stockType != "有限库存") this.stockNum = "";
+      if (this.typeVal != "科普视频") this.video = "";
+      if (this.typeVal != "实体书") this.goodsImg = "";
+      if (this.typeVal != "入场券") this.qtText = "";
       let params = {
-        title: this.title,
-        introduction: this.content,
-        coverImg: this.fileId,
-        video: this.videoId
+        name: this.title,
+        score: this.score && parseInt(this.score),
+        type: this.typeVal,
+        introduction: this.introduction,
+        stockType: this.stockType,
+        // stockNum:this.stockNum&&parseInt(this.stockNum),
+        // coverImg: this.coverImg,
+        // goodsImg:this.goodsImg,
+        // qtText:this.qtText,
+        // video: this.video,
+        isDel: this.isDel
       };
+      if (this.stockNum)
+        params.stockNum = this.stockNum && parseInt(this.stockNum);
+      if (this.coverImg) params.coverImg = this.coverImg;
+      if (this.goodsImg) params.goodsImg = this.goodsImg;
+      if (this.qtText) params.qtText = this.qtText;
+      if (this.video) params.video = this.video;
       if (this.type == "修改") {
         this.$emit("alterBtn", params);
         return;
       }
       this.$store
-        .dispatch("video/addVideo", params)
+        .dispatch("points/addGoods", params)
         .then(data => {
           this.$alert(data, {
             confirmButtonText: "确定",
@@ -201,22 +273,51 @@ export default {
 <style lang="less" scoped>
 @aaa: ~">>>";
 .add-container {
+  .member-radio {
+    display: flex;
+    align-items: center;
+    padding-top: 13px;
+    span {
+      font-size: 16px;
+      font-family: PingFangSC-Regular;
+      font-weight: 400;
+      color: rgba(51, 51, 51, 1);
+    }
+    .icon-radio {
+      display: flex;
+      align-items: center;
+      font-size: 14px;
+      font-family: PingFangSC-Regular;
+      font-weight: 400;
+      color: rgba(102, 102, 102, 1);
+      padding: 0 8px;
+
+      img {
+        width: 20px;
+        height: 20px;
+        padding-right: 5px;
+        box-sizing: content-box;
+        cursor: pointer;
+      }
+    }
+  }
+  .add-input-name,
+  .add-select-block {
+    display: flex;
+    align-items: center;
+    span {
+      font-size: 16px;
+      font-family: PingFangSC-Regular;
+      font-weight: 400;
+      color: rgba(51, 51, 51, 1);
+      word-break: keep-all;
+      padding-right: 10px;
+    }
+  }
   .add-col_1 {
     display: flex;
     // padding-top: 30px;
-    .add-input-name,
-    .add-select-block {
-      display: flex;
-      align-items: center;
-      span {
-        font-size: 16px;
-        font-family: PingFangSC-Regular;
-        font-weight: 400;
-        color: rgba(51, 51, 51, 1);
-        word-break: keep-all;
-        padding-right: 10px;
-      }
-    }
+
     .add-input-name {
       position: relative;
       margin-right: 55px;
@@ -233,17 +334,17 @@ export default {
         height: 40px;
       }
     }
-    .add-select-block {
-      position: relative;
-      &::after {
-        content: "*";
-        color: #fc4b4b;
-        font-size: 18px;
-        position: absolute;
-        right: -18px;
-        top: 13px;
-      }
-    }
+    // .add-select-block {
+    //   position: relative;
+    //   &::after {
+    //     content: "*";
+    //     color: #fc4b4b;
+    //     font-size: 18px;
+    //     position: absolute;
+    //     right: -18px;
+    //     top: 13px;
+    //   }
+    // }
   }
   .add-col_2 {
     display: flex;

@@ -5,6 +5,7 @@ import router from '../router'
 import { getToken,removeToken } from '@/utils/auth'
 
 // create an axios instance
+const self=this
 const service = axios.create({
   baseURL: "http://ad.kurite.com/api/v1/", // url = base url + request url
   // withCredentials: true, // send cookies when cross-domain requests

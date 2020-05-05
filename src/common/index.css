@@ -1,0 +1,28 @@
+.has-gutter .is-leaf {
+  border-top: 1px solid #e5e5e5;
+}
+.el-table td {
+  border-bottom: 1px solid #e5e5e5;
+}
+.el-table {
+  border-left: 1px solid #e5e5e5;
+  border-right: 1px solid #e5e5e5;
+}
+.has-gutter tr {
+  background-color: #fff;
+  height: 60px;
+  color: #333333;
+}
+.el-table__row {
+  color: #333333;
+  height: 80px;
+}
+.el-checkbox__input.is-indeterminate .el-checkbox__inner,
+.el-checkbox__input.is-checked .el-checkbox__inner {
+  background: #009966;
+  border-color: #009966;
+}
+.el-checkbox__inner:hover,
+.el-checkbox__input.is-focus .el-checkbox__inner {
+  border-color: #009966;
+}

@@ -26,6 +26,26 @@ let router= new Router({
       path: '/login',
       component: () => import('@/views/login'),
       name: 'Login',
+    }, 
+    {
+      path: '/pointsShop/add',
+      component: () => import('@/views/pointsManagement/components/addGoods.vue'),
+      name: 'AddGoods',
+    },
+    {
+      path: '/pointsShop/alter',
+      component: () => import('@/views/pointsManagement/components/alterGoods.vue'),
+      name: 'AlterGoods',
+    },
+    {
+      path: '/pointsShop',
+      component: () => import('@/views/pointsManagement/PointsShop.vue'),
+      name: 'PointsShop',
+    },
+    {
+      path: '/hospitalMap',
+      component: () => import('@/views/hospitalMap'),
+      name: 'HospitalMap',
     },
     {
       path: '/article',

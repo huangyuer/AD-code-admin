@@ -2,7 +2,9 @@ import {
   getVideos,
   addVideo,
   delVideo,
-  updateVideo
+  updateVideo,
+  getLive,
+  upLive
 } from "@/api/video";
 
 const state = {
@@ -14,6 +16,42 @@ const mutations = {
 };
 
 const actions = {
+  getLive({
+    commit
+  }, params) {
+    return new Promise((resolve, reject) => {
+      getLive()
+        .then(response => {
+          const {
+            data
+          } = response;
+          resolve(data);
+        })
+        .catch(error => {
+          reject(error);
+        });
+    });
+  },
+  upLive({
+    commit
+  }, params) {
+    return new Promise((resolve, reject) => {
+      upLive({
+          id: params.id,
+          liveAdd: params.liveAdd,
+          coverImg: params.coverImg
+        })
+        .then(response => {
+          const {
+            msg
+          } = response;
+          resolve(msg);
+        })
+        .catch(error => {
+          reject(error);
+        });
+    });
+  },
   getVideos({
     commit
   }, params) {
