@@ -28,6 +28,26 @@ let router= new Router({
       name: 'Login',
     }, 
     {
+      path: '/exportLog',
+      component: () => import('@/views/exportManagement/ExportLog.vue'),
+      name: 'ExportLog',
+    },
+    {
+      path: '/batchExport',
+      component: () => import('@/views/exportManagement/BatchExport.vue'),
+      name: 'BatchExport',
+    },
+    {
+      path: '/userManagement',
+      component: () => import('@/views/userManagement/UserManagement.vue'),
+      name: 'UserManagement',
+    },
+    {
+      path: '/userAction',
+      component: () => import('@/views/userManagement/UserAction.vue'),
+      name: 'UserAction',
+    },
+    {
       path: '/pointsShop/add',
       component: () => import('@/views/pointsManagement/components/addGoods.vue'),
       name: 'AddGoods',

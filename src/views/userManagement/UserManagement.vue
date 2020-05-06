@@ -1,15 +1,15 @@
 <template>
   <div class="article" v-loading="loading">
-    <right-title :title="'积分赚取'"></right-title>
+    <right-title :title="'用户管理'"></right-title>
     <div class="select-container">
       <div class="input-name">
         <span>姓名：</span>
         <input-tool @input="input_title"></input-tool>
       </div>
-      <div class="input-name">
-        <span>名称：</span>
-        <input-tool @input="input_job"></input-tool>
-      </div>
+       <div class="select-block">
+          <span>疾病种类：</span>
+          <select-tool :options="menuData" @selectOption="selectMenu"></select-tool>
+        </div>
       <div class="searchBtn-box" @click="search">检索</div>
     </div>
     <Table :tableData="tableData" @isDel="isDel"></Table>
@@ -24,51 +24,51 @@
 </template>
 <script>
 import RightTitle from "@/components/RightTitle";
-import Table from "./components/earnTable";
+import Table from "./components/Table";
 import Pagination from "@/components/Pagination";
 import InputTool from "@/components/InputTool";
 import SelectTool from "@/components/SelectTool";
 export default {
-  name: "PointsEarn",
+  name: "UserManagement",
   components: { Table, Pagination, InputTool, SelectTool,RightTitle },
   data() {
     return {
-      typeData: ["实体书", "电子书", "科普视频", "入场券"],
+      menuData: ["实体书", "电子书", "科普视频", "入场券"],
       tableData: [],
       total: 0,
-      params: { page: 1, limit: 10, userName: "", jobName: "",export:false },
+      params: { page: 1, limit: 10, name: "", medication: "",export:false },
       loading: true
     };
   },
   created() {
-    this.getGoodsAdmin();
+    this.getUsers();
   },
   methods: {
     isDel(id) {
-      this.getGoodsAdmin();
+      this.getUsers();
     },
     addArticle() {
       this.$router.push({ path: "pointsShop/add" });
     },
-    input_job(val) {
-      this.params.jobName = val;
+    selectMenu(val) {
+      this.params.medication = val;
     },
     search() {
       this.params.page = 1;
-      this.getGoodsAdmin();
+      this.getUsers();
     },
     input_title(val) {
-      this.params.userName = val;
+      this.params.name = val;
     },
     jumpPage(val) {
       this.params.page = val;
-      this.getGoodsAdmin();
+      this.getUsers();
     },
-    getGoodsAdmin() {
+    getUsers() {
       this.$store
-        .dispatch("points/getScoreLogs", this.params)
+        .dispatch("user/getUsers", this.params)
         .then(data => {
-          this.tableData = data.scoreLogs;
+          this.tableData = data.users;
           this.total = data.total;
           this.loading = false;
         })

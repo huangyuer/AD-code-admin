@@ -1,24 +1,23 @@
 import request from '@/utils/request'
 
-export function login(data) {
+export function getExportLogs(data) {
   return request({
-    url: '/adminLogin',
+    url: '/getExportLogs',
     method: 'post',
     data
   })
 }
 
-export function getUsers(data) {
+export function getExportTables(data) {
   return request({
-    url: '/getUsers',
+    url: '/getExportTables',
     method: 'post',
-    data
   })
 }
 
-export function getPageLogs(data) {
+export function batchExport(data) {
   return request({
-    url: '/getPageLogs',
+    url: '/batchExport',
     method: 'post',
     data
   })

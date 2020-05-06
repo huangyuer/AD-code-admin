@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <!-- <Header></Header> -->
+    <Header></Header>
     <div
       v-if="this.$route.name=='Login'"
       class="app-content"
@@ -11,8 +11,13 @@
       class="app-content"
       v-else
     >
+    <el-scrollbar
+        class="pageappscrollbar"
+        :native="true"
+      >
 
-        <!-- <left></left> -->
+        <left></left>
+         </el-scrollbar>
       <right-panel>
         <router-view :key="$route.path + $route.meta.type"></router-view>
       </right-panel>

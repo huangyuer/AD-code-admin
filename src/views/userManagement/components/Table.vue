@@ -2,35 +2,21 @@
   <div>
     <el-table ref="multipleTable" :data="tableData" tooltip-effect="dark" style="width: 100%">
       <el-table-column width="25"></el-table-column>
-      <el-table-column min-width="200" label="名称" sortable prop="name" show-overflow-tooltip></el-table-column>
-      <el-table-column prop="score" label="积分" sortable></el-table-column>
-      <el-table-column min-width="100" prop="date" label="兑换时间" sortable></el-table-column>
-      <el-table-column prop="user" label="姓名" sortable></el-table-column>
-      <el-table-column min-width="100" prop="phone" label="手机号" sortable></el-table-column>
-      <el-table-column min-width="200" prop="address" label="收货地址" sortable show-overflow-tooltip></el-table-column>
-      <el-table-column min-width="100" prop="status" label="发货状态" sortable>
-        <template slot-scope="scope">
-          <div v-if="scope.row.status=='已发货'" style="color: #009966">{{scope.row.status}}</div>
-          <div v-if="scope.row.status=='未发货'" style="color: #F2A900">{{scope.row.status}}</div>
+      <el-table-column prop="name" label="姓名" sortable></el-table-column>
+
+      <el-table-column  label="性别" sortable prop="sex"></el-table-column>
+
+      <el-table-column prop="birthday" label="出生年月" sortable></el-table-column>
+      <el-table-column  prop="city" label="所在地区" sortable>
+            <template slot-scope="scope">
+        
+          <div>{{scope.row.province}}{{scope.row.city}}</div>
         </template>
       </el-table-column>
-      <el-table-column min-width="100" prop="order" label="物流单号" sortable>
-        <template slot-scope="scope">
-          <div
-            v-if="!scope.row.order&&!scope.row.show"
-            style="color: #009966;cursor: pointer;"
-            :class="{deactivate :scope.row.isVirtual}"
-            @click="editInfo(scope.row)"
-          >编辑</div>
-          <el-input
-             :disabled="scope.row.isVirtual"
-            v-if="scope.row.show||scope.row.order"
-            suffix-icon="el-icon-edit el-input__icon"
-            v-model="scope.row.order"
-            @change="change(scope.row)"
-          ></el-input>
-        </template>
-      </el-table-column>
+      <el-table-column  prop="disease" label="疾病种类" sortable></el-table-column>
+      <el-table-column  prop="diaTime" label="确诊年份" sortable></el-table-column>
+      <el-table-column  prop="medications" label="用药历史" sortable></el-table-column>
+      <el-table-column  prop="level" label="疾病程度" sortable></el-table-column>
     </el-table>
   </div>
 </template>
@@ -112,5 +98,6 @@ export default {
 }
 @{aaa} .el-input__inner {
   border: none;
+  padding: 0;
 }
 </style>

@@ -1,18 +1,30 @@
 <template>
   <div class="article" v-loading="loading">
-    <right-title :title="'积分赚取'"></right-title>
+    <right-title :title="'用户行为'"></right-title>
     <div class="select-container">
-      <div class="input-name">
-        <span>姓名：</span>
-        <input-tool @input="input_title"></input-tool>
+      <div>
+        <div class="input-name">
+          <span>名称：</span>
+          <input-tool @input="input_name"></input-tool>
+        </div>
+        <div class="select-block">
+          <span>板块：</span>
+          <select-tool :options="menuData" @selectOption="selectMenu"></select-tool>
+        </div>
       </div>
-      <div class="input-name">
-        <span>名称：</span>
-        <input-tool @input="input_job"></input-tool>
+      <div>
+        <div class="input-name">
+          <span>姓名：</span>
+          <input-tool @input="input_userName"></input-tool>
+        </div>
+        <div class="select-block">
+          <span>行为：</span>
+          <select-tool :value="'浏览'" :options="typeData" @selectOption="selectType"></select-tool>
+        </div>
+        <div class="searchBtn-box" @click="search">检索</div>
       </div>
-      <div class="searchBtn-box" @click="search">检索</div>
     </div>
-    <Table :tableData="tableData" @isDel="isDel"></Table>
+    <ActionTable :tableData="tableData" @isDel="isDel" :type="params.menu"></ActionTable>
     <div class="pagination-box">
       <div>
         文章总数量
@@ -24,51 +36,59 @@
 </template>
 <script>
 import RightTitle from "@/components/RightTitle";
-import Table from "./components/earnTable";
+import ActionTable from "./components/actionTable";
 import Pagination from "@/components/Pagination";
 import InputTool from "@/components/InputTool";
 import SelectTool from "@/components/SelectTool";
 export default {
-  name: "PointsEarn",
-  components: { Table, Pagination, InputTool, SelectTool,RightTitle },
+  name: "UserAction",
+  components: { ActionTable, Pagination, InputTool, SelectTool, RightTitle },
   data() {
     return {
-      typeData: ["实体书", "电子书", "科普视频", "入场券"],
+      typeData: ["浏览", "收藏", "点击"],
+      menuData:['医院地图','评估记录'],
       tableData: [],
       total: 0,
-      params: { page: 1, limit: 10, userName: "", jobName: "",export:false },
+      params: { page: 1, limit: 10, menu: "", type: "浏览",userName:'',name:'', export: false },
       loading: true
     };
   },
   created() {
-    this.getGoodsAdmin();
+    this.getPageLogs();
   },
   methods: {
     isDel(id) {
-      this.getGoodsAdmin();
+      this.getPageLogs();
     },
     addArticle() {
       this.$router.push({ path: "pointsShop/add" });
     },
-    input_job(val) {
-      this.params.jobName = val;
+    input_name(val) {
+      this.params.name = val;
+    },
+    
+     selectMenu(val) {
+      this.params.menu = val;
+    },
+     selectType(val) {
+      this.params.type = val;
+    },
+     input_userName(val) {
+      this.params.userName = val;
     },
     search() {
       this.params.page = 1;
-      this.getGoodsAdmin();
-    },
-    input_title(val) {
-      this.params.userName = val;
+      this.getPageLogs();
     },
     jumpPage(val) {
       this.params.page = val;
-      this.getGoodsAdmin();
+      this.getPageLogs();
     },
-    getGoodsAdmin() {
+    getPageLogs() {
       this.$store
-        .dispatch("points/getScoreLogs", this.params)
+        .dispatch("user/getPageLogs", this.params)
         .then(data => {
-          this.tableData = data.scoreLogs;
+          this.tableData = data.logs;
           this.total = data.total;
           this.loading = false;
         })
@@ -83,7 +103,11 @@ export default {
 <style lang="less" scoped>
 .select-container {
   display: flex;
-  align-items: center;
+  flex-direction: column;
+  > div {
+    display: flex;
+    margin-top:16px
+  }
   .input-name,
   .select-block {
     word-break: keep-all;

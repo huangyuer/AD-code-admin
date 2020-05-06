@@ -1,5 +1,7 @@
 import {
-    login
+    login,
+    getUsers,
+    getPageLogs
   } from "@/api/user";
   import { getToken, setToken, removeToken } from "@/utils/auth";
   
@@ -42,7 +44,30 @@ import {
         resolve()
       })
     },
-   
+    getUsers({ commit },params) {
+      return new Promise((resolve, reject) => {
+        getUsers(params)
+          .then(response => {
+            const { data,msg } = response;
+            resolve(data);
+          })
+          .catch(error => {
+            reject(error);
+          });
+      });
+    },
+    getPageLogs({ commit },params) {
+      return new Promise((resolve, reject) => {
+        getPageLogs(params)
+          .then(response => {
+            const { data,msg } = response;
+            resolve(data);
+          })
+          .catch(error => {
+            reject(error);
+          });
+      });
+    },
   };
   
   export default {

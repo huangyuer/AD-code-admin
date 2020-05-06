@@ -1,9 +1,13 @@
 <template>
   <div class="left-container">
     <!-- <div v-for="item in routerLi" :key="item.id">{{item.title}}</div> -->
+    <!-- <el-scrollbar class="pageleftscrollbar" :native="false"> -->
     <div class="nav">
-      <router-link v-for="(item,key) in routerLi" :key="key" :to="item.link">{{item.title}}</router-link>
+      <router-link v-for="(item, key) in routerLi" :key="key" :to="item.link">{{
+        item.title
+      }}</router-link>
     </div>
+    <!-- </el-scrollbar> -->
     <!-- <el-scrollbar class="pageleftscrollbar" :native="false">
       <el-collapse v-model="activeNames" @change="handleChange" class="left-collapse-box">
         <el-collapse-item
@@ -39,9 +43,13 @@ export default {
         { title: "积分商城", link: "/pointsShop" },
         { title: "积分兑换", link: "/pointsExchange" },
         { title: "积分赚取", link: "/pointsEarn" },
+        { title: "用户管理", link: "/userManagement" },
+        { title: "用户行为", link: "/userAction" },
+        { title: "批量导出", link: "/batchExport" },
+        { title: "导出记录", link: "/exportLog" },
 
-        { title: "积分管理", link: "/integral" },
-        { title: "用户管理", link: "/user" },
+
+   
         { title: "素材管理", link: "/media" }
       ],
 
