@@ -1,19 +1,41 @@
 <template>
   <div class="article" v-loading="loading">
-    <right-title :title="'积分商城'"></right-title>
+    <right-title :title="'积分兑换'"></right-title>
     <div class="select-container">
-      <div class="input-name">
-        <span>名称：</span>
-        <input-tool @input="input_title"></input-tool>
+      <div>
+        <div class="input-name">
+          <span>名称：</span>
+          <input-tool @input="input_title"></input-tool>
+        </div>
+        <div class="input-name">
+          <span>姓名：</span>
+          <input-tool @input="input_userName"></input-tool>
+        </div>
       </div>
-      <div class="select-block">
-        <span>分类：</span>
-        <select-tool :options="typeData" @selectOption="selectBlock"></select-tool>
+
+      <div>
+        <div class="select-block">
+          <span>时间段：</span>
+          <el-date-picker
+            style="width:210px;"
+            type="daterange"
+            v-model="dataValue"
+            :clearable="false"
+            placeholder="选择一个或多个日期"
+            value-format="yyyy-MM-dd"
+            format="yyyy-MM-dd"
+            range-separator
+            @change="change"
+          ></el-date-picker>
+        </div>
+        <div class="select-block">
+          <span>发货状态：</span>
+          <select-tool :options="statusDate" @selectOption="selectBlock"></select-tool>
+        </div>
+        <div class="searchBtn-box" @click="search">检索</div>
       </div>
-      <div class="searchBtn-box" @click="search">检索</div>
-      <div class="add-article" @click="addArticle">添加详情</div>
     </div>
-    <Table :tableData="tableData" @isDel="isDel"></Table>
+    <Table :tableData="tableData" @isDel="isDel" @editInfo="editInfo"></Table>
     <div class="pagination-box">
       <div>
         文章总数量
@@ -25,51 +47,71 @@
 </template>
 <script>
 import RightTitle from "@/components/RightTitle";
-import Table from "./components/Table";
+import Table from "./components/exchangeTable";
 import Pagination from "@/components/Pagination";
 import InputTool from "@/components/InputTool";
 import SelectTool from "@/components/SelectTool";
 export default {
-  name: "PointsShop",
-  components: { Table, Pagination, InputTool, SelectTool,RightTitle },
+  name: "PointsExchange",
+  components: { Table, Pagination, InputTool, SelectTool, RightTitle },
   data() {
     return {
-      typeData: ["实体书", "电子书", "科普视频", "入场券"],
+      statusDate: ["已发货", "未发货"],
       tableData: [],
       total: 0,
-      params: { page: 1, limit: 10, name: "", type: "" },
+      dataValue: [],
+      params: {
+        page: 1,
+        limit: 10,
+        startDate: "",
+        endDate: "",
+        userName: "",
+        name: "",
+        status: "",
+        export: false
+      },
       loading: true
     };
   },
   created() {
-    this.getGoodsAdmin();
+    this.getExgLogsAdmin();
   },
   methods: {
+      editInfo(data){
+    this.getExgLogsAdmin();
+      },
+    change(val) {
+      this.params.startDate = val[0];
+      this.params.endDate = val[1];
+    },
     isDel(id) {
-      this.getGoodsAdmin();
+      this.getExgLogsAdmin();
     },
     addArticle() {
       this.$router.push({ path: "pointsShop/add" });
     },
     selectBlock(val) {
-      this.params.type = val;
+      this.params.status = val;
     },
     search() {
       this.params.page = 1;
-      this.getGoodsAdmin();
+      this.getExgLogsAdmin();
     },
     input_title(val) {
       this.params.name = val;
     },
+       input_userName(val) {
+      this.params.userName = val;
+    },
     jumpPage(val) {
       this.params.page = val;
-      this.getGoodsAdmin();
+      this.getExgLogsAdmin();
     },
-    getGoodsAdmin() {
+    getExgLogsAdmin() {
       this.$store
-        .dispatch("points/getGoodsAdmin", this.params)
+        .dispatch("points/getExgLogsAdmin", this.params)
         .then(data => {
-          this.tableData = data.goods;
+          this.tableData = data.logs;
           this.total = data.total;
           this.loading = false;
         })
@@ -84,7 +126,11 @@ export default {
 <style lang="less" scoped>
 .select-container {
   display: flex;
-  align-items: center;
+  flex-direction: column;
+  > div {
+    display: flex;
+    margin-top:16px
+  }
   .input-name,
   .select-block {
     word-break: keep-all;
@@ -105,11 +151,11 @@ export default {
   .searchBtn-box {
     width: 88px;
     min-width: 88px;
-    height: 34px;
+    height: 38px;
     background: rgba(255, 255, 255, 1);
     border-radius: 4px;
     border: 1px solid rgba(229, 229, 229, 1);
-    line-height: 36px;
+    line-height: 38px;
     text-align: center;
     font-weight: 500;
     color: #009966;

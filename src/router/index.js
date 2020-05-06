@@ -43,6 +43,16 @@ let router= new Router({
       name: 'PointsShop',
     },
     {
+      path: '/pointsExchange',
+      component: () => import('@/views/pointsManagement/PointsExchange.vue'),
+      name: 'PointsExchange',
+    },
+    {
+      path: '/pointsEarn',
+      component: () => import('@/views/pointsManagement/PointsEarn.vue'),
+      name: 'PointsEarn',
+    },
+    {
       path: '/hospitalMap',
       component: () => import('@/views/hospitalMap'),
       name: 'HospitalMap',

@@ -24,7 +24,7 @@ export default {
           //  _this.$refs.alter=data.
           let good = data.goods;
           let info = _this.$refs.alter;
-          info.title = good.title;
+          info.title = good.name;
           info.score = good.score;
           info.typeVal = good.type;
           info.introduction = good.introduction;

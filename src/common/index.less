@@ -1,15 +1,13 @@
 @color: #009966;
-.has-gutter .is-leaf{
-    border-top: 1px solid #e5e5e5;
-
+.has-gutter .is-leaf {
+  border-top: 1px solid #e5e5e5;
 }
-.el-table td{
-    border-bottom: 1px solid #e5e5e5;
-
+.el-table td {
+  border-bottom: 1px solid #e5e5e5;
 }
-.el-table{
-    border-left: 1px solid #e5e5e5;
-    border-right: 1px solid #e5e5e5;
+.el-table {
+  border-left: 1px solid #e5e5e5;
+  border-right: 1px solid #e5e5e5;
 }
 .has-gutter tr {
   background-color: #fff;
@@ -29,4 +27,34 @@
 .el-checkbox__inner:hover,
 .el-checkbox__input.is-focus .el-checkbox__inner {
   border-color: @color;
+}
+
+//日期选择器
+.el-date-editor .el-icon-date {
+  display: none;
+}
+.el-date-editor .el-range__close-icon{
+  width: 0px
+}
+.el-date-editor {
+  i {
+    &:last-child {
+      font-family: element-icons !important;
+      speak: none;
+      font-style: normal;
+      font-weight: 400;
+      font-variant: normal;
+      text-transform: none;
+      line-height: 1;
+      vertical-align: baseline;
+      display: inline-block;
+      -webkit-font-smoothing: antialiased;
+      &::before {
+        content: "\E78E";
+        position: absolute;
+        right: 9px;
+        top: 12px;
+      }
+    }
+  }
 }

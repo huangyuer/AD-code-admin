@@ -49,3 +49,12 @@ export function getGoodsAdmin(data) {
     });
   }
 
+  export function getScoreLogs(data) {
+    return request({
+      url: "/getScoreLogs",
+      method: "post",
+      data
+    });
+  }
+
+  

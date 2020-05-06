@@ -1,6 +1,6 @@
 <template>
   <div class="article" v-loading="loading">
-    <right-title :title="'积分商城'"></right-title>
+    <right-title :title="'积分赚取'"></right-title>
     <div class="select-container">
       <div class="input-name">
         <span>名称：</span>
@@ -25,19 +25,19 @@
 </template>
 <script>
 import RightTitle from "@/components/RightTitle";
-import Table from "./components/Table";
+import Table from "./components/earnTable";
 import Pagination from "@/components/Pagination";
 import InputTool from "@/components/InputTool";
 import SelectTool from "@/components/SelectTool";
 export default {
-  name: "PointsShop",
+  name: "PointsEarn",
   components: { Table, Pagination, InputTool, SelectTool,RightTitle },
   data() {
     return {
       typeData: ["实体书", "电子书", "科普视频", "入场券"],
       tableData: [],
       total: 0,
-      params: { page: 1, limit: 10, name: "", type: "" },
+      params: { page: 1, limit: 10, userName: "", jobName: "",export:false },
       loading: true
     };
   },
@@ -52,14 +52,14 @@ export default {
       this.$router.push({ path: "pointsShop/add" });
     },
     selectBlock(val) {
-      this.params.type = val;
+      this.params.jobName = val;
     },
     search() {
       this.params.page = 1;
       this.getGoodsAdmin();
     },
     input_title(val) {
-      this.params.name = val;
+      this.params.userName = val;
     },
     jumpPage(val) {
       this.params.page = val;
@@ -67,9 +67,9 @@ export default {
     },
     getGoodsAdmin() {
       this.$store
-        .dispatch("points/getGoodsAdmin", this.params)
+        .dispatch("points/getScoreLogs", this.params)
         .then(data => {
-          this.tableData = data.goods;
+          this.tableData = data.scoreLogs;
           this.total = data.total;
           this.loading = false;
         })

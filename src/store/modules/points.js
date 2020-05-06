@@ -1,4 +1,4 @@
-import { addGoods,getGoodsAdmin,getGoodsDetail,upGoods} from "@/api/points";
+import { addGoods,getGoodsAdmin,getGoodsDetail,upGoods,getExgLogsAdmin,upExgOrder,getScoreLogs} from "@/api/points";
 
 const state = {
 
@@ -63,6 +63,46 @@ const actions = {
             });
         });
       },
+      getExgLogsAdmin({ commit },params) {
+        return new Promise((resolve, reject) => {
+          getExgLogsAdmin(params)
+            .then(response => {
+              const { data,msg } = response;
+              resolve(data);
+            })
+            .catch(error => {
+              reject(error);
+            });
+        });
+      },
+      upExgOrder({ commit },params) {
+        return new Promise((resolve, reject) => {
+          upExgOrder(params)
+            .then(response => {
+              const { data,msg } = response;
+              resolve(msg);
+            })
+            .catch(error => {
+              reject(error);
+            });
+        });
+      },
+      
+
+      getScoreLogs({ commit },params) {
+        return new Promise((resolve, reject) => {
+          getScoreLogs(params)
+            .then(response => {
+              const { data,msg } = response;
+              resolve(data);
+            })
+            .catch(error => {
+              reject(error);
+            });
+        });
+      },
+      
+      
 
 //     importHospitals({ commit },params) {
 //         let form = new FormData();
