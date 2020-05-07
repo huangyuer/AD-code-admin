@@ -23,7 +23,7 @@
           v-model="checkAll"
           @change="handleCheckAllChange"
         >全选</el-checkbox>
-        <div style="margin: 15px 0;"></div>
+        <div style="margin: 20px 0;"></div>
         <el-checkbox-group v-model="tableValue" @change="handleCheckedChange" class="check-group">
           <el-checkbox v-for="table in tableData" :label="table" :key="table">{{table}}</el-checkbox>
         </el-checkbox-group>
@@ -125,6 +125,9 @@ export default {
 };
 </script>
 <style lang="less" scoped>
+.member-radio{
+  margin: 35px 0 20px 0;
+}
 .select-container {
   display: flex;
   align-items: center;
@@ -176,6 +179,8 @@ export default {
 }
 .content {
   background: #ffffff;
+  padding: 22px 0 60px 30px;
+  margin-top: 20px;
   .check-group {
     width: 755px;
     display: flex;

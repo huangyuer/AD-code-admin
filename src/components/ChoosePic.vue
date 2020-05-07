@@ -26,12 +26,12 @@
               <div
                 class="filegroupsItem"
                 :class="{
-                  active: active.name && item.name && active.name == item.name
+                  active: active && item && active == item
                 }"
                 v-for="(item, key) in filegroups"
                 @click="ClickgroupsItem(item)"
               >
-                {{ item.name }}
+                {{ item }}
               </div>
               <div class="addgroupbtn" @click="visible=true">新建分组</div>
               <el-dialog
@@ -53,7 +53,7 @@
                   ></el-input>
                   <div style="text-align: center; margin-top:20px;padding-bottom:30px;display:flex;">
                     <div
-                      style="flex:1;background:#4373F9;padding:5px 0;margin-right:10px;border-radius:4px;color:#ffffff;"
+                      style="flex:1;background:#009966;padding:5px 0;margin-right:10px;border-radius:4px;color:#ffffff;"
                       @click="addFileGroup()"
                     >确定</div>
                     <div
@@ -156,8 +156,7 @@ export default {
       currentsItem: {
         page: 1,
         limit: 12,
-        fileType: "图片",
-        groupId: String,
+        type: "图片",
         group: String
       },
       //GET GROUP
@@ -165,7 +164,7 @@ export default {
       defaultgroups: [
         {
           _id: "",
-          name: "全部图片"
+          name: "全部"
         },
         {
           _id: "",
@@ -176,8 +175,7 @@ export default {
       //uploadfile
       uploadfiles: {
         file: "",
-        group: "",
-        groupId: ""
+        group: ""
       },
       //chooseImage
       currentchooseimage: "",
@@ -195,7 +193,7 @@ export default {
     openDialog() {
       console.log("this.isvideo");
       this.gettype = "图片";
-      this.currentsItem.fileType = "图片";
+      this.currentsItem.type = "图片";
       this.loading=true;
       this.getFileGroups();
     },
@@ -210,8 +208,7 @@ export default {
     },
     uploadMethod(param) {
       this.uploadfiles.file = param.file;
-      this.uploadfiles.group = this.active.name;
-      this.uploadfiles.groupId = this.active._id;
+      this.uploadfiles.group = this.active;
       this.$store.dispatch("details/uploadFile", this.uploadfiles).then(() => {
         this.init(this.active);
         this.$message({
@@ -281,9 +278,9 @@ export default {
     },
     ClickgroupsItem(item) {
       this.active = item;
-      this.currentsItem.groupId = item._id;
       this.currentsItem.page = 1;
-      this.currentsItem.fileType = "图片";
+      this.currentsItem.type = "图片";
+      this.currentsItem.group = item;
       this.loading=true;
       this.getFileImageVideo();
     },
@@ -295,7 +292,7 @@ export default {
       this.$store
         .dispatch("details/getFileGroups", this.gettype)
         .then(() => {
-          this.filegroups = this.$store.getters.filegroups.fileGroups;
+          this.filegroups = this.$store.getters.filegroups.groups;
           this.init(this.filegroups[0]);
         })
         .catch(e => {
@@ -332,8 +329,8 @@ export default {
     },
     init(groupitem) {
       this.active = groupitem;
-      this.currentsItem.group = this.active.name;
-      this.currentsItem.groupId = this.active._id;
+      this.currentsItem.group = groupitem;
+      // this.currentsItem.groupId = this.active._id;
       this.getFileImageVideo();
     }
   },
@@ -363,7 +360,7 @@ export default {
         }
         .addgroupbtn{
           text-align: center;
-          color: #4373F9;
+          color: #009966;
           font-size: 15px;
           position: absolute;
           width: 100%;
@@ -483,7 +480,7 @@ export default {
     cursor: pointer;
     background: #fff;
     border: 1px solid #dae4ff;
-    color: #4373f9;
+    color: #009966;
     -webkit-appearance: none;
     text-align: center;
     -webkit-box-sizing: border-box;
@@ -497,7 +494,7 @@ export default {
     font-size: 14px;
     border-radius: 4px;
     &.primary {
-      background: #4373f9;
+      background: #009966;
       color: #ffffff;
       margin-left: 15px;
     }

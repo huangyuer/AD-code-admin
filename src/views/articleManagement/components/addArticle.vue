@@ -7,7 +7,7 @@
         <input-tool :value="title" @input="input_title"></input-tool>
       </div>
       <div class="add-select-block">
-        <span>板块：</span>
+        <span>板块/分类：</span>
         <el-select
           v-model="menuVal"
           placeholder="请选择"
@@ -53,7 +53,13 @@
         </el-select>
       </div>
     </div>
-    <picture-upload :imgUrl="imgUrl" :value="'封面：'" :valueBtn="'选取图片'" :tip="'建议图片尺寸140*90px'" @imgFile="imgFile" ></picture-upload>
+    <picture-upload
+      :src="imgUrl"
+      :value="'封面：'"
+      :valueBtn="'选取图片'"
+      :tip="'建议图片尺寸140*90px'"
+      @select_picture="imgFile"
+    ></picture-upload>
     <div class="add-input-intro" v-if="menuVal !=='关爱行动'">
       <span>简介：</span>
       <input-tool :value="intro" @input="input_intro"></input-tool>
@@ -77,7 +83,7 @@
 <script>
 import InputTool from "@/components/InputTool";
 import SelectTool from "@/components/SelectTool";
-import QuillEditor from "@/components/QuillEditor1";
+import QuillEditor from "@/components/QuillEditor";
 import RightTitle from "@/components/RightTitle";
 import PictureUpload from "@/components/PictureUpload";
 import FileUpload from "@/components/FileUpload";
@@ -85,9 +91,9 @@ import ChoosePic from "@/components/ChoosePic";
 
 export default {
   name: "AddArticle",
-  props:{
-    type:{
-      default:"添加"
+  props: {
+    type: {
+      default: "添加"
     }
   },
   components: {
@@ -101,8 +107,8 @@ export default {
   },
   data() {
     return {
-      name:'',
-      imgUrl:"",
+      name: "",
+      imgUrl: "",
       active: true,
       title: "",
       menuVal: "",
@@ -113,13 +119,12 @@ export default {
       fileId: "",
       intro: "",
       content: "",
-      contentHtml: "",
-
+      contentHtml: ""
     };
   },
   created() {
     this.init();
-    this.name='文章管理-'+this.type+'详情'
+    this.name = "文章管理-" + this.type + "详情";
   },
   methods: {
     init() {},
@@ -138,9 +143,13 @@ export default {
       }
     },
     imgFile(val) {
-      this.$store.dispatch("common/uploadFile", val).then(res => {
-        this.fileId = res.fileId;
-      });
+      console.log("------222",val)
+      this.imgUrl = val.httpUrl;
+      this.fileId = val._id;
+
+      // this.$store.dispatch("common/uploadFile", val).then(res => {
+      //   this.fileId = res.fileId;
+      // });
     },
     select_type(val) {
       this.typeVal = val;
@@ -193,9 +202,9 @@ export default {
         contentHtml: this.contentHtml,
         link: this.link
       };
-      if(this.type=="修改"){
-        this.$emit('alterBtn',params)
-        return
+      if (this.type == "修改") {
+        this.$emit("alterBtn", params);
+        return;
       }
       this.$store
         .dispatch("article/addArticle", params)
@@ -436,7 +445,7 @@ export default {
   overflow: hidden;
 }
 
-@{aaa} .el-input {
+@{aaa} .el-select .el-input {
   width: 100%;
   height: 100%;
   input {

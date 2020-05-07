@@ -30,7 +30,7 @@ export default {
     color: #999999;
     cursor: pointer;
     &.navitemActive {
-      color: #4373f9;
+      color: #009966;
     }
     .navitem-b {
       display: inline-block;

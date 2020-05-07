@@ -10,6 +10,7 @@
       :centerDialogVisible="visible_Vid"
       v-on:hideDialog="visible_Vid = false"
       @videoFileList="videoFile"
+      :ismultiple="true"
     ></choose-vid>
     <quill-editor
       ref="myQuillEditor"

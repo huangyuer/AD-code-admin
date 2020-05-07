@@ -5,19 +5,19 @@
         <!-- <div class="filegroupsItem" :class="{active : active == item.name}"  v-for="(item,index) in defaultgroups" @click="ClickgroupsItem(item)">{{item.name}}</div> -->
         <div
           class="filegroupsItem"
-          :class="{ active: activeitem.name == item.name }"
+          :class="{ active: activeitem == item }"
           v-for="(item, key) in filegroups"
-          :key="item.id"
+          :key="item"
         >
-          <span @click="ClickgroupsItem(item)">{{ item.name }}</span>
-          <div
+          <span @click="ClickgroupsItem(item)">{{ item }}</span>
+          <!-- <div
             class="shanchucopy"
-            v-show="(key == filegroups.length - 1 && key > 1 && (activeitem.name=='全部图片' || activeitem.name=='未分组')) 
-            || item._id==activeitem._id && item.name!='全部图片' && item.name!='未分组'"
-            @click="submitdeletell(activeitem._id)"
+            v-show="(key == filegroups.length - 1 && key > 1 && (activeitem=='全部' || activeitem=='未分组')) 
+            || item==activeitem && item!='全部' && item!='未分组'"
+            @click="submitdeletell(activeitem)"
           >
             <img src="../../../../assets/shanchucopy@2x.png" alt="" />
-          </div>
+          </div> -->
         </div>
       </div>
       <div
@@ -43,7 +43,7 @@
           ></el-input>
           <div style="text-align: center; margin-top:20px;display:flex;">
             <div
-              style="flex:1;background:#4373F9;padding:5px 0;margin-right:10px;border-radius:4px;color:#ffffff;"
+              style="flex:1;background:#009966;padding:5px 0;margin-right:10px;border-radius:4px;color:#ffffff;"
               @click="addFileGroup(addGroupName, gettype)"
             >
               确定
@@ -58,12 +58,12 @@
         </div>
         <el-button
           slot="reference"
-          style="background:#4373F9;color:#ffffff;margin-right:47px;"
+          style="background:#009966;color:#ffffff;margin-right:47px;"
           >新建分组</el-button
         >
       </el-popover>
     </el-collapse>
-    <div class="delete-line" v-if="deletefileIds.length > 0">
+    <!-- <div class="delete-line" v-if="deletefileIds.length > 0">
       <div class="line-left">
         <div class="deleteicon-img">
           <img src="../../../../assets/quanxuan@2x.png" alt="" />
@@ -76,7 +76,7 @@
           <img src="../../../../assets/shanchucopy@2x.png" alt="" />
         </div>
       </div>
-    </div>
+    </div> -->
     <div class="demoimagelist">
       <div class="demo-image">
         <div
@@ -139,9 +139,8 @@ export default {
       total: 1,
       currentsItem: {
         page: 1,
-        limit: 12,
-        fileType: "图片",
-        groupId: String,
+        limit:10,
+        type: "图片",
         group: String
       },
       //GET GROUP
@@ -149,7 +148,7 @@ export default {
       defaultgroups: [
         {
           _id: "",
-          name: "全部图片"
+          name: "全部"
         },
         {
           _id: "",
@@ -181,9 +180,8 @@ export default {
       // this.active = item.name;
       this.activeitem = item;
       this.currentsItem.page = 1;
-      this.currentsItem.groupId = item._id;
-      this.currentsItem.group = item.group;
-      this.currentsItem.fileType = "图片";
+      this.currentsItem.group = item;
+      this.currentsItem.type = "图片";
       this.getFileImageVideo();
     },
     deleteImage(e, item) {
@@ -211,8 +209,8 @@ export default {
         });
     },
     submitdeletell(tis) {
-      if (tis.name == "全部图片" || tis.name == "未分组") {
-        this.$message("全部图片和未分组不能删除");
+      if (tis == "全部" || tis == "未分组") {
+        this.$message("全部和未分组不能删除");
         return;
       }
       this.$store
@@ -234,13 +232,11 @@ export default {
       this.$store
         .dispatch("details/getFileGroups", this.gettype)
         .then(() => {
-          this.filegroups = this.$store.getters.filegroups.fileGroups;
+          this.filegroups = this.$store.getters.filegroups.groups;
           this.activeitem = this.filegroups[0];
           this.currentsItem.page = 1;
-          this.currentsItem.groupId = this.filegroups[0]._id;
-          this.currentsItem.group = this.filegroups[0].group;
+          this.currentsItem.group = this.filegroups[0];
           this.getFileImageVideo();
-          console.log("this.filegroups", this.filegroups);
           // this.initaddFileGroup();
         })
         .catch(e => {
@@ -295,7 +291,6 @@ export default {
           this.loading=false;
           this.filesimagevideo = this.$store.getters.filesimagevideo.files;
           this.total = this.$store.getters.filesimagevideo.total;
-          console.log("this.filesimagevideo", this.filesimagevideo);
         })
         .catch(e => {
           console.log(e);
@@ -312,6 +307,7 @@ export default {
 
 <style lang="less" scoped>
 @aaa: ~">>>";
+@color: #009966;
 .picturePage {
   box-sizing: border-box;
   max-width: 1240px;
@@ -320,7 +316,7 @@ export default {
   width: 73%;
   min-width: 937px;
   .active {
-    color: #4373f9;
+    color: @color;
   }
   .filegroupsList {
     color: #999999;
@@ -479,7 +475,8 @@ export default {
   position: absolute;
   top: -14px;
   right: 185px;
-  color: #4373f9;
+  color: @color;
   width: 83px;
+  background: transparent;
 }
 </style>

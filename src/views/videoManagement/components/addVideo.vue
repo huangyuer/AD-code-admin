@@ -27,19 +27,19 @@
     </div>
     <div class="add-col_2">
       <picture-upload
-        :imgUrl="imgUrl"
+        :src="imgUrl"
         :value="'封面：'"
         :valueBtn="'选取图片'"
-        :tip="'建议图片尺寸140*90px'"
-        @imgFile="imgFile"
+        :tip="'建议图片尺寸150*90px'"
+        @select_picture="imgFile"
       ></picture-upload>
       <picture-upload
         style="margin-left:55px"
-        :isVideo="true"
-        :imgUrl="videoUrl"
+        :isImg="false"
+        :src="videoUrl"
         :value="'视频：'"
         :valueBtn="'选取视频'"
-        @imgFile="videoFile"
+        @select_video="videoFile"
       ></picture-upload>
     </div>
     <div class="add-input-intro content">
@@ -126,14 +126,18 @@ export default {
       }
     },
     imgFile(val) {
-      this.$store.dispatch("common/uploadFile", val).then(res => {
-        this.fileId = res.fileId;
-      });
+        this.imgUrl = val.httpUrl;
+      this.fileId = val._id;
+      // this.$store.dispatch("common/uploadFile", val).then(res => {
+      //   this.fileId = res.fileId;
+      // });
     },
     videoFile(val) {
-      this.$store.dispatch("common/uploadFile", val).then(res => {
-        this.videoId = res.fileId;
-      });
+      this.videoUrl=val.httpUrl;
+      this.videoId = val._id;
+      // this.$store.dispatch("common/uploadFile", val).then(res => {
+      //   this.videoId = res.fileId;
+      // });
     },
     select_type(val) {
       this.typeVal = val;
@@ -417,7 +421,7 @@ export default {
   overflow: hidden;
 }
 
-@{aaa} .el-input {
+@{aaa} .el-select .el-input {
   width: 100%;
   height: 100%;
   input {

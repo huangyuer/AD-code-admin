@@ -7,7 +7,7 @@
         <input-tool @input="input_title"></input-tool>
       </div>
       <div class="select-block">
-        <span>板块：</span>
+        <span>板块/分类：</span>
         <select-tool :options="this.$store.getters.getMenus" @selectOption="selectBlock"></select-tool>
       </div>
       <div class="searchBtn-box" @click="search">检索</div>
@@ -31,7 +31,7 @@ import InputTool from "@/components/InputTool";
 import SelectTool from "@/components/SelectTool";
 export default {
   name: "Article",
-  components: { ArticleTable, Pagination, InputTool, SelectTool,RightTitle },
+  components: { ArticleTable, Pagination, InputTool, SelectTool, RightTitle },
   data() {
     return {
       tableData: [],
@@ -45,21 +45,34 @@ export default {
   },
   methods: {
     del(id) {
-      this.$store
-        .dispatch("article/delArticle", id)
-        .then(data => {
-          this.$message({
-            type: "success",
-            message: data
-          });
-          this.getArticles();
+      this.$confirm("确认删除", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        center: true
+      })
+        .then(() => {
+          this.$store
+            .dispatch("article/delArticle", id)
+            .then(data => {
+              this.$message({
+                type: "success",
+                message: data
+              });
+              this.getArticles();
+            })
+            .catch(e => {
+              this.$alert(e, {
+                confirmButtonText: "确定",
+                center: true
+              });
+              reject(e);
+            });
         })
-        .catch(e => {
-          this.$alert(e, {
-            confirmButtonText: "确定",
-            center: true
+        .catch(() => {
+          this.$message({
+            type: "info",
+            message: "已取消"
           });
-          reject(e);
         });
     },
     addArticle() {

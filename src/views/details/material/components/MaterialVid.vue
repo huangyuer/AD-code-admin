@@ -3,16 +3,16 @@
     <el-collapse accordion>
         <div class="filegroupsList">
           <!-- <div class="filegroupsItem" :class="{active : active == item.name}"  v-for="(item,index) in defaultgroups" @click="ClickgroupsItem(item)">{{item.name}}</div> -->
-            <div class="filegroupsItem" :class="{active : activeitem.name == item.name}"  v-for="(item,key) in filegroups">
-              <span  @click="ClickgroupsItem(item)">{{item.name}}</span>
-              <div 
+            <div class="filegroupsItem" :class="{active : activeitem == item}"  v-for="(item,key) in filegroups">
+              <span  @click="ClickgroupsItem(item)">{{item}}</span>
+              <!-- <div 
                 class="shanchucopy"
-                v-show="(key == filegroups.length - 1 && key > 1 && (activeitem.name=='全部视频' || activeitem.name=='未分组')) 
-                || item._id==activeitem._id && item.name!='全部视频' && item.name!='未分组'"
-                @click="submitdeletell(activeitem._id)"
+                v-show="(key == filegroups.length - 1 && key > 1 && (activeitem=='全部' || activeitem=='未分组')) 
+                || item==activeitem && item!='全部' && item!='未分组'"
+                @click="submitdeletell(activeitem)"
               >
                 <img src="../../../../assets/shanchucopy@2x.png" alt="">
-              </div>
+              </div> -->
             </div>
         </div>
         <div role="button" id="el-collapse-head-6829" tabindex="0" class="el-collapse-item__header" @click="eliconright($event)">
@@ -27,14 +27,14 @@
                 <div style="font-size:14px;color:#333333;" class="p-titleinput">请输入分组名称</div>
                 <el-input class="inputadd" v-model="addGroupName" type="text" style="width:240px;"></el-input>
                 <div style="text-align: center; margin-top:20px;display:flex;">
-                    <div style="flex:1;background:#4373F9;padding:5px 0;margin-right:10px;border-radius:4px;color:#ffffff;" @click="addFileGroup(addGroupName,gettype)">确定</div>
+                    <div style="flex:1;background:#009966;padding:5px 0;margin-right:10px;border-radius:4px;color:#ffffff;" @click="addFileGroup(addGroupName,gettype)">确定</div>
                     <div style="flex:1;border:1px solid #E5E5E5;padding:5px 0;margin-left:10px;border-radius:4px;color:#999999" @click="visible = false">取消</div>
                 </div>
             </div>
-            <el-button slot="reference" style="background:#4373F9;color:#ffffff;margin-right:47px;">新建分组</el-button>
+            <el-button slot="reference" style="background:#009966;color:#ffffff;margin-right:47px;">新建分组</el-button>
         </el-popover>
     </el-collapse>
-    <div class="delete-line" v-if="deletefileIds.length>0">
+    <!-- <div class="delete-line" v-if="deletefileIds.length>0">
       <div class="line-left"><div class="deleteicon-img">
         <img src="../../../../assets/quanxuan@2x.png" alt="">
       </div>
@@ -45,7 +45,7 @@
           <img src="../../../../assets/shanchucopy@2x.png" alt="">
         </div>
       </div>
-    </div>
+    </div> -->
     <div class="demoimagelist">
       <div class="demo-image">
         <div class="block clickfalse" v-for="fit in filesimagevideo" @click="deleteImage($event,fit)">
@@ -101,16 +101,15 @@ export default {
         total:1,
         currentsItem: {
           page: 1,
-          limit: 12,
-          fileType: '视频',
-          groupId: String,
+          limit: 10,
+          type: '视频',
           group:String,
         },
         //GET GROUP
         gettype:'视频',
         defaultgroups:[{
           _id:'',
-          name:'全部视频'
+          name:'全部'
         },{
           _id:'',
           name:'未分组'
@@ -140,9 +139,8 @@ export default {
         // this.active = item.name;
         this.activeitem=item;
         this.currentsItem.page=1;
-        this.currentsItem.groupId=item._id;
-        this.currentsItem.group=item.group;
-        this.currentsItem.fileType='视频';
+        this.currentsItem.group=item;
+        this.currentsItem.type='视频';
         this.getFileImageVideo();
     },
     deleteImage(e,item){
@@ -170,7 +168,7 @@ export default {
         });
     },
     submitdeletell(tis){
-      if(tis.name=='全部视频' || tis.name=="未分组"){
+      if(tis=='全部' || tis=="未分组"){
         this.$message("全部视频和未分组不能删除");
         return;
       }
@@ -191,15 +189,13 @@ export default {
     },
     getFileGroups() {
       this.$store
-        .dispatch("details/getFileGroups",this.gettype)
+        .dispatch("details/getFileGroups", this.gettype)
         .then(() => {
-          this.filegroups = this.$store.getters.filegroups.fileGroups;
-          this.activeitem=this.filegroups[0];
-          this.currentsItem.page=1;
-          this.currentsItem.groupId=this.filegroups[0]._id;
-          this.currentsItem.group=this.filegroups[0].group;
+          this.filegroups = this.$store.getters.filegroups.groups;
+          this.activeitem = this.filegroups[0];
+          this.currentsItem.page = 1;
+          this.currentsItem.group = this.filegroups[0];
           this.getFileImageVideo();
-          console.log("this.filegroups",this.filegroups);
           // this.initaddFileGroup();
         })
         .catch(e => {
@@ -223,15 +219,14 @@ export default {
           console.log(e);
         });
     },
-    getFileImageVideo(){
-    this.loading=true;
-        this.$store
-        .dispatch("details/getFileImageVideo",this.currentsItem)
+    getFileImageVideo() {
+      this.loading=true;
+      this.$store
+        .dispatch("details/getFileImageVideo", this.currentsItem)
         .then(() => {
           this.loading=false;
           this.filesimagevideo = this.$store.getters.filesimagevideo.files;
           this.total = this.$store.getters.filesimagevideo.total;
-          console.log("this.filesimagevideo",this.filesimagevideo);
         })
         .catch(e => {
           console.log(e);
@@ -249,6 +244,7 @@ export default {
 
 <style lang="less" scoped>
 @aaa: ~">>>";
+@color: #009966;
 .picturePage {
     box-sizing: border-box;
     max-width: 1240px;
@@ -257,7 +253,7 @@ export default {
     width: 73%;
     min-width: 937px;
     .active {
-      color: #4373f9;
+      color: @color;
     }
   .filegroupsList{
       color: #999999;
@@ -412,7 +408,8 @@ export default {
     position: absolute;
     top: -14px;
     right: 185px;
-    color: #4373F9;
+    color: @color;
     width: 83px;
+    background: transparent;
 }
 </style>

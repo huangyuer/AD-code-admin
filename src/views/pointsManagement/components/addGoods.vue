@@ -45,29 +45,29 @@
     </div>
     <div class="add-col_2">
       <picture-upload
-        :imgUrl="coverUrl"
+        :src="coverUrl"
         :value="'封面：'"
         :valueBtn="'选取图片'"
         :tip="'建议图片尺寸140*90px'"
-        @imgFile="coverFile"
+        @select_picture="coverFile"
       ></picture-upload>
       <picture-upload
         v-if="typeVal=='科普视频'"
         style="margin-left:55px"
-        :isVideo="true"
-        :imgUrl="videoUrl"
+        :isImg="false"
+        :src="videoUrl"
         :value="'视频：'"
         :valueBtn="'选取视频'"
-        @imgFile="videoFile"
+        @select_video="videoFile"
       ></picture-upload>
     </div>
     <div class="add-col_2" v-if="typeVal=='实体书'">
       <picture-upload
-        :imgUrl="goodsUrl"
+        :src="goodsUrl"
         :value="'商品图：'"
         :valueBtn="'选取图片'"
         :tip="'建议图片尺寸140*90px'"
-        @imgFile="goodsFile"
+        @select_picture="goodsFile"
       ></picture-upload>
     </div>
     <div class="add-input-intro" v-if="typeVal=='入场券'">
@@ -188,19 +188,25 @@ export default {
     },
 
     coverFile(val) {
-      this.$store.dispatch("common/uploadFile", val).then(res => {
-        this.coverImg = res.fileId;
-      });
+      this.coverUrl = val.httpUrl;
+      this.coverImg = val._id;
+      // this.$store.dispatch("common/uploadFile", val).then(res => {
+      //   this.coverImg = res.fileId;
+      // });
     },
     goodsFile(val) {
-      this.$store.dispatch("common/uploadFile", val).then(res => {
-        this.goodsImg = res.fileId;
-      });
+      this.goodsUrl = val.httpUrl;
+      this.goodsImg = val._id;
+      // this.$store.dispatch("common/uploadFile", val).then(res => {
+      //   this.goodsImg = res.fileId;
+      // });
     },
     videoFile(val) {
-      this.$store.dispatch("common/uploadFile", val).then(res => {
-        this.video = res.fileId;
-      });
+      this.videoUrl = val.httpUrl;
+      this.video = val._id;
+      // this.$store.dispatch("common/uploadFile", val).then(res => {
+      //   this.video = res.fileId;
+      // });
     },
 
     select_type(val) {

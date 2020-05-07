@@ -2,11 +2,11 @@
   <div class="video-live">
     <right-title :title="'视频直播'"></right-title>
     <picture-upload
-      :imgUrl="imgUrl"
+      :src="imgUrl"
       :value="'封面：'"
       :valueBtn="'选取图片'"
       :tip="'建议图片尺寸343*140px'"
-      @imgFile="imgFile"
+      @select_picture="imgFile"
     ></picture-upload>
     <div class="input-link">
       <span>链接：</span>
@@ -46,9 +46,11 @@ export default {
   },
   methods: {
     imgFile(val) {
-      this.$store.dispatch("common/uploadFile", val).then(res => {
-        this.fileId = res.fileId;
-      });
+      this.imgUrl = val.httpUrl;
+      this.fileId = val._id;
+      // this.$store.dispatch("common/uploadFile", val).then(res => {
+      //   this.fileId = res.fileId;
+      // });
     },
     input_link(val) {
       this.link = val;
@@ -59,7 +61,7 @@ export default {
         liveAdd: this.link,
         coverImg: this.fileId
       };
-      console.log("------11",this)
+      console.log("------11", this);
       this.$store.dispatch("video/upLive", params).then(res => {
         this.$alert(res, {
           confirmButtonText: "确定",

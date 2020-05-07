@@ -19,8 +19,8 @@
                 <el-scrollbar class="pageleftscrollbar" :native="false">
                     <div class="filegroupsList">
                         <!-- <div class="filegroupsItem" :class="{active : active == item.name}"  v-for="(item,index) in defaultgroups" @click="ClickgroupsItem(item)">{{item.name}}</div> -->
-                        <div class="filegroupsItem" :class="{active : active.name && item.name && active.name == item.name}"  
-                        v-for="(item,key) in filegroups" @click="ClickgroupsItem(item)">{{item.name}}</div>
+                        <div class="filegroupsItem" :class="{active : active && item && active == item}"  
+                        v-for="(item,key) in filegroups" @click="ClickgroupsItem(item)">{{item}}</div>
                         <div class="addgroupbtn" @click="visible=true">新建分组</div>
                         <el-dialog
                             width="300px"
@@ -41,7 +41,7 @@
                             ></el-input>
                             <div style="text-align: center; margin-top:20px;padding-bottom:30px;display:flex;">
                                 <div
-                                style="flex:1;background:#4373F9;padding:5px 0;margin-right:10px;border-radius:4px;color:#ffffff;"
+                                style="flex:1;background:#009966;padding:5px 0;margin-right:10px;border-radius:4px;color:#ffffff;"
                                 @click="addFileGroup()"
                                 >确定</div>
                                 <div
@@ -57,10 +57,10 @@
             <div class="ChooserightList">
                 <div class="demoimagelist">
                     <div class="demo-image">
-                        <div :class="{block:true,clickfalse:true,activeborder:currentchoosevideoList.includes(fit)}" 
+                        <div :class="{block:true,clickfalse:true,activeborder:ismultiple?currentchoosevideoList.includes(fit):currentchoosevideo._id == fit._id}" 
                         v-for="(fit,index) in filesimagevideo" 
                         @click="selectVideo(fit)">
-                            <div class="xuanze-gou" v-show="currentchoosevideoList.includes(fit)">
+                            <div class="xuanze-gou" v-show="ismultiple?currentchoosevideoList.includes(fit):currentchoosevideo._id == fit._id">
                                 <img src="../assets/xuanzeicon@2x.png" alt="">
                             </div>
                             <div class="maskelimage">
@@ -96,7 +96,7 @@
                 :action="''"
                 :show-file-list="false"
                 list-type="video"
-                multiple
+                :multiple="ismultiple"
                 :auto-upload="true"
                 accept=".avi,.rmvb,.rm,.asf,.divx,.mpg,.mpeg,.mpe,.wmv,.mp4,.mkv,.vob"
                 :http-request="uploadMethod">
@@ -116,6 +116,10 @@ export default {
       centerDialogVisible:{
           type:Boolean,
           default:false,
+    },
+    ismultiple:{
+          type:Boolean,
+          default:false,
     }
   },
   components:{Pagination},
@@ -133,8 +137,7 @@ export default {
         currentsItem: {
           page: 1,
           limit: 12,
-          fileType: '视频',
-          groupId: String,
+          type: '视频',
           group:String,
         },
         //GET GROUP
@@ -150,10 +153,10 @@ export default {
         //uploadfile
         uploadfiles:{
             file:'',
-            group:'',
-            groupId:''
+            group:''
         },
         //chooseVideo
+        currentchoosevideo: "",
         currentchoosevideoList:[],
         //
         video:'',
@@ -167,7 +170,7 @@ export default {
     },
     openDialog(){
         this.gettype="视频";
-        this.currentsItem.fileType="视频";
+        this.currentsItem.type="视频";
         this.loading=true;
         this.getFileGroups();
     },
@@ -181,8 +184,7 @@ export default {
     },
     uploadMethod(param) {
       this.uploadfiles.file = param.file;
-      this.uploadfiles.group = this.active.name;
-      this.uploadfiles.groupId = this.active._id;
+      this.uploadfiles.group = this.active;
       this.$store.dispatch("details/uploadFile", this.uploadfiles).then(() => {
         this.init(this.active);
         this.$message({
@@ -198,27 +200,49 @@ export default {
         });
     },
     selectVideo(item){
-        if (!this.currentchoosevideoList.includes(item)) {
-            this.currentchoosevideoList.push(item);
-        } else {
-            for (var i = 0; i < this.currentchoosevideoList.length; i++) {
-                if (this.currentchoosevideoList[i] == item) {
-                    this.currentchoosevideoList.splice(i, 1);
-                    return;
+        if(!this.ismultiple){
+          if(this.currentchoosevideo == item){
+            this.currentchoosevideo = "";
+          }else{
+            this.currentchoosevideo = item;
+          }
+        }else{
+            if (!this.currentchoosevideoList.includes(item)) {
+                this.currentchoosevideoList.push(item);
+            } else {
+                for (var i = 0; i < this.currentchoosevideoList.length; i++) {
+                    if (this.currentchoosevideoList[i] == item) {
+                        this.currentchoosevideoList.splice(i, 1);
+                        return;
+                    }
                 }
             }
         }
     },
     //选择确定传值给需要的地方
     submitTrue(){
-        if(this.currentchoosevideoList==""){
+        if (!this.ismultiple && this.currentchoosevideo == ""){
+            this.$message({
+                message: "没有选择视频",
+                type: 'success'
+            });
+            return;
+        }
+        if(this.ismultiple && this.currentchoosevideoList==""){
             this.$message({
                 message: "没有选择视频",
                 type: 'warning'
             });
             return;
         }
-        if (this.currentchoosevideoList != "") {
+        if (!this.ismultiple && this.currentchoosevideo != "") {
+            this.$emit("videoFileList", this.currentchoosevideo);
+            this.currentchoosevideo = "";
+            this.$message({
+                message: "视频选择成功",
+                type: 'success'
+            });
+        } else if (this.ismultiple && this.currentchoosevideoList != "") {
             this.$emit("videoFileList", this.currentchoosevideoList);
             this.currentchoosevideoList = [];
             this.$message({
@@ -230,9 +254,9 @@ export default {
     },
     ClickgroupsItem(item){
         this.active = item;
-        this.currentsItem.groupId=item._id;
+        this.currentsItem.group=item;
         this.currentsItem.page=1;
-        this.currentsItem.fileType='视频';
+        this.currentsItem.type='视频';
         this.loading=true;
         this.getFileImageVideo();
 
@@ -245,7 +269,7 @@ export default {
       this.$store
         .dispatch("details/getFileGroups",this.gettype)
         .then(() => {
-          this.filegroups = this.$store.getters.filegroups.fileGroups;
+          this.filegroups = this.$store.getters.filegroups.groups;
           this.init(this.filegroups[0]);  
         })
         .catch(e => {
@@ -282,8 +306,7 @@ export default {
     },
     init(groupitem){
         this.active = groupitem;
-        this.currentsItem.group = this.active.name;
-        this.currentsItem.groupId=this.active._id;
+        this.currentsItem.group = groupitem;
         this.getFileImageVideo();
     }
   },
@@ -313,7 +336,7 @@ export default {
                 }
                 .addgroupbtn{
                     text-align: center;
-                    color: #4373F9;
+                    color: #009966;
                     font-size: 15px;
                     position: absolute;
                     width: 100%;
@@ -458,7 +481,7 @@ export default {
         cursor: pointer;
         background: #FFF;
         border: 1px solid #dae4ff;
-        color: #4373f9;
+        color: #009966;
         -webkit-appearance: none;
         text-align: center;
         -webkit-box-sizing: border-box;
@@ -472,7 +495,7 @@ export default {
         font-size: 14px;
         border-radius: 4px;
         &.primary{
-            background: #4373f9;
+            background: #009966;
             color:#ffffff;
             margin-left: 15px;
         }

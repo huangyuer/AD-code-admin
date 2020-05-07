@@ -7,6 +7,7 @@
 .el-table {
   border-left: 1px solid #e5e5e5;
   border-right: 1px solid #e5e5e5;
+  margin-top: 20px;
 }
 .has-gutter tr {
   background-color: #fff;
@@ -17,6 +18,25 @@
   color: #333333;
   height: 80px;
 }
+.el-checkbox__inner {
+  width: 22px;
+  height: 21px;
+}
+.el-checkbox__inner::after {
+  height: 12px;
+  left: 7px;
+  width: 5px;
+}
+.el-checkbox__label {
+  font-size: 15px;
+  color: #333333;
+}
+.el-checkbox__input.is-checked + .el-checkbox__label {
+  color: #333333;
+}
+.el-checkbox__input.is-indeterminate .el-checkbox__inner:before {
+  top: 8px;
+}
 .el-checkbox__input.is-indeterminate .el-checkbox__inner,
 .el-checkbox__input.is-checked .el-checkbox__inner {
   background: #009966;
@@ -25,4 +45,67 @@
 .el-checkbox__inner:hover,
 .el-checkbox__input.is-focus .el-checkbox__inner {
   border-color: #009966;
+}
+.el-date-editor .el-icon-date {
+  display: none;
+}
+.el-date-editor .el-range__close-icon {
+  width: 0px;
+}
+.el-date-editor i:last-child {
+  font-family: element-icons !important;
+  speak: none;
+  font-style: normal;
+  font-weight: 400;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  vertical-align: baseline;
+  display: inline-block;
+  -webkit-font-smoothing: antialiased;
+}
+.el-date-editor i:last-child::before {
+  content: "\E78E";
+  position: absolute;
+  right: 9px;
+  top: 12px;
+}
+.commit-btn {
+  background: #009966;
+  width: 100px;
+  height: 36px;
+  border-radius: 4px;
+  font-size: 16px;
+  font-weight: 500;
+  padding: 0;
+  border-color: transparent;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+.member-radio {
+  display: flex;
+  align-items: center;
+  padding-top: 13px;
+}
+.member-radio span {
+  font-size: 16px;
+  font-family: PingFangSC-Regular;
+  font-weight: 400;
+  color: #333333;
+}
+.member-radio .icon-radio {
+  display: flex;
+  align-items: center;
+  font-size: 14px;
+  font-family: PingFangSC-Regular;
+  font-weight: 400;
+  color: #666666;
+  padding: 0 8px;
+}
+.member-radio .icon-radio img {
+  width: 20px;
+  height: 20px;
+  padding-right: 5px;
+  box-sizing: content-box;
+  cursor: pointer;
 }

@@ -156,14 +156,14 @@ const actions = {
     });
   },
   getFileImageVideo({ commit }, question) {
-    const { page, limit, fileType, groupId } = question;
+    const {page,limit,type,group} = question;
+    let form = new FormData();
+    form.append("page",page);
+    form.append("limit",limit);
+    form.append("type",type);
+    form.append("group",group);
     return new Promise((resolve, reject) => {
-      getFileImageVideo({
-        page: page,
-        limit: limit,
-        fileType: fileType,
-        groupId: groupId
-      })
+      getFileImageVideo(form)
         .then(response => {
           const { msg, data } = response;
           commit("SET_FILEIMAGEVIDEO", data);
