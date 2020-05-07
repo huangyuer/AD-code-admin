@@ -19,7 +19,7 @@
           <el-date-picker
             style="width:210px;"
             type="daterange"
-            v-model="dataValue"
+            v-model="dateValue"
             :clearable="false"
             placeholder="选择一个或多个日期"
             value-format="yyyy-MM-dd"
@@ -59,7 +59,7 @@ export default {
       statusDate: ["已发货", "未发货"],
       tableData: [],
       total: 0,
-      dataValue: [],
+      dateValue: [],
       params: {
         page: 1,
         limit: 10,

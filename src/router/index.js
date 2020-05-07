@@ -195,76 +195,77 @@ let router= new Router({
     //     component:MaterialVid,
     //   }]
     // },
+    {
+      path:'/material',
+      name:'material',
+      component:Material,
+    },
+    {
+      path:'/material/materialPic',
+      name:'MaterialPic',
+      component:MaterialPic,
+    },
+    {
+      path:'/material/materialVid',
+      name:'MaterialVid',
+      component:MaterialVid,
+    },
+
     // {
-    //   path:'/material',
-    //   name:'material',
-    //   component:Material,
+    //   path: '/memberCompany/add',
+    //   name: 'AddMember',
+    //   component: () => import('@/views/details/memberCompany/components/AddMember'),
     // },
     // {
-    //   path:'/material/materialPic',
-    //   name:'MaterialPic',
-    //   component:MaterialPic,
+    //   path: '/memberCompany/alter',
+    //   name: 'AlterMember',
+    //   component: () => import('@/views/details/memberCompany/components/AlterMember'),
     // },
     // {
-    //   path:'/material/materialVid',
-    //   name:'MaterialVid',
-    //   component:MaterialVid,
+    //   path: '/detail/add',
+    //   name: 'AddDetail',
+    //   component: AddDetail,
     // },
-    {
-      path: '/memberCompany/add',
-      name: 'AddMember',
-      component: () => import('@/views/details/memberCompany/components/AddMember'),
-    },
-    {
-      path: '/memberCompany/alter',
-      name: 'AlterMember',
-      component: () => import('@/views/details/memberCompany/components/AlterMember'),
-    },
-    {
-      path: '/detail/add',
-      name: 'AddDetail',
-      component: AddDetail,
-    },
-    {
-      path: '/detail/alter',
-      name: 'AlterDetail',
-      component: AlterDetail,
-    },
-    {
-      path: '/userStastics/memberInfo',
-      name: 'MemberInfo',
-      component: () => import('@/views/userStastics/memberInfo'),
-    },
-    {
-      path: '/userStastics/importMember',
-      name: 'ImportMember',
-      component: () => import('@/views/userStastics/memberInfo/components/ImportMember'),
-    },
-    {
-      path: '/userStastics/checkMember',
-      name: 'CheckMember',
-      component: () => import('@/views/userStastics/memberInfo/components/CheckMember'),
-    },
-    {
-      path: '/userStastics/visitorInfo',
-      name: 'VisitorInfo',
-      component: () => import('@/views/userStastics/visitorInfo'),
-    },
-    {
-      path: '/education/onlineExam',
-      name: 'Education',
-      component: () => import('@/views/education'),
-    },
-    {
-      path: '/education/onlineExam/add',
-      name: 'AddEducation',
-      component: () => import('@/views/education/components/AddEducation'),
-    },
-    {
-      path: '/education/onlineExam/alter',
-      name: 'AlterEducation',
-      component: () => import('@/views/education/components/AlterEducation'),
-    },
+    // {
+    //   path: '/detail/alter',
+    //   name: 'AlterDetail',
+    //   component: AlterDetail,
+    // },
+    // {
+    //   path: '/userStastics/memberInfo',
+    //   name: 'MemberInfo',
+    //   component: () => import('@/views/userStastics/memberInfo'),
+    // },
+    // {
+    //   path: '/userStastics/importMember',
+    //   name: 'ImportMember',
+    //   component: () => import('@/views/userStastics/memberInfo/components/ImportMember'),
+    // },
+    // {
+    //   path: '/userStastics/checkMember',
+    //   name: 'CheckMember',
+    //   component: () => import('@/views/userStastics/memberInfo/components/CheckMember'),
+    // },
+    // {
+    //   path: '/userStastics/visitorInfo',
+    //   name: 'VisitorInfo',
+    //   component: () => import('@/views/userStastics/visitorInfo'),
+    // },
+    // {
+    //   path: '/education/onlineExam',
+    //   name: 'Education',
+    //   component: () => import('@/views/education'),
+    // },
+    // {
+    //   path: '/education/onlineExam/add',
+    //   name: 'AddEducation',
+    //   component: () => import('@/views/education/components/AddEducation'),
+    // },
+    // {
+    //   path: '/education/onlineExam/alter',
+    //   name: 'AlterEducation',
+    //   component: () => import('@/views/education/components/AlterEducation'),
+    // },
     // {
     //   path: '/',
     //   component: Layout,

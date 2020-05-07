@@ -47,131 +47,13 @@ export default {
         { title: "用户行为", link: "/userAction" },
         { title: "批量导出", link: "/batchExport" },
         { title: "导出记录", link: "/exportLog" },
-
-
-   
-        { title: "素材管理", link: "/media" }
+        { title: "素材管理", link: "/material" }
       ],
 
-      curkey: 0,
-      cureq: 0,
-      activeNames: [1, 2, 3],
-      collapseItem: [
-        {
-          title: "详情管理",
-          name: 1,
-          children: [
-            { title: "板块管理" },
-            { title: "功能管理" },
-            { title: "会员单位" },
-            { title: "详情管理" },
-            { title: "素材管理" }
-          ]
-        },
-        {
-          title: "用户统计",
-          name: 2,
-          children: [{ title: "会员管理" }, { title: "访客管理" }]
-        },
-        {
-          title: "继续教育",
-          name: 3,
-          children: [{ title: "在线考核题库" }]
-        }
-      ]
+     
     };
   },
 
-  methods: {
-    handleChange(val) {
-      console.log(val);
-    },
-    fucChange(key, eq) {
-      this.curkey = key;
-      this.cureq = eq;
-    },
-    routerTo(parentKey, childrenEq) {
-      switch (parentKey + 1) {
-        case 1:
-          switch (childrenEq + 1) {
-            case 1:
-              this.fucChange(parentKey, childrenEq);
-              this.$router.push({ path: "/block/officialMic" });
-              break;
-            case 2:
-              this.fucChange(parentKey, childrenEq);
-              this.$router.push({ path: "/home" });
-              break;
-            case 3:
-              this.fucChange(parentKey, childrenEq);
-              this.$router.push({ path: "/memberCompany" });
-              break;
-            case 4:
-              this.fucChange(parentKey, childrenEq);
-              this.$router.push({ path: "/weiDetail" });
-              break;
-            case 5:
-              this.fucChange(parentKey, childrenEq);
-              this.$router.push({ path: "/material/materialPic" });
-              break;
-          }
-          break;
-        case 2:
-          switch (childrenEq + 1) {
-            case 1:
-              this.fucChange(parentKey, childrenEq);
-              this.$router.push({ path: "/userStastics/memberInfo" });
-              break;
-            case 2:
-              this.fucChange(parentKey, childrenEq);
-              this.$router.push({ path: "/userStastics/visitorInfo" });
-              break;
-          }
-          break;
-        case 3:
-          switch (childrenEq + 1) {
-            case 1:
-              this.fucChange(parentKey, childrenEq);
-              this.$router.push({ path: "/education/onlineExam" });
-              break;
-          }
-          break;
-      }
-    },
-    init() {
-      if (this.$route.path.indexOf("block") != -1) {
-        this.fucChange(0, 0);
-      } else if (this.$route.path.indexOf("weiDetail") != -1) {
-        this.fucChange(0, 3);
-      } else if (this.$route.path.indexOf("material") != -1) {
-        this.fucChange(0, 4);
-      } else if (this.$route.path.indexOf("home") != -1) {
-        this.fucChange(0, 1);
-      } else if (this.$route.path.indexOf("memberCompany") != -1) {
-        this.fucChange(0, 2);
-      } else if (this.$route.path.indexOf("education") != -1) {
-        this.fucChange(2, 0);
-      } else if (this.$route.path.indexOf("memberInfo") != -1) {
-        this.fucChange(1, 0);
-      } else if (this.$route.path.indexOf("visitorInfo") != -1) {
-        this.fucChange(1, 1);
-      } else {
-        console.log(
-          "dhhuuuhhhmembercompany",
-          this.$route.path.indexOf("memberCompany")
-        );
-      }
-    },
-    getPath() {
-      this.init();
-    }
-  },
-  created() {
-    this.init();
-  },
-  watch: {
-    $route: "getPath"
-  }
 };
 </script>
 

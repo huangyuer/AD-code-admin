@@ -1,4 +1,4 @@
-import { getExportLogs,getExportTables,batchExport} from "@/api/points";
+import { getExportLogs,getExportTables,batchExport} from "@/api/export.js";
 
 const state = {
 
@@ -14,7 +14,7 @@ const actions = {
             getExportLogs(params)
             .then(response => {
               const { data,msg } = response;
-              resolve(msg);
+              resolve(data);
             })
             .catch(error => {
               reject(error);
@@ -38,7 +38,7 @@ const actions = {
             batchExport(params)
             .then(response => {
               const { data,msg } = response;
-              resolve(data);
+              resolve(msg);
             })
             .catch(error => {
               reject(error);
