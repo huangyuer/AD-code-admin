@@ -14,9 +14,7 @@
         <div>{{ item.level }}</div>
       </div>
       <div class="message-des">
-        2个月前出现头皮非瘙痒性皮疹，继而出现双侧眼睑及眶周水肿。非瘙痒性皮疹逐渐蔓延至全身大部分皮肤。最近
-        3周，患者出现肌无力、活动后轻度肌痛以及吞咽固体食物困难。患者无其他症状。患者既往有
-        50包年的吸烟史，每日饮酒 2-3次。
+       {{item.description}}
       </div>
       <div class="message-pic">
         <div v-for="li in item.images" :key="li.index">

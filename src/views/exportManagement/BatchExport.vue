@@ -115,7 +115,7 @@ export default {
       this.$store
         .dispatch("export/getExportTables")
         .then(data => {
-          this.tableData = data.logs;
+          this.tableData = data.tables;
         })
         .catch(e => {
           reject(e);

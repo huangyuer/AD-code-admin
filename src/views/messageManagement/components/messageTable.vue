@@ -1,6 +1,6 @@
 <template>
   <div class="article-table">
-    <Table :tableData="tableData">
+    <!-- <Table :tableData="tableData">
       <div slot="tableThead" class="article-table-thead">
         <span>姓名</span>
         <span>性别</span>
@@ -28,8 +28,36 @@
           查看详情
         </span>
       </div>
-    </Table>
+    </Table> -->
+
+
+        <el-table :data="tableData" tooltip-effect="dark" style="width: 100%">
+      <el-table-column width="25"></el-table-column>
+      <el-table-column prop="user" label="姓名" sortable></el-table-column>
+
+      <el-table-column label="性别" sortable prop="sex" show-overflow-tooltip></el-table-column>
+
+      <el-table-column prop="age" label="年龄" sortable></el-table-column>
+      <el-table-column prop="tag" label="疾病种类" sortable></el-table-column>
+      <el-table-column prop="level" label="疾病程度" sortable></el-table-column>
+      <el-table-column prop="diaTime" label="审核时间" sortable></el-table-column>
+      <el-table-column prop="status" label="状态" sortable>
+        <template slot-scope="scope">
+        <span :class="{active1 :scope.row.status=='驳回',active2 :scope.row.status=='审核通过'}">{{ scope.row.status }}</span>
+          </template>
+      </el-table-column>
+
+      <el-table-column  label="操作">
+        <template slot-scope="scope">
+         <span @click="checkInfo( scope.row)" class="check">
+          审核
+        </span>
+        </template>
+      </el-table-column>
+    </el-table>
   </div>
+
+  
 </template>
 <script>
 import Table from "@/components/Table";
@@ -73,103 +101,17 @@ export default {
 };
 </script>
 <style lang="less" scoped>
-.article-table {
-  padding-top: 20px;
-  .article-table-thead {
-    display: flex;
-    flex: 7;
-    span {
-      flex: 1 !important;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-      &:nth-child(1) {
-        flex: 1 !important;
-      }
-      // &:nth-child(2) {
-      //   flex: 0.7 !important;
-      // }
-      // &:nth-child(3) {
-      //   flex: 0.8 !important;
-      // }
-
-      // &:last-child {
-      //   flex: 0.5 !important;
-      // }
-    }
-  }
-  .article-table-content {
-    display: flex;
-    flex-direction: row;
-    flex: 7;
-    border-left: 1px solid rgba(229, 229, 229, 1);
-    border-right: 1px solid rgba(229, 229, 229, 1);
-    span {
-      height: 80px;
-      background: rgba(255, 255, 255, 1);
-      border-bottom: 1px solid rgba(229, 229, 229, 1);
-      display: flex;
-      align-items: center;
-      flex: 1;
-      font-size: 15px;
-      font-family: PingFangSC-Regular, PingFang SC;
-      font-weight: 400;
-      color: rgba(51, 51, 51, 1);
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-      &:nth-child(1) {
-        flex: 1 !important;
-        padding-left: 30px;
-        p {
-          overflow: hidden;
-          text-overflow: ellipsis;
-          white-space: nowrap;
-        }
-      }
-          &:nth-child(6) {
-       
-       &.active1{
+     .active1{
          font-family:PingFangSC-Medium,PingFang SC;
          color: #F2A900;
        }
-        &.active2{
+        .active2{
           font-family:PingFangSC-Medium,PingFang SC;
          color: #009966;
        }
-      }
-      &:nth-child(7){
+.check{
         font-family:PingFangSC-Medium,PingFang SC;
         cursor: pointer;
          color: #009966;
       }
-      // &:nth-child(2) {
-      //   flex: 0.7 !important;
-      // }
-      // &:nth-child(3) {
-      //   flex: 0.8 !important;
-      //   img {
-      //     max-width: 100px;
-      //     max-height: 60px;
-      //   }
-      // }
-
-      // &:last-child {
-      //   flex: 0.5 !important;
-      //   .operate-edit {
-      //     color: #009966;
-      //     cursor: pointer;
-      //   }
-      //   .operate-del {
-      //     color: #ff2661;
-      //     cursor: pointer;
-      //   }
-      //   p {
-      //     color: #999999;
-      //     padding: 0 5px;
-      //   }
-      // }
-    }
-  }
-}
 </style>

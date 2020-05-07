@@ -1,40 +1,37 @@
 <template>
   <div>
-    <el-table ref="multipleTable" :data="tableData" tooltip-effect="dark" style="width: 100%">
+    <el-table :data="tableData" tooltip-effect="dark" style="width: 100%" v-if="type=='医院地图'">
       <el-table-column width="25"></el-table-column>
-      <div v-if="type=='医院地图'">
-        <el-table-column prop="user" label="姓名" sortable></el-table-column>
 
-        <el-table-column label="板块" sortable prop="menu" show-overflow-tooltip></el-table-column>
+      <el-table-column prop="user" label="姓名" sortable></el-table-column>
 
-        <el-table-column prop="name" label="名称" sortable></el-table-column>
-        <el-table-column prop="address" label="地址" sortable></el-table-column>
-      </div>
+      <el-table-column label="板块" sortable prop="menu"></el-table-column>
 
-      <div v-else-if="type=='评估记录'">
-        <el-table-column prop="user" label="姓名" sortable></el-table-column>
+      <el-table-column prop="name" label="名称" sortable></el-table-column>
+      <el-table-column prop="address" label="地址" sortable></el-table-column>
+    </el-table>
+    <el-table :data="tableData" tooltip-effect="dark" style="width: 100%" v-else-if="type=='评估记录'">
+      <el-table-column width="25"></el-table-column>
 
-        <el-table-column label="板块" sortable prop="menu" show-overflow-tooltip></el-table-column>
-        <el-table-column label="得分" sortable prop="score"></el-table-column>
-        <el-table-column label="结论" sortable prop="conclusion"></el-table-column>
-      </div>
+      <el-table-column prop="user" label="姓名" sortable></el-table-column>
 
-      <div v-else>
-        <el-table-column prop="user" label="姓名" sortable></el-table-column>
+      <el-table-column label="板块" sortable prop="menu"></el-table-column>
+      <el-table-column label="得分" sortable prop="score"></el-table-column>
+      <el-table-column label="结论" sortable prop="conclusion"></el-table-column>
+    </el-table>
 
-        <el-table-column label="板块" sortable prop="menu" show-overflow-tooltip></el-table-column>
+    <el-table :data="tableData" tooltip-effect="dark" style="width: 100%" v-else>
+      <el-table-column width="25"></el-table-column>
 
-        <el-table-column prop="childMenu" label="分类" sortable></el-table-column>
-        <el-table-column prop="name" label="名称" sortable></el-table-column>
+      <el-table-column prop="user" label="姓名" sortable></el-table-column>
 
-        <el-table-column prop="startTime" label="开始时间" sortable></el-table-column>
-        <el-table-column prop="useTime" label="查看时长" sortable></el-table-column>
-      </div>
+      <el-table-column label="板块" sortable prop="menu"></el-table-column>
 
-      <!-- <div>
+      <el-table-column prop="childMenu" label="分类" sortable></el-table-column>
+      <el-table-column prop="name" label="名称" sortable></el-table-column>
 
-</div>
-      <el-table-column  prop="date" label="地址" sortable></el-table-column>-->
+      <el-table-column prop="startTime" label="开始时间" sortable></el-table-column>
+      <el-table-column prop="useTime" label="查看时长" sortable></el-table-column>
     </el-table>
   </div>
 </template>
