@@ -70,7 +70,16 @@
         <span>|</span>
         <span :class="{active :!active}" @click="selectLink">内容</span>
       </span>
-      <input-tool :value="content" @input="input_content"></input-tool>
+      <input-tool v-if="active" :value="link" @input="input_link"></input-tool>
+          <!-- <input-tool @input="input_content" v-if="activeTab"></input-tool> -->
+      <el-input
+      v-else
+        style="width:856px;margin-top:12px"
+        type="textarea"
+        :autosize="{ minRows: 23}"
+        placeholder="请输入文章简介…"
+        v-model="intro"
+      ></el-input>
     </div>
     <div class="quill-editor-container" v-if="menuVal!=='关爱行动'">
       <span>内容：</span>
@@ -118,6 +127,7 @@ export default {
       menuTag: [],
       fileId: "",
       intro: "",
+      link:"",
       content: "",
       contentHtml: ""
     };
@@ -131,16 +141,10 @@ export default {
     selectLink() {
       this.active = !this.active;
     },
-    input_content(val) {
-      if (this.active) {
-        this.link = val;
-        this.content = "";
-        this.contentHtml = "";
-      } else {
-        this.link = "";
-        this.content = val;
-        this.contentHtml = val;
-      }
+    input_link(val) {
+      this.link=val
+        // this.content = val;
+        // this.contentHtml = val;
     },
     imgFile(val) {
       console.log("------222",val)
@@ -179,7 +183,7 @@ export default {
 
     quillData(content, contentHtml) {
       console.log("-----quill", content, contentHtml);
-      this.link = "";
+      // this.link = "";
       this.content = content;
       this.contentHtml = contentHtml;
     },

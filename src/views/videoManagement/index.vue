@@ -6,6 +6,10 @@
         <span>名称：</span>
         <input-tool @input="input_title"></input-tool>
       </div>
+         <div class="select-block">
+        <span>板块/分类：</span>
+        <select-tool :options="this.$store.getters.getMenus" @selectOption="selectBlock"></select-tool>
+      </div>
       <div class="searchBtn-box" @click="search">检索</div>
       <div class="add-article" @click="addVideo">添加详情</div>
     </div>
@@ -24,14 +28,16 @@ import videoTable from "./components/videoTable";
 import Pagination from "@/components/Pagination";
 import InputTool from "@/components/InputTool";
 import RightTitle from "@/components/RightTitle";
+import SelectTool from "@/components/SelectTool";
+
 export default {
   name: "Video",
-  components: { videoTable, Pagination, InputTool, RightTitle },
+  components: {SelectTool, videoTable, Pagination, InputTool, RightTitle },
   data() {
     return {
       tableData: [],
       total: 0,
-      params: { page: 1, limit: 10, title: "" },
+      params: { page: 1, limit: 10, title: "",tag:"" },
       loading: true
     };
   },
@@ -39,6 +45,9 @@ export default {
     this.getVideos();
   },
   methods: {
+        selectBlock(val) {
+      this.params.tag = val;
+    },
     del(id) {
       this.$confirm("确认删除", {
         confirmButtonText: "确定",

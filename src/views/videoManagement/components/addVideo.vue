@@ -180,7 +180,9 @@ export default {
          httpUrl:this.httpUrl
        } 
         this.$store
-        .dispatch("common/createHttpFile", params1)
+        .dispatch("common/createHttpFile", params1).then((res)=>{
+          params.video=res.fileId
+        })
       }
       if (this.type == "修改") {
         this.$emit("alterBtn", params);

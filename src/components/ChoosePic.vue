@@ -296,7 +296,7 @@ export default {
           this.init(this.filegroups[0]);
         })
         .catch(e => {
-          console.log(e);
+          console.log("dddddddd",e);
         });
     },
     addFileGroup() {
@@ -328,6 +328,7 @@ export default {
         });
     },
     init(groupitem) {
+      console.log("00000000")
       this.active = groupitem;
       this.currentsItem.group = groupitem;
       // this.currentsItem.groupId = this.active._id;

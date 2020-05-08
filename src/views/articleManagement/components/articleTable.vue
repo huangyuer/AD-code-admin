@@ -7,10 +7,10 @@
       <el-table-column label="板块" sortable prop="menu"></el-table-column>
 
       <el-table-column prop="childMenu" label="分类" sortable></el-table-column>
-      <el-table-column prop="tag" label="子分类" sortable></el-table-column>
-      <el-table-column prop="clickNum" label="打开次数" sortable></el-table-column>
-      <el-table-column prop="lookNum" label="浏览次数" sortable></el-table-column>
-      <el-table-column prop="starNum" label="收藏次数" sortable></el-table-column>
+      <el-table-column min-width="90" prop="tag" label="子分类" sortable></el-table-column>
+      <el-table-column min-width="100" prop="clickNum" label="打开次数" sortable></el-table-column>
+      <el-table-column min-width="100" prop="lookNum" label="浏览次数" sortable></el-table-column>
+      <el-table-column min-width="100" prop="starNum" label="收藏次数" sortable></el-table-column>
       <el-table-column label="操作">
         <template slot-scope="scope">
           <span style="display: flex;">
