@@ -1,5 +1,5 @@
 <template>
-  <div class='pagination-container'>
+  <div class="pagination-container">
     <el-pagination
       @size-change="handleSizeChange"
       @current-change="handleCurrentChange"
@@ -20,17 +20,17 @@
 export default {
   name: "Pagination",
   // props: ["total","limit","currentPages"],
-  props:{
-    total:{
-      type:Number
+  props: {
+    total: {
+      type: Number
     },
-      limit:{
-      type:Number
+    limit: {
+      type: Number
     },
-      currentPage:{
-      type:Number,
-      default:1
-    },
+    currentPage: {
+      type: Number,
+      default: 1
+    }
   },
   data() {
     return {
@@ -43,7 +43,7 @@ export default {
     },
     handleCurrentChange(val) {
       console.log(`当前页: ${val}`);
-      this.$emit('currentPage',val)
+      this.$emit("currentPage", val);
     }
   }
 };
@@ -82,7 +82,8 @@ export default {
       top: -10px;
     }
   }
-  @{aaa} .btn-prev,@{aaa}.btn-next{
+  @{aaa} .btn-prev,
+  @{aaa}.btn-next {
     background: transparent;
   }
   @{aaa} .el-icon-arrow-right {
@@ -99,7 +100,7 @@ export default {
       top: -10px;
     }
   }
-  @{aaa} .el-input__inner{
+  @{aaa} .el-input__inner {
     background: transparent;
   }
 }
