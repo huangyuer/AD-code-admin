@@ -19,10 +19,22 @@
 <script>
 export default {
   name: "Pagination",
-  props: ["total","limit","currentPages"],
+  // props: ["total","limit","currentPages"],
+  props:{
+    total:{
+      type:Number
+    },
+      limit:{
+      type:Number
+    },
+      currentPage:{
+      type:Number,
+      default:1
+    },
+  },
   data() {
     return {
-      currentPage: this.currentPages||1,
+      // currentPage: 1,
     };
   },
   methods: {

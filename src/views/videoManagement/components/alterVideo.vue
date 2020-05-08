@@ -18,7 +18,7 @@ export default {
     this.$nextTick(() => {
       let info = this.$refs.alter;
       info.title = this.data.title;
-      info.menuVal = this.data.menu;
+      info.menuVal = this.data.tag;
       info.typeVal = this.data.childMenu;
       info.tagVal = this.data.tag;
       info.imgUrl = this.data.coverImg[0].httpUrl;
@@ -27,28 +27,49 @@ export default {
       info.videoId = this.data.video[0]._id;
       info.content = this.data.introduction;
       info.intro = this.data.introduction;
-      info.link = this.data.link;
+      info.httpUrl=this.data.video[0].httpUrl;
     });
   },
   methods: {
-    alterBtn(params) {
+    alterBtn(params, params1) {
       params.id = this.data._id;
-      console.log("------", params);
-      this.$store
-        .dispatch("video/upVideo", params)
-        .then(data => {
-          this.$alert(data, {
-            confirmButtonText: "确定",
-            center: true
-          });
-        })
-        .catch(e => {
-          this.$alert(e, {
-            confirmButtonText: "确定",
-            center: true
-          });
-          reject(e);
+      if (params1) {
+        this.$store.dispatch("common/createHttpFile", params1).then(res => {
+          params.video = res.fileId;
+          this.$store
+            .dispatch("video/upVideo", params)
+            .then(data => {
+              this.$alert(data, {
+                confirmButtonText: "确定",
+                center: true
+              });
+            })
+            .catch(e => {
+              this.$alert(e, {
+                confirmButtonText: "确定",
+                center: true
+              });
+              reject(e);
+            });
         });
+      } else {
+        this.$store
+          .dispatch("video/upVideo", params)
+          .then(data => {
+            this.$alert(data, {
+              confirmButtonText: "确定",
+              center: true
+            });
+          })
+          .catch(e => {
+            this.$alert(e, {
+              confirmButtonText: "确定",
+              center: true
+            });
+            reject(e);
+          });
+      }
+      console.log("------", params);
     }
   }
 };

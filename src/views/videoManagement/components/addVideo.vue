@@ -48,7 +48,7 @@
         <span>|</span>
         <span :class="{active :!activeTab}" @click="selectLink(false)">内容</span>
       </span>
-      <input-tool @input="input_content" v-if="activeTab"></input-tool>
+      <input-tool :value="httpUrl" @input="input_content" v-if="activeTab"></input-tool>
       <el-input
         v-if="!activeTab"
         style="width:856px;margin-top:12px"
