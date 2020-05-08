@@ -50,7 +50,7 @@
       </span>
       <input-tool @input="input_content" v-if="activeTab"></input-tool>
       <el-input
-      v-if="!activeTab"
+        v-if="!activeTab"
         style="width:856px;margin-top:12px"
         type="textarea"
         :autosize="{ minRows: 23}"
@@ -89,8 +89,8 @@ export default {
   },
   data() {
     return {
-      activeTab:false,
-      httpUrl:'',
+      activeTab: false,
+      httpUrl: "",
       name: "",
       imgUrl: "",
       videoUrl: "",
@@ -115,10 +115,10 @@ export default {
   methods: {
     init() {},
     selectLink(val) {
-      this.activeTab=val
+      this.activeTab = val;
     },
     input_content(val) {
-     this.httpUrl = val;
+      this.httpUrl = val;
     },
     imgFile(val) {
       this.imgUrl = val.httpUrl;
@@ -128,7 +128,7 @@ export default {
       // });
     },
     videoFile(val) {
-      this.videoUrl=val.httpUrl;
+      this.videoUrl = val.httpUrl;
       this.videoId = val._id;
       // this.$store.dispatch("common/uploadFile", val).then(res => {
       //   this.videoId = res.fileId;
@@ -169,41 +169,48 @@ export default {
     submit() {
       let params = {
         title: this.title,
-        tag:this.menuVal,
+        tag: this.menuVal,
         introduction: this.content,
         coverImg: this.fileId,
         video: this.videoId
       };
-      if(this.httpUrl){
-       let params1={
-         fileName:this.title,
-         httpUrl:this.httpUrl
-       } 
-        this.$store
-        .dispatch("common/createHttpFile", params1).then((res)=>{
-          params.video=res.fileId
-        })
+      let params1 = {};
+      if (this.httpUrl) {
+        params1 = {
+          fileName: this.title,
+          httpUrl: this.httpUrl
+        };
       }
       if (this.type == "修改") {
-        this.$emit("alterBtn", params);
+        this.$emit("alterBtn", params, params1);
         return;
       }
-      
-      this.$store
-        .dispatch("video/addVideo", params)
-        .then(data => {
-          this.$alert(data, {
-            confirmButtonText: "确定",
-            center: true
-          });
-        })
-        .catch(e => {
-          this.$alert(e, {
-            confirmButtonText: "确定",
-            center: true
-          });
-          reject(e);
+      console.log("-----22111", params);
+
+      if (this.httpUrl) {
+        let params1 = {
+          fileName: this.title,
+          httpUrl: this.httpUrl
+        };
+        this.$store.dispatch("common/createHttpFile", params1).then(res => {
+          params.video = res.fileId;
+          this.$store
+            .dispatch("video/addVideo", params)
+            .then(data => {
+              this.$alert(data, {
+                confirmButtonText: "确定",
+                center: true
+              });
+            })
+            .catch(e => {
+              this.$alert(e, {
+                confirmButtonText: "确定",
+                center: true
+              });
+              reject(e);
+            });
         });
+      }
     }
   }
 };
