@@ -44,12 +44,13 @@
     </div>
     <div class="add-input-intro content">
       <span>
-        <span :class="{active :active}" @click="selectLink">链接</span>
+        <span :class="{active :activeTab}" @click="selectLink(true)">链接</span>
         <span>|</span>
-        <span :class="{active :!active}" @click="selectLink">内容</span>
+        <span :class="{active :!activeTab}" @click="selectLink(false)">内容</span>
       </span>
-      <!-- <input-tool @input="input_content"></input-tool> -->
+      <input-tool @input="input_content" v-if="activeTab"></input-tool>
       <el-input
+      v-if="!activeTab"
         style="width:856px;margin-top:12px"
         type="textarea"
         :autosize="{ minRows: 23}"
@@ -88,10 +89,12 @@ export default {
   },
   data() {
     return {
+      activeTab:false,
+      httpUrl:'',
       name: "",
       imgUrl: "",
       videoUrl: "",
-      active: true,
+      // active: true,
       title: "",
       menuVal: "",
       typeVal: "",
@@ -111,22 +114,14 @@ export default {
   },
   methods: {
     init() {},
-    selectLink() {
-      this.active = !this.active;
+    selectLink(val) {
+      this.activeTab=val
     },
     input_content(val) {
-      if (this.active) {
-        this.link = val;
-        this.content = "";
-        this.contentHtml = "";
-      } else {
-        this.link = "";
-        this.content = val;
-        this.contentHtml = val;
-      }
+     this.httpUrl = val;
     },
     imgFile(val) {
-        this.imgUrl = val.httpUrl;
+      this.imgUrl = val.httpUrl;
       this.fileId = val._id;
       // this.$store.dispatch("common/uploadFile", val).then(res => {
       //   this.fileId = res.fileId;
@@ -174,14 +169,24 @@ export default {
     submit() {
       let params = {
         title: this.title,
+        tag:this.menuVal,
         introduction: this.content,
         coverImg: this.fileId,
         video: this.videoId
       };
+      if(this.httpUrl){
+       let params1={
+         fileName:this.title,
+         httpUrl:this.httpUrl
+       } 
+        this.$store
+        .dispatch("common/createHttpFile", params1)
+      }
       if (this.type == "修改") {
         this.$emit("alterBtn", params);
         return;
       }
+      
       this.$store
         .dispatch("video/addVideo", params)
         .then(data => {

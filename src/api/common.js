@@ -30,3 +30,12 @@ export function getMenuTags(data) {
         data
     })
 }
+
+export function createHttpFile(data) {
+    return request({
+        url: '/createHttpFile',
+        method: 'post',
+        data
+    })
+}
+

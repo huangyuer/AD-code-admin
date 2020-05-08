@@ -35,7 +35,7 @@ export default {
       params.id = this.data._id;
       console.log("------", params);
       this.$store
-        .dispatch("video/updateVideo", params)
+        .dispatch("video/upVideo", params)
         .then(data => {
           this.$alert(data, {
             confirmButtonText: "确定",

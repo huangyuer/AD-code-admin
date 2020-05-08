@@ -14,12 +14,16 @@
       <div class="add-article" @click="addArticle">添加详情</div>
     </div>
     <ArticleTable :tableData="tableData" @del="del"></ArticleTable>
-    <div class="pagination-box">
-      <div>
-        文章总数量
-        <span>{{ total }}</span>篇
+    <div style="display: flex;
+    justify-content: space-between;">
+      <el-button type="primary" class="commit-btn" @click="exportBtn">导出</el-button>
+      <div class="pagination-box">
+        <div>
+          文章总数量
+          <span>{{ total }}</span>篇
+        </div>
+        <Pagination :total="total" :limit="params.limit" @currentPage="jumpPage"></Pagination>
       </div>
-      <Pagination :total="total" :limit="params.limit" @currentPage="jumpPage"></Pagination>
     </div>
   </div>
 </template>
@@ -36,7 +40,7 @@ export default {
     return {
       tableData: [],
       total: 0,
-      params: { page: 1, limit: 10, title: "", menu: "" },
+      params: { page: 1, limit: 10, title: "", menu: "",export:false },
       loading: true
     };
   },
@@ -44,6 +48,10 @@ export default {
     this.getArticles();
   },
   methods: {
+    exportBtn(){
+      this.params.export=true;
+      this.getArticles();
+    },
     del(id) {
       this.$confirm("确认删除", {
         confirmButtonText: "确定",
@@ -170,5 +178,8 @@ export default {
   span {
     color: #009966;
   }
+}
+.commit-btn {
+  margin-top: 30px;
 }
 </style>

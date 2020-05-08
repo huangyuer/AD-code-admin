@@ -1,4 +1,4 @@
-import { uploadFile,getMenus, getMenuTypes, getMenuTags } from "@/api/common";
+import { uploadFile,getMenus, getMenuTypes, getMenuTags,createHttpFile } from "@/api/common";
 
 const state = {
   getMenus: [],
@@ -59,6 +59,18 @@ const actions = {
         .then(response => {
           const { data } = response;
           resolve(data.tags);
+        })
+        .catch(error => {
+          reject(error);
+        });
+    });
+  },
+  createHttpFile({ commit }, params) {
+    return new Promise((resolve, reject) => {
+      createHttpFile(params)
+        .then(response => {
+          const { data } = response;
+          resolve(data);
         })
         .catch(error => {
           reject(error);

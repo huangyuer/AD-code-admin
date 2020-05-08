@@ -17,16 +17,22 @@
     </div>
     <img v-if="src&&isImg" :src="src " alt class />
     <video
-      v-if="src&&!isImg"
-      style="object-fit: cover;"
+      v-if="src&&!isImg&&src.indexOf('iframe')<=-1"
+      style="object-fit: cover; margin-top: 14px;"
       preload="metadata"
       :src="src"
       :class="{upvideo:true,
               activeborder:true
               }"
       width="200"
-      height="120"
+      height="132"
     ></video>
+    <div
+      style="width: 200px;
+    height: 132px;object-fit: cover; margin-top: 14px;"
+      v-if="src&&!isImg&&src.indexOf('iframe')>-1"
+      v-html="src"
+    ></div>
   </div>
 </template>
 <script>

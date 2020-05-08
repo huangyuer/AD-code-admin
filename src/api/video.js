@@ -23,9 +23,9 @@ export function delVideo(data) {
         data
     })
 }
-export function updateVideo(data) {
+export function upVideo(data) {
     return request({
-        url: '/updateVideo',
+        url: '/upVideo',
         method: 'post',
         data
     })

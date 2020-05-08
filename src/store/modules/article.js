@@ -14,6 +14,7 @@ const actions = {
     return new Promise((resolve, reject) => {
       getArticles({
         page: params.page,
+        export:params.export,
         limit: params.limit,
         title: params.title,
         menu: params.menu

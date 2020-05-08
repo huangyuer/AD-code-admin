@@ -2,7 +2,7 @@ import {
   getVideos,
   addVideo,
   delVideo,
-  updateVideo,
+  upVideo,
   getLive,
   upLive
 } from "@/api/video";
@@ -78,6 +78,7 @@ const actions = {
     return new Promise((resolve, reject) => {
       addVideo({
           title: params.title,
+          tag:params.tag,
           introduction: params.introduction,
           coverImg: params.coverImg,
           video: params.video
@@ -94,12 +95,13 @@ const actions = {
         });
     });
   },
-  updateVideo({
+  upVideo({
     commit
   }, params) {
     return new Promise((resolve, reject) => {
-      updateVideo({
+      upVideo({
           id: params.id,
+          tag:params.tag,
           title: params.title,
           introduction: params.introduction,
           coverImg: params.coverImg,

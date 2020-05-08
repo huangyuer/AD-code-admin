@@ -40,21 +40,34 @@ export default {
   },
   methods: {
     del(id) {
-      this.$store
-        .dispatch("video/delVideo", id)
-        .then(data => {
-          this.$message({
-            type: "success",
-            message: data
-          });
-          this.getVideos();
+      this.$confirm("确认删除", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        center: true
+      })
+        .then(() => {
+          this.$store
+            .dispatch("video/delVideo", id)
+            .then(data => {
+              this.$message({
+                type: "success",
+                message: data
+              });
+              this.getVideos();
+            })
+            .catch(e => {
+              this.$alert(e, {
+                confirmButtonText: "确定",
+                center: true
+              });
+              reject(e);
+            });
         })
-        .catch(e => {
-          this.$alert(e, {
-            confirmButtonText: "确定",
-            center: true
+        .catch(() => {
+          this.$message({
+            type: "info",
+            message: "已取消"
           });
-          reject(e);
         });
     },
     addVideo() {

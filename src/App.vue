@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <Header></Header>
+    <!-- <Header></Header> -->
     <div
       v-if="this.$route.name=='Login'"
       class="app-content"
