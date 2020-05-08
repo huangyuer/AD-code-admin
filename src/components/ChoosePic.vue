@@ -1,150 +1,143 @@
 <template>
-    <el-dialog
-      ref="dialog"
-      :append-to-body="true"
-      :visible.sync="centerDialogVisible"
-      :close-on-click-modal="false"
-      width="900px"
-      @opened="openDialog"
-      :before-close="hideData"
-      @close="closeDialog"
-      left
-    >
-      <div class="el-dialog__header tise">
-        <span class="el-dialog__title">选择图片</span>
-        <button type="button" aria-label="Close" class="el-dialog__headerbtn">
-          <i
-            class="el-dialog__close el-icon el-icon-close"
-            @click="hideData()"
-          ></i>
-        </button>
-      </div>
-      <div class="dialogChooseWapper"  v-loading="loading">
-        <div class="ChooseleftTab">
-          <el-scrollbar class="pageleftscrollbar" :native="false">
-            <div class="filegroupsList">
-              <div
-                class="filegroupsItem"
-                :class="{
+  <el-dialog
+    ref="dialog"
+    :append-to-body="true"
+    :visible.sync="centerDialogVisible"
+    :close-on-click-modal="false"
+    width="900px"
+    @opened="openDialog"
+    :before-close="hideData"
+    @close="closeDialog"
+    left
+  >
+    <div class="el-dialog__header tise">
+      <span class="el-dialog__title">选择图片</span>
+      <button type="button" aria-label="Close" class="el-dialog__headerbtn">
+        <i class="el-dialog__close el-icon el-icon-close" @click="hideData()"></i>
+      </button>
+    </div>
+    <div class="dialogChooseWapper" v-loading="loading">
+      <div class="ChooseleftTab">
+        <el-scrollbar class="pageleftscrollbar" :native="false">
+          <div class="filegroupsList">
+            <div
+              class="filegroupsItem"
+              :class="{
                   active: active && item && active == item
                 }"
-                v-for="(item, key) in filegroups"
-                @click="ClickgroupsItem(item)"
-              >
-                {{ item }}
-              </div>
-              <div class="addgroupbtn" @click="visible=true">新建分组</div>
-              <el-dialog
-                width="300px"
-                :append-to-body="true"
-                :close-on-click-modal="false"
-                :visible.sync="visible"
-                @open="openvisible"
-              >
-                <div style="margin:20px;box-sizing:border-box;">
-                  <div style="font-size:14px;color:#333333;padding:20px 0;" class="p-titleinput">
-                    请输入分组名称
-                  </div>
-                  <el-input
-                    class="inputadd"
-                    v-model="addGroupName"
-                    type="text"
-                    style="width:240px;"
-                  ></el-input>
-                  <div style="text-align: center; margin-top:20px;padding-bottom:30px;display:flex;">
-                    <div
-                      style="flex:1;background:#009966;padding:5px 0;margin-right:10px;border-radius:4px;color:#ffffff;"
-                      @click="addFileGroup()"
-                    >确定</div>
-                    <div
-                      style="flex:1;border:1px solid #E5E5E5;padding:5px 0;margin-left:10px;border-radius:4px;color:#999999"
-                      @click="visible = false"
-                    >取消</div>
-                  </div>
+              v-for="(item, key) in filegroups"
+              @click="ClickgroupsItem(item)"
+            >{{ item }}</div>
+            <div class="addgroupbtn" @click="visible=true">新建分组</div>
+            <el-dialog
+              width="300px"
+              :append-to-body="true"
+              :close-on-click-modal="false"
+              :visible.sync="visible"
+              @open="openvisible"
+            >
+              <div style="margin:20px;box-sizing:border-box;">
+                <div
+                  style="font-size:14px;color:#333333;padding:20px 0;"
+                  class="p-titleinput"
+                >请输入分组名称</div>
+                <el-input class="inputadd" v-model="addGroupName" type="text" style="width:240px;"></el-input>
+                <div style="text-align: center; margin-top:20px;padding-bottom:30px;display:flex;">
+                  <div
+                    style="flex:1;background:#009966;padding:5px 0;margin-right:10px;border-radius:4px;color:#ffffff;"
+                    @click="addFileGroup()"
+                  >确定</div>
+                  <div
+                    style="flex:1;border:1px solid #E5E5E5;padding:5px 0;margin-left:10px;border-radius:4px;color:#999999"
+                    @click="visible = false"
+                  >取消</div>
                 </div>
-              </el-dialog>
-            </div>
-          </el-scrollbar>
-        </div>
-        <div class="ChooserightList">
-          <div class="demoimagelist">
-            <div class="demo-image">
-              <div
-                :class="{
+              </div>
+            </el-dialog>
+          </div>
+        </el-scrollbar>
+      </div>
+      <div class="ChooserightList">
+        <div class="demoimagelist">
+          <div class="demo-image">
+            <div
+              :class="{
                   block: true,
                   clickfalse: true,
                   activeborder: ismultiple?currentchooseimagelist.includes(fit):currentchooseimage._id == fit._id
                 }"
-                v-for="fit in filesimagevideo"
-                @click="selectImage($event, fit)">
-                <div
-                  class="xuanze-gou"
-                  v-show="ismultiple?currentchooseimagelist.includes(fit):currentchooseimage._id == fit._id"
-                >
-                  <img src="../assets/xuanzeicon@2x.png" alt="" />
-                </div>
-                <div class="maskelimage"></div>
-                <el-image
-                  style="width: 100px; height: 60px"
-                  :src="fit.httpUrl"
-                  fit="cover"
-                ></el-image>
-                <el-tooltip class="item" effect="dark" :content="fit.fileName" placement="bottom-start">
-                  <span class="demonstration">{{ fit.fileName }}</span>
-                </el-tooltip>
+              v-for="fit in filesimagevideo"
+              @click="selectImage($event, fit)"
+            >
+              <div
+                class="xuanze-gou"
+                v-show="ismultiple?currentchooseimagelist.includes(fit):currentchooseimage._id == fit._id"
+              >
+                <img src="../assets/xuanzeicon@2x.png" alt />
               </div>
+              <div class="maskelimage"></div>
+              <el-image style="width: 100px; height: 60px" :src="fit.httpUrl" fit="cover"></el-image>
+              <el-tooltip
+                class="item"
+                effect="dark"
+                :content="fit.fileName"
+                placement="bottom-start"
+              >
+                <span class="demonstration">{{ fit.fileName }}</span>
+              </el-tooltip>
             </div>
           </div>
-          <div class="member-info-footer">
-            <Pagination
-              :total="total"
-              :limit="currentsItem.limit"
-              @currentPage="jumpPage"
-            ></Pagination>
-          </div>
+        </div>
+        <div class="member-info-footer">
+          <Pagination
+            :total="total"
+            :limit="currentsItem.limit"
+            :currentPages="currentPages"
+            @currentPage="jumpPage"
+          ></Pagination>
         </div>
       </div>
-      <span slot="footer" class="dialog-footer">
-        <div>
-          <el-upload
-            :action="''"
-            :show-file-list="false"
-            list-type="picture"
-            :multiple="ismultiple"
-            :auto-upload="true"
-            :http-request="uploadMethod"
-            accept=".BMP,.JPG,.JPEG,.PNG,.GIF"
-          >
-            <button class="footerdialogbtn"><span>上传文件</span></button>
-          </el-upload>
-        </div>
-        <button
-          @click="submitTrue()"
-          class="footerdialogbtn primary"
+    </div>
+    <span slot="footer" class="dialog-footer">
+      <div>
+        <el-upload
+          :action="''"
+          :show-file-list="false"
+          list-type="picture"
+          :multiple="ismultiple"
+          :auto-upload="true"
+          :http-request="uploadMethod"
+          accept=".BMP, .JPG, .JPEG, .PNG, .GIF"
         >
-          <span>确 定</span>
-        </button>
-      </span>
-    </el-dialog>
+          <button class="footerdialogbtn">
+            <span>上传文件</span>
+          </button>
+        </el-upload>
+      </div>
+      <button @click="submitTrue()" class="footerdialogbtn primary">
+        <span>确 定</span>
+      </button>
+    </span>
+  </el-dialog>
 </template>
 <script>
 import Pagination from "@/components/Pagination";
 export default {
   name: "ChoosePic",
-  props:{
-      centerDialogVisible:{
-          type:Boolean,
-          default:false,
-      },
-      ismultiple:{
-          type:Boolean,
-          default:false,
-      }
+  props: {
+    centerDialogVisible: {
+      type: Boolean,
+      default: false
+    },
+    ismultiple: {
+      type: Boolean,
+      default: false
+    }
   },
   components: { Pagination },
   data() {
     return {
-      visible:false,
+      visible: false,
       //
       active: "",
       //ADD GROUP
@@ -153,6 +146,7 @@ export default {
       //GET IMAGEVIDEO
       filesimagevideo: [],
       total: 1,
+      currentPages: false,
       currentsItem: {
         page: 1,
         limit: 12,
@@ -179,11 +173,11 @@ export default {
       },
       //chooseImage
       currentchooseimage: "",
-      currentchooseimagelist:[],
+      currentchooseimagelist: [],
       //chooseVideo
       currentchoosevideo: "",
       file: [],
-      loading:false,
+      loading: false
     };
   },
   methods: {
@@ -194,7 +188,7 @@ export default {
       console.log("this.isvideo");
       this.gettype = "图片";
       this.currentsItem.type = "图片";
-      this.loading=true;
+      this.loading = true;
       this.getFileGroups();
     },
     closeDialog() {
@@ -203,18 +197,20 @@ export default {
       console.log("close");
       this.$emit("hideDialog");
     },
-    openvisible(){
-      this.addGroupName='';
+    openvisible() {
+      this.addGroupName = "";
     },
     uploadMethod(param) {
       this.uploadfiles.file = param.file;
       this.uploadfiles.group = this.active;
-      this.$store.dispatch("details/uploadFile", this.uploadfiles).then(() => {
-        this.init(this.active);
-        this.$message({
-          type: "success",
-          message: '上传成功'
-        });
+      this.$store
+        .dispatch("details/uploadFile", this.uploadfiles)
+        .then(() => {
+          this.init(this.active);
+          this.$message({
+            type: "success",
+            message: "上传成功"
+          });
         })
         .catch(e => {
           this.$message({
@@ -224,38 +220,38 @@ export default {
         });
     },
     selectImage(e, item) {
-        if(!this.ismultiple){
-          if(this.currentchooseimage == item){
-            this.currentchooseimage = "";
-          }else{
-            this.currentchooseimage = item;
-          }
-        }else{
-            if (!this.currentchooseimagelist.includes(item)) {
-                this.currentchooseimagelist.push(item);
-            } else {
-                for (var i = 0; i < this.currentchooseimagelist.length; i++) {
-                    if (this.currentchooseimagelist[i] == item) {
-                        this.currentchooseimagelist.splice(i, 1);
-                        return;
-                    }
-                }
-            }
+      if (!this.ismultiple) {
+        if (this.currentchooseimage == item) {
+          this.currentchooseimage = "";
+        } else {
+          this.currentchooseimage = item;
         }
+      } else {
+        if (!this.currentchooseimagelist.includes(item)) {
+          this.currentchooseimagelist.push(item);
+        } else {
+          for (var i = 0; i < this.currentchooseimagelist.length; i++) {
+            if (this.currentchooseimagelist[i] == item) {
+              this.currentchooseimagelist.splice(i, 1);
+              return;
+            }
+          }
+        }
+      }
     },
     //选择确定传值给需要的地方
     submitTrue() {
-      if (!this.ismultiple && this.currentchooseimage == ""){
-          this.$message({
-            message: "没有选择图片",
-            type: 'success'
+      if (!this.ismultiple && this.currentchooseimage == "") {
+        this.$message({
+          message: "没有选择图片",
+          type: "success"
         });
         return;
       }
-      if(this.ismultiple && this.currentchooseimagelist==""){
+      if (this.ismultiple && this.currentchooseimagelist == "") {
         this.$message({
-            message: "没有选择图片",
-            type: 'success'
+          message: "没有选择图片",
+          type: "success"
         });
         return;
       }
@@ -264,14 +260,14 @@ export default {
         this.currentchooseimage = "";
         this.$message({
           message: "图片选择成功",
-          type: 'success'
+          type: "success"
         });
-      } else if(this.ismultiple && this.currentchooseimagelist!="") {
+      } else if (this.ismultiple && this.currentchooseimagelist != "") {
         this.$emit("imgFileList", this.currentchooseimagelist);
         this.currentchooseimagelist = [];
         this.$message({
           message: "图片选择成功",
-          type: 'success'
+          type: "success"
         });
       }
       this.hideData();
@@ -281,10 +277,12 @@ export default {
       this.currentsItem.page = 1;
       this.currentsItem.type = "图片";
       this.currentsItem.group = item;
-      this.loading=true;
+      this.loading = true;
+      this.currentPages = true;
       this.getFileImageVideo();
     },
     jumpPage(val) {
+      this.currentPages = false;
       this.currentsItem.page = val;
       this.getFileImageVideo();
     },
@@ -296,7 +294,7 @@ export default {
           this.init(this.filegroups[0]);
         })
         .catch(e => {
-          console.log("dddddddd",e);
+          console.log("dddddddd", e);
         });
     },
     addFileGroup() {
@@ -319,7 +317,7 @@ export default {
       this.$store
         .dispatch("details/getFileImageVideo", this.currentsItem)
         .then(() => {
-          this.loading=false;
+          this.loading = false;
           this.filesimagevideo = this.$store.getters.filesimagevideo.files;
           this.total = this.$store.getters.filesimagevideo.total;
         })
@@ -328,13 +326,13 @@ export default {
         });
     },
     init(groupitem) {
-      console.log("00000000")
+      console.log("00000000");
       this.active = groupitem;
       this.currentsItem.group = groupitem;
       // this.currentsItem.groupId = this.active._id;
       this.getFileImageVideo();
     }
-  },
+  }
 };
 </script>
 <style lang="less" scoped>
@@ -359,7 +357,7 @@ export default {
             color: #333333;
           }
         }
-        .addgroupbtn{
+        .addgroupbtn {
           text-align: center;
           color: #009966;
           font-size: 15px;
@@ -457,7 +455,7 @@ export default {
 }
 @{aaa}.el-scrollbar__wrap {
   overflow-x: hidden;
-  height:72%;
+  height: 72%;
 }
 @{aaa}.dialogChooseWapper {
   height: 100%;

@@ -27,14 +27,14 @@ export default {
     limit: {
       type: Number
     },
-    currentPage: {
-      type: Number,
-      default: 1
+    currentPages: {
+      type: Boolean,
+      default: false
     }
   },
   data() {
     return {
-      // currentPage: 1,
+      currentPage: 1
     };
   },
   methods: {
@@ -44,6 +44,18 @@ export default {
     handleCurrentChange(val) {
       console.log(`当前页: ${val}`);
       this.$emit("currentPage", val);
+    }
+  },
+  watch: {
+    currentPages: {
+      handler(newV, oldV) {
+        // do something, 可使用this
+        console.log("------3333", newV);
+        if (newV) {
+          this.currentPage = 1;
+        }
+      },
+      deep: true
     }
   }
 };

@@ -17,7 +17,7 @@
             @click="submitdeletell(activeitem)"
           >
             <img src="../../../../assets/shanchucopy@2x.png" alt="" />
-          </div> -->
+          </div>-->
         </div>
       </div>
       <div
@@ -32,35 +32,20 @@
       </div>
       <el-popover placement="bottom" width="300" v-model="visible">
         <div style="margin:8px;box-sizing:border-box;">
-          <div style="font-size:14px;color:#333333;" class="p-titleinput">
-            请输入分组名称
-          </div>
-          <el-input
-            class="inputadd"
-            v-model="addGroupName"
-            type="text"
-            style="width:240px;"
-          ></el-input>
+          <div style="font-size:14px;color:#333333;" class="p-titleinput">请输入分组名称</div>
+          <el-input class="inputadd" v-model="addGroupName" type="text" style="width:240px;"></el-input>
           <div style="text-align: center; margin-top:20px;display:flex;">
             <div
               style="flex:1;background:#009966;padding:5px 0;margin-right:10px;border-radius:4px;color:#ffffff;"
               @click="addFileGroup(addGroupName, gettype)"
-            >
-              确定
-            </div>
+            >确定</div>
             <div
               style="flex:1;border:1px solid #E5E5E5;padding:5px 0;margin-left:10px;border-radius:4px;color:#999999"
               @click="visible = false"
-            >
-              取消
-            </div>
+            >取消</div>
           </div>
         </div>
-        <el-button
-          slot="reference"
-          style="background:#009966;color:#ffffff;margin-right:47px;"
-          >新建分组</el-button
-        >
+        <el-button slot="reference" style="background:#009966;color:#ffffff;margin-right:47px;">新建分组</el-button>
       </el-popover>
     </el-collapse>
     <!-- <div class="delete-line" v-if="deletefileIds.length > 0">
@@ -76,7 +61,7 @@
           <img src="../../../../assets/shanchucopy@2x.png" alt="" />
         </div>
       </div>
-    </div> -->
+    </div>-->
     <div class="demoimagelist">
       <div class="demo-image">
         <div
@@ -86,7 +71,7 @@
           :key="fit.id"
         >
           <div class="xuanze-gou" v-show="deletefileIds.includes(fit._id)">
-            <img src="../../../../assets/xuanzeicon@2x.png" alt="" />
+            <img src="../../../../assets/xuanzeicon@2x.png" alt />
           </div>
           <div
             class="hover_img"
@@ -95,11 +80,7 @@
               psmasterimage: deletefileIds.includes(fit._id)
             }"
           >
-            <el-image
-              style="width: 200px; height: 120px"
-              :src="fit.httpUrl"
-              fit="cover"
-            ></el-image>
+            <el-image style="width: 200px; height: 120px" :src="fit.httpUrl" fit="cover"></el-image>
           </div>
           <el-tooltip class="item" effect="dark" :content="fit.fileName" placement="bottom-start">
             <span class="demonstration">{{ fit.fileName }}</span>
@@ -111,6 +92,7 @@
       <Pagination
         :total="total"
         :limit="currentsItem.limit"
+        :currentPages="currentPages"
         @currentPage="jumpPage"
       ></Pagination>
     </div>
@@ -137,9 +119,10 @@ export default {
       //GET IMAGEVIDEO
       filesimagevideo: [],
       total: 1,
+      currentPages: false,
       currentsItem: {
         page: 1,
-        limit:10,
+        limit: 10,
         type: "图片",
         group: String
       },
@@ -156,7 +139,7 @@ export default {
         }
       ],
       filegroups: [],
-      loading:false,
+      loading: false
     };
   },
   components: {
@@ -182,6 +165,7 @@ export default {
       this.currentsItem.page = 1;
       this.currentsItem.group = item;
       this.currentsItem.type = "图片";
+      this.currentPages = true;
       this.getFileImageVideo();
     },
     deleteImage(e, item) {
@@ -225,6 +209,7 @@ export default {
         });
     },
     jumpPage(val) {
+      this.currentPages = false;
       this.currentsItem.page = val;
       this.getFileImageVideo();
     },
@@ -284,11 +269,11 @@ export default {
       //   });
     },
     getFileImageVideo() {
-      this.loading=true;
+      this.loading = true;
       this.$store
         .dispatch("details/getFileImageVideo", this.currentsItem)
         .then(() => {
-          this.loading=false;
+          this.loading = false;
           this.filesimagevideo = this.$store.getters.filesimagevideo.files;
           this.total = this.$store.getters.filesimagevideo.total;
         })
@@ -298,7 +283,7 @@ export default {
     }
   },
   mounted() {
-    this.loading=true;
+    this.loading = true;
     this.getFileGroups();
   },
   created() {}
