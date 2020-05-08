@@ -1,7 +1,7 @@
 <template>
   <div class="Header">
     <div class="headerlogo">
-      <img src="../assets/logo@2x.png" alt />
+      <img src="../assets/logo.svg" alt />
     </div>
     <div class="header-right"></div>
   </div>
@@ -26,14 +26,14 @@ export default {
   z-index: 20;
   box-shadow:0px 2px 4px 0px rgba(229,229,229,0.5);
   .headerlogo {
-    width: 340px;
+    width: 200px;
     display: flex;
     height: 100%;
     justify-content: center;
     align-items: center;
     background: #ffffff;
     img {
-      width: 280px;
+      width: 60px;
     }
   }
 }

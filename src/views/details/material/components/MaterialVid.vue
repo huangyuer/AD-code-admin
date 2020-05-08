@@ -121,7 +121,7 @@ export default {
       currentPages: false,
       currentsItem: {
         page: 1,
-        limit: 10,
+        limit: 12,
         type: "视频",
         group: String
       },

@@ -41,7 +41,7 @@ const actions = {
 
     getHospitals({ commit },params) {
     return new Promise((resolve, reject) => {
-        getHospitals({page:params.page,limit:params.limit,name:params.name})
+        getHospitals({page:params.page,limit:params.limit,name:params.name,export:params.export})
         .then(response => {
           const { data } = response;
           resolve(data);

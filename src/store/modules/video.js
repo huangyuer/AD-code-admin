@@ -59,7 +59,9 @@ const actions = {
       getVideos({
           page: params.page,
           limit: params.limit,
-          title: params.title
+          title: params.title,
+          tag:params.tag,
+          export:params.export
         })
         .then(response => {
           const {

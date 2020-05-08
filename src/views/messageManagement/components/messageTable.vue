@@ -1,35 +1,5 @@
 <template>
   <div class="article-table">
-    <!-- <Table :tableData="tableData">
-      <div slot="tableThead" class="article-table-thead">
-        <span>姓名</span>
-        <span>性别</span>
-        <span>年龄</span>
-        <span>疾病种类</span>
-        <span>疾病程度</span>
-        <span>状态</span>
-        <span>操作</span>
-      </div>
-      <div
-        slot="tableBody"
-        v-for="item in tableData"
-        :key="item.id"
-        class="article-table-content"
-      >
-        <span
-          >{{ item.user }}</span
-        >
-        <span>{{ item.sex }}</span>
-        <span>{{ item.age }}</span>
-        <span>{{ item.tag }}</span>
-        <span>{{ item.level }}</span>
-        <span :class="{active1 :item.status=='驳回',active2 :item.status=='审核通过'}">{{ item.status }}</span>
-        <span @click="checkInfo(item)">
-          查看详情
-        </span>
-      </div>
-    </Table> -->
-
 
         <el-table :data="tableData" tooltip-effect="dark" style="width: 100%">
       <el-table-column width="25"></el-table-column>
@@ -37,10 +7,10 @@
 
       <el-table-column label="性别" sortable prop="sex" show-overflow-tooltip></el-table-column>
 
-      <el-table-column prop="age" label="年龄" sortable></el-table-column>
-      <el-table-column prop="tag" label="疾病种类" sortable></el-table-column>
-      <el-table-column prop="level" label="疾病程度" sortable></el-table-column>
-      <el-table-column prop="diaTime" label="审核时间" sortable></el-table-column>
+      <el-table-column  prop="age" label="年龄" sortable></el-table-column>
+      <el-table-column min-width="100" prop="tag" label="疾病种类" sortable></el-table-column>
+      <el-table-column min-width="100" prop="level" label="疾病程度" sortable></el-table-column>
+      <el-table-column min-width="100" prop="diaTime" label="审核时间" sortable></el-table-column>
       <el-table-column prop="status" label="状态" sortable>
         <template slot-scope="scope">
         <span :class="{active1 :scope.row.status=='驳回',active2 :scope.row.status=='审核通过'}">{{ scope.row.status }}</span>

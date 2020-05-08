@@ -14,12 +14,15 @@
       <div class="add-article" @click="addArticle">添加详情</div>
     </div>
     <Table :tableData="tableData" @isDel="isDel"></Table>
-    <div class="pagination-box">
-      <div>
-        文章总数量
-        <span>{{ total }}</span>篇
+    <div style="display: flex;justify-content: space-between;">
+      <el-button type="primary" class="commit-btn" @click="exportBtn">导出</el-button>
+      <div class="pagination-box">
+        <div>
+          文章总数量
+          <span>{{ total }}</span>篇
+        </div>
+        <Pagination :total="total" :limit="params.limit" @currentPage="jumpPage"></Pagination>
       </div>
-      <Pagination :total="total" :limit="params.limit" @currentPage="jumpPage"></Pagination>
     </div>
   </div>
 </template>
@@ -31,13 +34,13 @@ import InputTool from "@/components/InputTool";
 import SelectTool from "@/components/SelectTool";
 export default {
   name: "PointsShop",
-  components: { Table, Pagination, InputTool, SelectTool,RightTitle },
+  components: { Table, Pagination, InputTool, SelectTool, RightTitle },
   data() {
     return {
       typeData: ["实体书", "电子书", "科普视频", "入场券"],
       tableData: [],
       total: 0,
-      params: { page: 1, limit: 10, name: "", type: "" },
+      params: { page: 1, limit: 10, name: "", type: "", export: false },
       loading: true
     };
   },
@@ -45,6 +48,10 @@ export default {
     this.getGoodsAdmin();
   },
   methods: {
+    exportBtn() {
+      this.params.export = true;
+      this.$store.dispatch("points/getGoodsAdmin", this.params);
+    },
     isDel(id) {
       this.getGoodsAdmin();
     },
@@ -66,6 +73,8 @@ export default {
       this.getGoodsAdmin();
     },
     getGoodsAdmin() {
+      this.params.export = false;
+
       this.$store
         .dispatch("points/getGoodsAdmin", this.params)
         .then(data => {
@@ -143,5 +152,8 @@ export default {
   span {
     color: #009966;
   }
+}
+.commit-btn {
+  margin-top: 30px;
 }
 </style>

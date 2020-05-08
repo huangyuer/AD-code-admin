@@ -6,20 +6,23 @@
         <span>名称：</span>
         <input-tool @input="input_title"></input-tool>
       </div>
-         <div class="select-block">
-        <span>板块/分类：</span>
+      <div class="select-block">
+        <span>分类：</span>
         <select-tool :options="this.$store.getters.getMenus" @selectOption="selectBlock"></select-tool>
       </div>
       <div class="searchBtn-box" @click="search">检索</div>
       <div class="add-article" @click="addVideo">添加详情</div>
     </div>
     <videoTable :tableData="tableData" @del="del"></videoTable>
-    <div class="pagination-box">
-      <div>
-        文章总数量
-        <span>{{ total }}</span>篇
+    <div style="display: flex;justify-content: space-between;">
+      <el-button type="primary" class="commit-btn" @click="exportBtn">导出</el-button>
+      <div class="pagination-box">
+        <div>
+          文章总数量
+          <span>{{ total }}</span>篇
+        </div>
+        <Pagination :total="total" :limit="params.limit" @currentPage="jumpPage"></Pagination>
       </div>
-      <Pagination :total="total" :limit="params.limit" @currentPage="jumpPage"></Pagination>
     </div>
   </div>
 </template>
@@ -32,12 +35,12 @@ import SelectTool from "@/components/SelectTool";
 
 export default {
   name: "Video",
-  components: {SelectTool, videoTable, Pagination, InputTool, RightTitle },
+  components: { SelectTool, videoTable, Pagination, InputTool, RightTitle },
   data() {
     return {
       tableData: [],
       total: 0,
-      params: { page: 1, limit: 10, title: "",tag:"" },
+      params: { page: 1, limit: 10, title: "", tag: "", export: false },
       loading: true
     };
   },
@@ -45,7 +48,11 @@ export default {
     this.getVideos();
   },
   methods: {
-        selectBlock(val) {
+    exportBtn() {
+      this.params.export = true;
+      this.$store.dispatch("video/getVideos", this.params);
+    },
+    selectBlock(val) {
       this.params.tag = val;
     },
     del(id) {
@@ -90,6 +97,7 @@ export default {
       this.getVideos();
     },
     getVideos() {
+      this.params.export = false;
       this.$store
         .dispatch("video/getVideos", this.params)
         .then(data => {
@@ -171,5 +179,8 @@ export default {
   span {
     color: #009966;
   }
+}
+.commit-btn {
+  margin-top: 30px;
 }
 </style>

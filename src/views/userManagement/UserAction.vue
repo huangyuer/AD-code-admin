@@ -1,6 +1,6 @@
 <template>
   <div class="article" v-loading="loading">
-    <right-title :title="'用户行为'"></right-title>
+    <right-title :title="title" style="margin-bottom:-15px"></right-title>
     <div class="select-container">
       <div>
         <div class="input-name">
@@ -25,12 +25,15 @@
       </div>
     </div>
     <ActionTable :tableData="tableData" @isDel="isDel" :type="params.menu"></ActionTable>
-    <div class="pagination-box">
-      <div>
-        文章总数量
-        <span>{{ total }}</span>篇
+    <div style="display: flex;justify-content: space-between;">
+      <el-button type="primary" class="commit-btn" @click="exportBtn">导出</el-button>
+      <div class="pagination-box">
+        <div>
+          文章总数量
+          <span>{{ total }}</span>篇
+        </div>
+        <Pagination :total="total" :limit="params.limit" @currentPage="jumpPage"></Pagination>
       </div>
-      <Pagination :total="total" :limit="params.limit" @currentPage="jumpPage"></Pagination>
     </div>
   </div>
 </template>
@@ -45,11 +48,20 @@ export default {
   components: { ActionTable, Pagination, InputTool, SelectTool, RightTitle },
   data() {
     return {
+      title: "用户行为",
       typeData: ["浏览", "收藏", "点击"],
-      menuData:['医院地图','评估记录'],
+      menuData: ["医院地图", "评估记录"],
       tableData: [],
       total: 0,
-      params: { page: 1, limit: 10, menu: "", type: "浏览",userName:'',name:'', export: false },
+      params: {
+        page: 1,
+        limit: 10,
+        menu: "",
+        type: "浏览",
+        userName: "",
+        name: "",
+        export: false
+      },
       loading: true
     };
   },
@@ -57,6 +69,10 @@ export default {
     this.getPageLogs();
   },
   methods: {
+    exportBtn() {
+      this.params.export = true;
+      this.$store.dispatch("user/getPageLogs", this.params);
+    },
     isDel(id) {
       this.getPageLogs();
     },
@@ -66,14 +82,17 @@ export default {
     input_name(val) {
       this.params.name = val;
     },
-    
-     selectMenu(val) {
+
+    selectMenu(val) {
       this.params.menu = val;
+      if (val == "医院地图") this.title = "用户行为-医院地图";
+      else if (val == "评估记录") this.title = "用户行为-评估记录";
+      else this.title = "用户行为";
     },
-     selectType(val) {
+    selectType(val) {
       this.params.type = val;
     },
-     input_userName(val) {
+    input_userName(val) {
       this.params.userName = val;
     },
     search() {
@@ -85,6 +104,8 @@ export default {
       this.getPageLogs();
     },
     getPageLogs() {
+      this.params.export = false;
+
       this.$store
         .dispatch("user/getPageLogs", this.params)
         .then(data => {
@@ -106,7 +127,7 @@ export default {
   flex-direction: column;
   > div {
     display: flex;
-    margin-top:16px
+    margin-top: 16px;
   }
   .input-name,
   .select-block {
@@ -166,5 +187,8 @@ export default {
   span {
     color: #009966;
   }
+}
+.commit-btn {
+  margin-top: 30px;
 }
 </style>

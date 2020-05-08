@@ -1,6 +1,6 @@
 <template>
   <div class="video-live">
-    <right-title :title="'视频直播'"></right-title>
+    <right-title :title="'视频直播'" style="margin-bottom:-10px"></right-title>
     <picture-upload
       :src="imgUrl"
       :value="'封面：'"

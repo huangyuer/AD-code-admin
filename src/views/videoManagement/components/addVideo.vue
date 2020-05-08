@@ -128,6 +128,7 @@ export default {
       // });
     },
     videoFile(val) {
+      this.httpUrl = val.httpUrl;
       this.videoUrl = val.httpUrl;
       this.videoId = val._id;
       // this.$store.dispatch("common/uploadFile", val).then(res => {

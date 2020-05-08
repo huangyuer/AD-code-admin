@@ -7,6 +7,10 @@
         <input-tool @input="input_title"></input-tool>
       </div>
          <div class="select-block">
+        <span>疾病种类：</span>
+        <select-tool :options="typeData" @selectOption="selectTag"></select-tool>
+      </div>
+      <div class="select-block">
         <span>状态：</span>
         <select-tool :options="options" @selectOption="selectBlock"></select-tool>
       </div>
@@ -14,12 +18,15 @@
       <!-- <div class="add-article" @click="addArticle">添加详情</div> -->
     </div>
     <messageTable :tableData="tableData"></messageTable>
-    <div class="pagination-box">
-      <div>
-        文章总数量
-        <span>{{ total }}</span>篇
+    <div style="display: flex;justify-content: space-between;">
+      <el-button type="primary" class="commit-btn" @click="exportBtn">导出</el-button>
+      <div class="pagination-box">
+        <div>
+          文章总数量
+          <span>{{ total }}</span>篇
+        </div>
+        <Pagination :total="total" :limit="params.limit" @currentPage="jumpPage"></Pagination>
       </div>
-      <Pagination :total="total" :limit="params.limit" @currentPage="jumpPage"></Pagination>
     </div>
   </div>
 </template>
@@ -31,26 +38,37 @@ import RightTitle from "@/components/RightTitle";
 import SelectTool from "@/components/SelectTool";
 export default {
   name: "Message",
-  components: { messageTable, Pagination, InputTool, RightTitle,SelectTool},
+  components: { messageTable, Pagination, InputTool, RightTitle, SelectTool },
   data() {
     return {
       tableData: [],
+      typeData:[],
       total: 0,
-      params: { page: 1, limit: 10, name: "", status:''},
+      params: { page: 1, limit: 10, name: "", status: "",tag:'',export:false },
       loading: true,
-      options:['待审核','审核通过','驳回', '已删除']
+      options: ["待审核", "审核通过", "驳回", "已删除"]
     };
   },
   created() {
     this.getLvMsgAdmin();
+    this.$store.dispatch("common/getLvMsgSelect").then((res)=>{
+      this.typeData=res.type
+    });
   },
   methods: {
+    exportBtn() {
+      this.params.export = true;
+      this.$store.dispatch("message/getLvMsgAdmin", this.params);
+    },
+    selectTag(val){
+      this.params.tag = val;
+    },
     selectBlock(val) {
-      this.params.status=val
+      this.params.status = val;
       //   this.$router.push({path:'/addArticle'})
     },
     input_title(val) {
-      this.params.name=val
+      this.params.name = val;
       //   this.$set(this.addData, "title", val);
     },
     search() {
@@ -58,6 +76,7 @@ export default {
       this.getLvMsgAdmin();
     },
     getLvMsgAdmin() {
+      this.params.export = false;
       this.$store
         .dispatch("message/getLvMsgAdmin", this.params)
         .then(data => {
@@ -139,5 +158,8 @@ export default {
   span {
     color: #009966;
   }
+}
+.commit-btn {
+  margin-top: 30px;
 }
 </style>

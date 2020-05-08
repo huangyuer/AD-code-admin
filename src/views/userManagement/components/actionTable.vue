@@ -7,8 +7,8 @@
 
       <el-table-column label="板块" sortable prop="menu"></el-table-column>
 
-      <el-table-column prop="name" label="名称" sortable></el-table-column>
-      <el-table-column prop="address" label="地址" sortable></el-table-column>
+      <el-table-column min-width="200" prop="name" label="名称" sortable show-overflow-tooltip></el-table-column>
+      <el-table-column min-width="300" prop="address" label="地址" sortable show-overflow-tooltip></el-table-column>
     </el-table>
     <el-table :data="tableData" tooltip-effect="dark" style="width: 100%" v-else-if="type=='评估记录'">
       <el-table-column width="25"></el-table-column>
@@ -17,7 +17,7 @@
 
       <el-table-column label="板块" sortable prop="menu"></el-table-column>
       <el-table-column label="得分" sortable prop="score"></el-table-column>
-      <el-table-column label="结论" sortable prop="conclusion"></el-table-column>
+      <el-table-column min-width="300" label="结论" sortable prop="conclusion"></el-table-column>
     </el-table>
 
     <el-table :data="tableData" tooltip-effect="dark" style="width: 100%" v-else>
@@ -28,7 +28,7 @@
       <el-table-column label="板块" sortable prop="menu"></el-table-column>
 
       <el-table-column prop="childMenu" label="分类" sortable></el-table-column>
-      <el-table-column prop="name" label="名称" sortable></el-table-column>
+      <el-table-column prop="name" label="名称" sortable show-overflow-tooltip></el-table-column>
 
       <el-table-column prop="startTime" label="开始时间" sortable></el-table-column>
       <el-table-column prop="useTime" label="查看时长" sortable></el-table-column>

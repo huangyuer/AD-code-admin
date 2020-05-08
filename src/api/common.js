@@ -39,3 +39,11 @@ export function createHttpFile(data) {
     })
 }
 
+export function getLvMsgSelect(data) {
+    return request({
+        url: '/getLvMsgSelect',
+        method: 'post',
+        // data
+    })
+}
+

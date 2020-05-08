@@ -15,3 +15,12 @@ export function upLeaveMsg(data) {
         data
     })
 }
+
+// export function getLvMsgAdmin(data) {
+//     return request({
+//         url: '/upLeaveMsg',
+//         method: 'post',
+//         data
+//     })
+// }
+

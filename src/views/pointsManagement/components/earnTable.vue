@@ -2,12 +2,12 @@
   <div>
     <el-table ref="multipleTable" :data="tableData" tooltip-effect="dark" style="width: 100%">
       <el-table-column width="25"></el-table-column>
-      <el-table-column prop="user" label="姓名" sortable></el-table-column>
+      <el-table-column min-width="150" prop="user" label="姓名" sortable></el-table-column>
 
-      <el-table-column  label="名称" sortable prop="type" show-overflow-tooltip></el-table-column>
+      <el-table-column min-width="200"  label="名称" sortable prop="type" show-overflow-tooltip></el-table-column>
 
-      <el-table-column prop="score" label="积分" sortable></el-table-column>
-      <el-table-column  prop="date" label="时间" sortable></el-table-column>
+      <el-table-column min-width="150" prop="score" label="积分" sortable></el-table-column>
+      <el-table-column  min-width="280" prop="date" label="时间" sortable></el-table-column>
     </el-table>
   </div>
 </template>

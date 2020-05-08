@@ -1,4 +1,4 @@
-import { uploadFile,getMenus, getMenuTypes, getMenuTags,createHttpFile } from "@/api/common";
+import { uploadFile,getMenus, getMenuTypes, getMenuTags,createHttpFile,getLvMsgSelect } from "@/api/common";
 
 const state = {
   getMenus: [],
@@ -76,7 +76,19 @@ const actions = {
           reject(error);
         });
     });
-  }
+  },
+  getLvMsgSelect({ commit }, params) {
+    return new Promise((resolve, reject) => {
+      getLvMsgSelect()
+        .then(response => {
+          const { data } = response;
+          resolve(data);
+        })
+        .catch(error => {
+          reject(error);
+        });
+    });
+  },
 };
 
 export default {

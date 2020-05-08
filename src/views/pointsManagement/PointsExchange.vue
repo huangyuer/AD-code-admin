@@ -1,6 +1,6 @@
 <template>
   <div class="article" v-loading="loading">
-    <right-title :title="'积分兑换'"></right-title>
+    <right-title :title="'积分兑换'" style="margin-bottom:-15px"></right-title>
     <div class="select-container">
       <div>
         <div class="input-name">
@@ -36,12 +36,15 @@
       </div>
     </div>
     <Table :tableData="tableData" @isDel="isDel" @editInfo="editInfo"></Table>
-    <div class="pagination-box">
-      <div>
-        文章总数量
-        <span>{{ total }}</span>篇
+    <div style="display: flex;justify-content: space-between;">
+      <el-button type="primary" class="commit-btn" @click="exportBtn">导出</el-button>
+      <div class="pagination-box">
+        <div>
+          文章总数量
+          <span>{{ total }}</span>篇
+        </div>
+        <Pagination :total="total" :limit="params.limit" @currentPage="jumpPage"></Pagination>
       </div>
-      <Pagination :total="total" :limit="params.limit" @currentPage="jumpPage"></Pagination>
     </div>
   </div>
 </template>
@@ -77,9 +80,13 @@ export default {
     this.getExgLogsAdmin();
   },
   methods: {
-      editInfo(data){
-    this.getExgLogsAdmin();
-      },
+    exportBtn() {
+      this.params.export = true;
+      this.$store.dispatch("points/getExgLogsAdmin", this.params);
+    },
+    editInfo(data) {
+      this.getExgLogsAdmin();
+    },
     change(val) {
       this.params.startDate = val[0];
       this.params.endDate = val[1];
@@ -100,7 +107,7 @@ export default {
     input_title(val) {
       this.params.name = val;
     },
-       input_userName(val) {
+    input_userName(val) {
       this.params.userName = val;
     },
     jumpPage(val) {
@@ -108,6 +115,8 @@ export default {
       this.getExgLogsAdmin();
     },
     getExgLogsAdmin() {
+      this.params.export = false;
+
       this.$store
         .dispatch("points/getExgLogsAdmin", this.params)
         .then(data => {
@@ -129,7 +138,7 @@ export default {
   flex-direction: column;
   > div {
     display: flex;
-    margin-top:16px
+    margin-top: 16px;
   }
   .input-name,
   .select-block {
@@ -189,5 +198,8 @@ export default {
   span {
     color: #009966;
   }
+}
+.commit-btn {
+  margin-top: 30px;
 }
 </style>

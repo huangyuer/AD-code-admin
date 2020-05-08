@@ -1,6 +1,11 @@
 <template>
   <div class="messageCheck">
-    <right-title :title="'留言管理-审核'"></right-title>
+    <right-title :title="'留言管理-审核'" style="margin-bottom:-10px"></right-title>
+    <span style="color:#666666;font-size:16px;cursor:pointer">
+      <span :class="{active :!activeTab}" @click="selectLink(false)">未审核</span>
+      <span style="color:#242424;font-size:18px">|</span>
+      <span :class="{active :activeTab}" @click="selectLink(true)">已审核</span>
+    </span>
     <div class="message-box">
       <div class="message-avatar">
         <img v-if="item.images.length>0" :src="item.images[0].httpUrl" alt />
@@ -13,18 +18,22 @@
         <div>{{ item.tag }}</div>
         <div>{{ item.level }}</div>
       </div>
-      <div class="message-des">
-       {{item.description}}
-      </div>
+      <div class="message-des">{{item.description}}</div>
       <div class="message-pic">
         <div v-for="li in item.images" :key="li.index">
           <img :src="li.httpUrl" alt />
         </div>
       </div>
     </div>
-    <div class="message-btn">
-      <div @click="upLeaveMsg('审核通过')">通过</div>
-      <div @click="upLeaveMsg('驳回')">驳回</div>
+    <div style="display: flex;justify-content: space-between; width: 1022px;margin-top: 20px;">
+      <div class="message-btn">
+        <div @click="upLeaveMsg('审核通过')">通过</div>
+        <div @click="upLeaveMsg('驳回')">驳回</div>
+      </div>
+      <span style="font-size:14px;color:#009966">
+        2
+        <span style="font-size:14px;color:#666666">/100</span>
+      </span>
     </div>
   </div>
 </template>
@@ -35,10 +44,14 @@ export default {
   components: { RightTitle },
   data() {
     return {
-      item: this.$route.params.data
+      item: this.$route.params.data,
+      activeTab: this.$route.params.data.status == "审核通过" ? true : false
     };
   },
   methods: {
+    selectLink(val) {
+      this.activeTab = val;
+    },
     upLeaveMsg(status) {
       let params = {
         id: this.item._id,
@@ -60,6 +73,10 @@ export default {
 };
 </script>
 <style lang="less" scoped>
+.active {
+  color: #009966;
+  font-size: 18px;
+}
 .message-box {
   width: 1022px;
   height: 482px;
@@ -67,6 +84,7 @@ export default {
   border: 1px solid rgba(229, 229, 229, 1);
   padding: 26px 0 60px 20px;
   box-sizing: border-box;
+  margin-top: 30px;
   .message-avatar {
     display: flex;
     img {
@@ -128,13 +146,15 @@ export default {
       img {
         height: 120px;
         width: 165px;
+        object-fit: cover;
+        overflow: hidden;
       }
     }
   }
 }
 .message-btn {
   display: flex;
-  margin-top: 20px;
+  // margin-top: 20px;
   margin-bottom: 40px;
   div {
     cursor: pointer;

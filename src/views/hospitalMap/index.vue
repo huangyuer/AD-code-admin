@@ -31,6 +31,8 @@
       </el-upload>
     </div>
     <videoTable :tableData="tableData"></videoTable>
+    <div style="display: flex;justify-content: space-between;">
+      <el-button type="primary" class="commit-btn" @click="exportBtn">导出</el-button>
     <div class="pagination-box">
       <div>
         文章总数量
@@ -38,6 +40,7 @@
       </div>
       <Pagination :total="total" :limit="params.limit" @currentPage="jumpPage"></Pagination>
     </div>
+  </div>
   </div>
 </template>
 <script>
@@ -52,7 +55,7 @@ export default {
     return {
       tableData: [],
       total: 0,
-      params: { page: 1, limit: 10, name: "" },
+      params: { page: 1, limit: 10, name: "",export:false },
       loading: true
     };
   },
@@ -60,6 +63,10 @@ export default {
     this.getHospitals();
   },
   methods: {
+        exportBtn() {
+      this.params.export = true;
+      this.$store.dispatch("hospitalMap/getHospitals", this.params);
+    },
     importHos(file) {
       this.$store
         .dispatch("hospitalMap/importHospitals", file.raw)
@@ -100,6 +107,8 @@ export default {
       this.getHospitals();
     },
     getHospitals() {
+      this.params.export = false;
+
       this.$store
         .dispatch("hospitalMap/getHospitals", this.params)
         .then(data => {
@@ -183,5 +192,8 @@ export default {
   span {
     color: #009966;
   }
+}
+.commit-btn {
+  margin-top: 30px;
 }
 </style>

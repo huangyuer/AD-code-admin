@@ -1,6 +1,6 @@
 <template>
   <div class="article" v-loading="loading">
-    <right-title :title="'导出记录'"></right-title>
+    <right-title :title="'导出记录'" style="margin-bottom:-15px"></right-title>
     <Table :tableData="tableData" @isDel="isDel"></Table>
     <div class="pagination-box">
       <div>
