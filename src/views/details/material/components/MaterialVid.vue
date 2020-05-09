@@ -204,7 +204,7 @@ export default {
           this.$message("删除成功");
         })
         .catch(e => {
-          this.$message(e);
+          // this.$message(e);
         });
     },
     jumpPage(val) {

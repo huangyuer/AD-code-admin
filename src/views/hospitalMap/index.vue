@@ -77,10 +77,10 @@ export default {
           });
         })
         .catch(e => {
-          this.$alert(e, {
-            confirmButtonText: "确定",
-            center: true
-          });
+          // this.$alert(e, {
+          //   confirmButtonText: "确定",
+          //   center: true
+          // });
         });
     },
     importdoc(file) {
@@ -93,10 +93,10 @@ export default {
           });
         })
         .catch(e => {
-          this.$alert(e, {
-            confirmButtonText: "确定",
-            center: true
-          });
+          // this.$alert(e, {
+          //   confirmButtonText: "确定",
+          //   center: true
+          // });
         });
     },
     input_title(val) {

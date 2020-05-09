@@ -34,7 +34,7 @@ const getters = {
     // getLive:state => state.details.getLive,
     // getRecord:state => state.details.getRecord,
     // //
-    // isExistPlate:state => state.details.isExistPlate
+    isExistPlate:state => state.details.isExistPlate
     // avatar: state => state.user.avatar,
     // name: state => state.user.name,
     // introduction: state => state.user.introduction,

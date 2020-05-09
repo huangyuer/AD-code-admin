@@ -213,10 +213,10 @@ export default {
           });
         })
         .catch(e => {
-          this.$message({
-            type: "error",
-            message: e
-          });
+          // this.$message({
+          //   type: "error",
+          //   message: e
+          // });
         });
     },
     selectImage(e, item) {

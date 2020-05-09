@@ -68,10 +68,10 @@ export default {
               this.getArticles();
             })
             .catch(e => {
-              this.$alert(e, {
-                confirmButtonText: "确定",
-                center: true
-              });
+              // this.$alert(e, {
+              //   confirmButtonText: "确定",
+              //   center: true
+              // });
               reject(e);
             });
         })

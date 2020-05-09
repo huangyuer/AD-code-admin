@@ -1,4 +1,4 @@
-import { getLvMsgAdmin, upLeaveMsg } from "@/api/message";
+import { getLvMsgAdmin, upLeaveMsg,getUnCheckMsg } from "@/api/message";
 
 const state = {
 
@@ -27,6 +27,18 @@ const actions = {
         .then(response => {
           const { data,msg } = response;
           resolve(msg);
+        })
+        .catch(error => {
+          reject(error);
+        });
+    });
+  },
+  getUnCheckMsg({ commit }, params) {
+    return new Promise((resolve, reject) => {
+        getUnCheckMsg(params)
+        .then(response => {
+          const { data,msg } = response;
+          resolve(data);
         })
         .catch(error => {
           reject(error);

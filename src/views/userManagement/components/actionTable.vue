@@ -68,10 +68,10 @@ export default {
           this.$emit("editInfo");
         })
         .catch(e => {
-          this.$message({
-            type: "info",
-            message: e
-          });
+          // this.$message({
+          //   type: "info",
+          //   message: e
+          // });
         });
     },
     isDel(data) {

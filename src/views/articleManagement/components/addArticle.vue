@@ -178,7 +178,6 @@ export default {
       });
     },
     select_tag(val) {
-      console.log("ssss2222");
     },
 
     quillData(content, contentHtml) {
@@ -219,10 +218,10 @@ export default {
           });
         })
         .catch(e => {
-          this.$alert(e, {
-            confirmButtonText: "确定",
-            center: true
-          });
+          // this.$alert(e, {
+          //   confirmButtonText: "确定",
+          //   center: true
+          // });
           reject(e);
         });
     }

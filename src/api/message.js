@@ -16,11 +16,11 @@ export function upLeaveMsg(data) {
     })
 }
 
-// export function getLvMsgAdmin(data) {
-//     return request({
-//         url: '/upLeaveMsg',
-//         method: 'post',
-//         data
-//     })
-// }
+export function getUnCheckMsg(data) {
+    return request({
+        url: '/getUnCheckMsg',
+        method: 'post',
+        data
+    })
+}
 

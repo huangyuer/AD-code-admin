@@ -158,7 +158,6 @@ export default {
       });
     },
     select_tag(val) {
-      console.log("ssss2222");
     },
     input_title(val) {
       this.title = val;
@@ -204,10 +203,10 @@ export default {
               });
             })
             .catch(e => {
-              this.$alert(e, {
-                confirmButtonText: "确定",
-                center: true
-              });
+              // this.$alert(e, {
+              //   confirmButtonText: "确定",
+              //   center: true
+              // });
               reject(e);
             });
         });

@@ -36,11 +36,11 @@
           <el-input class="inputadd" v-model="addGroupName" type="text" style="width:240px;"></el-input>
           <div style="text-align: center; margin-top:20px;display:flex;">
             <div
-              style="flex:1;background:#009966;padding:5px 0;margin-right:10px;border-radius:4px;color:#ffffff;"
+              style="width:100px;background:#009966;padding:5px 0;margin-right:10px;border-radius:4px;color:#ffffff;"
               @click="addFileGroup(addGroupName, gettype)"
             >确定</div>
             <div
-              style="flex:1;border:1px solid #E5E5E5;padding:5px 0;margin-left:10px;border-radius:4px;color:#999999"
+              style="width:100px;border:1px solid #E5E5E5;padding:5px 0;margin-left:10px;border-radius:4px;color:#999999"
               @click="visible = false"
             >取消</div>
           </div>
@@ -205,7 +205,7 @@ export default {
           this.$message("删除成功");
         })
         .catch(e => {
-          this.$message(e);
+          // this.$message(e);
         });
     },
     jumpPage(val) {

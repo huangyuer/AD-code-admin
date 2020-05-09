@@ -40,8 +40,8 @@ export default {
   data() {
     return {
       loginForm: {
-        account: "admin",
-        password: "admin"
+        account: "",
+        password: ""
       },
       checked: false
     };
@@ -54,10 +54,10 @@ export default {
           this.$router.push({ path: "/article" });
         })
         .catch(e => {
-          this.$alert(e, {
-            confirmButtonText: "确定",
-            center: true
-          });
+          // this.$alert(e, {
+          //   confirmButtonText: "确定",
+          //   center: true
+          // });
         });
     }
   }

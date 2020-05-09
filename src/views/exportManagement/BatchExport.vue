@@ -105,10 +105,10 @@ export default {
           });
         })
         .catch(e => {
-          this.$message({
-            type: "info",
-            message: e
-          });
+          // this.$message({
+          //   type: "info",
+          //   message: e
+          // });
         });
     },
     getExportTables() {

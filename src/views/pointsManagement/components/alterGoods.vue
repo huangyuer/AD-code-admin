@@ -41,10 +41,10 @@ export default {
           info.videoUrl = good.video && good.video[0].httpUrl;
         })
         .catch(e => {
-          this.$alert(e, {
-            confirmButtonText: "确定",
-            center: true
-          });
+          // this.$alert(e, {
+          //   confirmButtonText: "确定",
+          //   center: true
+          // });
           reject(e);
         });
     });
@@ -62,10 +62,10 @@ export default {
           });
         })
         .catch(e => {
-          this.$alert(e, {
-            confirmButtonText: "确定",
-            center: true
-          });
+          // this.$alert(e, {
+          //   confirmButtonText: "确定",
+          //   center: true
+          // });
           reject(e);
         });
     }

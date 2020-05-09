@@ -45,7 +45,6 @@ service.interceptors.response.use(
    * You can also judge the status by HTTP Status Code
    */
   response => {
-    console.log("ssss",res)
     const res = response.data
     // if the custom code is not 20000, it is judged as an error.
     if (res.code===1) {
@@ -58,17 +57,28 @@ service.interceptors.response.use(
       // 50008: Illegal token; 50012: Other clients logged in; 50014: Token expired;
       if (!getToken() ) {
         // to re-login
-        MessageBox.confirm('You have been logged out, you can cancel to stay on this page, or log in again', 'Confirm logout', {
-          confirmButtonText: 'Re-Login',
-          cancelButtonText: 'Cancel',
-          type: 'warning'
-        }).then(() => {
+        Message({
+          type: "error",
+          message: res.msg|| 'Error',
+          duration: 1000
+        })
+        // MessageBox.confirm('You have been logged out, you can cancel to stay on this page, or log in again', 'Confirm logout', {
+        //   confirmButtonText: 'Re-Login',
+        //   cancelButtonText: 'Cancel',
+        //   type: 'warning'
+        // })
+        .then(() => {
           store.dispatch('user/resetToken').then(() => {
             // location.reload()
             router.push({name:'Login'})
           })
         })
       }
+      Message({
+        type: "error",
+        message: res.msg|| 'Error',
+        duration: 1000
+      });
       return Promise.reject(res.msg)
     } else {
       return res
@@ -86,6 +96,11 @@ service.interceptors.response.use(
     //   type: 'error',   
     //   duration: 5 * 1000
     // })
+    Message({
+      type: "error",
+      message: error.msg|| '连接超时',
+      duration: 1000
+    });
     return Promise.reject('连接超时')
   }
 )

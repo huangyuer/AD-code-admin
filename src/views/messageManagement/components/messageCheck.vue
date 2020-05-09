@@ -31,8 +31,8 @@
         <div @click="upLeaveMsg('驳回')">驳回</div>
       </div>
       <span style="font-size:14px;color:#009966">
-        2
-        <span style="font-size:14px;color:#666666">/100</span>
+        {{ckNum}}
+        <span style="font-size:14px;color:#666666">/{{total}}</span>
       </span>
     </div>
   </div>
@@ -45,12 +45,36 @@ export default {
   data() {
     return {
       item: this.$route.params.data,
-      activeTab: this.$route.params.data.status == "审核通过" ? true : false
+      activeTab: this.$route.params.data.status == "审核通过" ? true : false,
+      type: this.$route.params.data.status,
+      ckNum: 0,
+      total: 0
     };
   },
+  created() {
+    this.$store
+      .dispatch("message/getUnCheckMsg", { status: this.type })
+      .then(res => {
+        this.ckNum = res.ckNum;
+        this.total = res.total;
+      });
+  },
   methods: {
+    getUnCheckMsg() {
+      this.$store
+        .dispatch("message/getUnCheckMsg", { status: this.type })
+        .then(res => {
+          this.ckNum = res.ckNum;
+          this.total = res.total;
+          this.item = res.lvMsg;
+        });
+    },
     selectLink(val) {
       this.activeTab = val;
+      if (val) this.type = "审核通过";
+      else this.type = "待审核";
+      this.getUnCheckMsg();
+      console.log("------d", this.type);
     },
     upLeaveMsg(status) {
       let params = {
@@ -64,8 +88,13 @@ export default {
             type: "success",
             message: data
           });
+          this.getUnCheckMsg();
         })
         .catch(e => {
+          // this.$message({
+          //   type: "info",
+          //   message: e
+          // });
           reject(e);
         });
     }

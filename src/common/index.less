@@ -47,6 +47,12 @@
 .el-checkbox__input.is-focus .el-checkbox__inner {
   border-color: @color;
 }
+.el-table .descending .sort-caret.descending{
+  border-top-color: @color;
+}
+.el-table .ascending .sort-caret.ascending{
+  border-bottom-color: @color;
+}
 
 //日期选择器
 .el-date-editor .el-icon-date {
@@ -81,7 +87,7 @@
 
 // 公共样式
 .commit-btn {
-  background: #009966;
+  background: @color;
   width: 100px;
   height: 36px;
   border-radius: 4px;
@@ -91,6 +97,10 @@
   border-color: transparent;
   margin-top: 20px;
   margin-bottom: 20px;
+}
+.el-button--primary:focus, .el-button--primary:hover,.el-button--primary{
+  background: @color;
+  border-color: @color;
 }
  .member-radio {
   display: flex;
