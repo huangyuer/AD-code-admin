@@ -9,7 +9,7 @@
         </div>
         <div class="select-block">
           <span>板块：</span>
-          <select-tool :options="menuData" @selectOption="selectMenu"></select-tool>
+          <select-tool  :value="params.menu" :options="menuData" @selectOption="selectMenu"></select-tool>
         </div>
       </div>
       <div>
@@ -17,9 +17,9 @@
           <span>姓名：</span>
           <input-tool @input="input_userName"></input-tool>
         </div>
-        <div class="select-block">
+        <div class="select-block" v-if="params.menu=='浏览记录'">
           <span>行为：</span>
-          <select-tool :value="'浏览'" :options="typeData" @selectOption="selectType"></select-tool>
+          <select-tool :value="params.type" :options="typeData" @selectOption="selectType"></select-tool>
         </div>
         <div class="searchBtn-box" @click="search">检索</div>
       </div>
@@ -49,15 +49,15 @@ export default {
   data() {
     return {
       title: "用户行为",
-      typeData: ["浏览", "收藏", "点击"],
-      menuData: ["医院地图", "评估记录"],
+      typeData: ["浏览记录", "视频收藏", "视频点击","文章收藏", "文章点击"],
+      menuData: ['浏览记录',"医院地图", "评估记录"],
       tableData: [],
       total: 0,
       params: {
         page: 1,
         limit: 10,
-        menu: "",
-        type: "浏览",
+        menu: "浏览记录",
+        type: "浏览记录",
         userName: "",
         name: "",
         export: false
@@ -110,7 +110,7 @@ export default {
     },
     getPageLogs() {
       this.params.export = false;
-
+      if(this.params.menu!='浏览记录')this.params.type=''
       this.$store
         .dispatch("user/getPageLogs", this.params)
         .then(res => {

@@ -110,7 +110,7 @@ export default {
         .dispatch("article/getArticles", this.params)
         .then(res => {
           this.tableData = res.data.articles;
-          this.total = res.total;
+          this.total = res.data.total;
           this.loading = false;
         })
         .catch(e => {
