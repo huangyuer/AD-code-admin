@@ -33,11 +33,17 @@ export default {
           info.qtText = good.qtText;
           info.isDel = good.isDel;
           info.coverImg = good.coverImg && good.coverImg[0]._id;
-          info.goodsImg = good.goodsImg && good.goodsImg[0]._id;
+          good.goodsImg && good.goodsImg.forEach(el => {
+            info.goodsImg.push(el._id)
+          });
+          // info.goodsImg.push(good.goodsImg && good.goodsImg[0]._id);
           info.video = good.video && good.video[0]._id;
 
           info.coverUrl = good.coverImg && good.coverImg[0].httpUrl;
-          info.goodsUrl = good.goodsImg && good.goodsImg[0].httpUrl;
+          // info.goodsUrl.push(good.goodsImg && good.goodsImg[0].httpUrl);
+          good.goodsImg && good.goodsImg.forEach(el => {
+            info.goodsUrl.push(el.httpUrl)
+          });
           info.videoUrl = good.video && good.video[0].httpUrl;
         })
         .catch(e => {
@@ -59,6 +65,10 @@ export default {
           this.$alert(data, {
             confirmButtonText: "确定",
             center: true
+          }).then(()=>{
+             this.$router.push({
+              path: "/pointsShop"
+            });
           });
         })
         .catch(e => {

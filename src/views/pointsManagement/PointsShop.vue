@@ -50,7 +50,12 @@ export default {
   methods: {
     exportBtn() {
       this.params.export = true;
-      this.$store.dispatch("points/getGoodsAdmin", this.params);
+      this.$store.dispatch("points/getGoodsAdmin", this.params).then(res => {
+          this.$message({
+            type: "success",
+            message: res.msg
+          });
+        });
     },
     isDel(id) {
       this.getGoodsAdmin();
@@ -77,9 +82,9 @@ export default {
 
       this.$store
         .dispatch("points/getGoodsAdmin", this.params)
-        .then(data => {
-          this.tableData = data.goods;
-          this.total = data.total;
+        .then(res => {
+          this.tableData = res.data.goods;
+          this.total = res.data.total;
           this.loading = false;
         })
         .catch(e => {

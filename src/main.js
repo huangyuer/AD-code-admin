@@ -26,6 +26,7 @@ Vue.use(VueClipboard)
 import Axios from 'axios'
 import { getToken } from '@/utils/auth'
 import qs from 'qs';
+import "./common/index.less";
 Vue.prototype.$qs = qs;
 
 

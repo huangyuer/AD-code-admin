@@ -21,7 +21,7 @@
           文章总数量
           <span>{{ total }}</span>篇
         </div>
-        <Pagination :total="total" :limit="params.limit" @currentPage="jumpPage" ></Pagination>
+        <Pagination :total="total" :limit="params.limit" @currentPage="jumpPage"></Pagination>
       </div>
     </div>
   </div>
@@ -39,7 +39,7 @@ export default {
     return {
       tableData: [],
       total: 0,
-      params: { page: 1, limit: 10, title: "", menu: "",export:false },
+      params: { page: 1, limit: 10, title: "", menu: "", export: false },
       loading: true
     };
   },
@@ -47,9 +47,14 @@ export default {
     this.getArticles();
   },
   methods: {
-    exportBtn(){
-      this.params.export=true;
-      this.$store.dispatch("article/getArticles", this.params);
+    exportBtn() {
+      this.params.export = true;
+      this.$store.dispatch("article/getArticles", this.params).then((res) => {
+        this.$message({
+          type: "success",
+          message: res.msg
+        });
+      });
     },
     del(id) {
       this.$confirm("确认删除", {
@@ -103,9 +108,9 @@ export default {
       this.params.export = false;
       this.$store
         .dispatch("article/getArticles", this.params)
-        .then(data => {
-          this.tableData = data.articles;
-          this.total = data.total;
+        .then(res => {
+          this.tableData = res.data.articles;
+          this.total = res.total;
           this.loading = false;
         })
         .catch(e => {

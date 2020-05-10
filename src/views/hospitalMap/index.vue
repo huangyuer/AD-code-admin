@@ -33,14 +33,14 @@
     <videoTable :tableData="tableData"></videoTable>
     <div style="display: flex;justify-content: space-between;">
       <el-button type="primary" class="commit-btn" @click="exportBtn">导出</el-button>
-    <div class="pagination-box">
-      <div>
-        文章总数量
-        <span>{{ total }}</span>篇
+      <div class="pagination-box">
+        <div>
+          文章总数量
+          <span>{{ total }}</span>篇
+        </div>
+        <Pagination :total="total" :limit="params.limit" @currentPage="jumpPage"></Pagination>
       </div>
-      <Pagination :total="total" :limit="params.limit" @currentPage="jumpPage"></Pagination>
     </div>
-  </div>
   </div>
 </template>
 <script>
@@ -55,7 +55,7 @@ export default {
     return {
       tableData: [],
       total: 0,
-      params: { page: 1, limit: 10, name: "",export:false },
+      params: { page: 1, limit: 10, name: "", export: false },
       loading: true
     };
   },
@@ -63,9 +63,16 @@ export default {
     this.getHospitals();
   },
   methods: {
-        exportBtn() {
+    exportBtn() {
       this.params.export = true;
-      this.$store.dispatch("hospitalMap/getHospitals", this.params);
+      this.$store
+        .dispatch("hospitalMap/getHospitals", this.params)
+        .then(res => {
+          this.$message({
+            type: "success",
+            message: res.msg
+          });
+        });
     },
     importHos(file) {
       this.$store
@@ -111,9 +118,9 @@ export default {
 
       this.$store
         .dispatch("hospitalMap/getHospitals", this.params)
-        .then(data => {
-          this.tableData = data.hospitals;
-          this.total = data.total;
+        .then(res => {
+          this.tableData = res.data.hospitals;
+          this.total = res.data.total;
           this.loading = false;
         })
         .catch(e => {

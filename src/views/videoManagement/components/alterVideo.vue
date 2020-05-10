@@ -10,29 +10,32 @@ export default {
   components: { addVideo },
   data() {
     return {
-      data: {}
+      id: ""
     };
   },
   created() {
-    this.data = this.$route.params.data;
+    this.id = this.$route.query.id;
     this.$nextTick(() => {
-      let info = this.$refs.alter;
-      info.title = this.data.title;
-      info.menuVal = this.data.tag;
-      info.typeVal = this.data.childMenu;
-      info.tagVal = this.data.tag;
-      info.imgUrl = this.data.coverImg[0].httpUrl;
-      info.videoUrl = this.data.video[0].httpUrl;
-      info.fileId = this.data.coverImg[0]._id;
-      info.videoId = this.data.video[0]._id;
-      info.content = this.data.introduction;
-      info.intro = this.data.introduction;
-      info.httpUrl=this.data.video[0].httpUrl;
+      this.$store.dispatch("video/getVideo", { id: this.id }).then(data => {
+        let info = this.$refs.alter;
+        let video = data.video;
+        info.title = video.title;
+        info.menuVal = video.tag;
+        info.typeVal = video.childMenu;
+        info.tagVal = video.tag;
+        info.imgUrl = video.coverImg[0].httpUrl;
+        info.videoUrl = video.video[0].httpUrl;
+        info.fileId = video.coverImg[0]._id;
+        info.videoId = video.video[0]._id;
+        info.content = video.introduction;
+        info.intro = video.introduction;
+        info.httpUrl = video.video[0].httpUrl;
+      });
     });
   },
   methods: {
     alterBtn(params, params1) {
-      params.id = this.data._id;
+      params.id = this.$route.query.id;
       if (params1) {
         this.$store.dispatch("common/createHttpFile", params1).then(res => {
           params.video = res.fileId;
@@ -42,6 +45,10 @@ export default {
               this.$alert(data, {
                 confirmButtonText: "确定",
                 center: true
+              }).then(() => {
+                this.$router.push({
+                  path: "/video"
+                });
               });
             })
             .catch(e => {
@@ -59,6 +66,10 @@ export default {
             this.$alert(data, {
               confirmButtonText: "确定",
               center: true
+            }).then(() => {
+              this.$router.push({
+                path: "/video"
+              });
             });
           })
           .catch(e => {
@@ -74,5 +85,4 @@ export default {
   }
 };
 </script>
-<style lang='less' scoped>
-</style>
+<style lang="less" scoped></style>

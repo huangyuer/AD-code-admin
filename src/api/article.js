@@ -7,6 +7,13 @@ export function getArticles(data) {
         data
     })
 }
+export function getArticle(data) {
+    return request({
+        url: '/getArticle',
+        method: 'post',
+        data
+    })
+}
 
 export function delArticle(data) {
     return request({

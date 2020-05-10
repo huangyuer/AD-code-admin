@@ -8,6 +8,14 @@ export function getVideos(data) {
     })
 }
 
+export function getVideo(data) {
+    return request({
+        url: '/getVideo',
+        method: 'post',
+        data
+    })
+}
+
 export function addVideo(data) {
     return request({
         url: '/addVideo',

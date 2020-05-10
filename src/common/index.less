@@ -56,33 +56,65 @@
 
 //日期选择器
 .el-date-editor .el-icon-date {
-  display: none;
+  // position: absolute;
+  // right: 0;
 }
 .el-date-editor .el-range__close-icon{
-  width: 0px
+  position: absolute;
+  right: 5px;
 }
-.el-date-editor {
-  i {
-    &:last-child {
-      font-family: element-icons !important;
-      speak: none;
-      font-style: normal;
-      font-weight: 400;
-      font-variant: normal;
-      text-transform: none;
-      line-height: 1;
-      vertical-align: baseline;
-      display: inline-block;
-      -webkit-font-smoothing: antialiased;
-      &::before {
-        content: "\E78E";
-        position: absolute;
-        right: 9px;
-        top: 12px;
-      }
-    }
+.el-date-editor .el-range-separator{
+  width: 0;
+}
+.el-date-editor .el-range__close-icon.el-icon-circle-close {
+  // display: block !important;
+  // position: relative;
+  background-color: #c0c4cc;
+  // right: 0px;
+  // top: 0px;
+  border-radius: 50%;
+  text-align: center;
+  // position: relative;
+  cursor: pointer;
+  font-size: 12px;
+  height: 18px;
+  width: 18px;
+  line-height: 18px;
+  // vertical-align: middle;
+  transform: scale(0.8);
+  color: #909399;
+  &:hover {
+    color: white;
+  }
+  &::before {
+    content: "\E6DB";
+    //  position: absolute;
+    // top: 15px;
+    // right: 40px;
   }
 }
+// .el-date-editor el-icon-date {
+//   font-family: element-icons !important;
+//     &:last-child {
+//       font-family: element-icons !important;
+//       speak: none;
+//       font-style: normal;
+//       font-weight: 400;
+//       font-variant: normal;
+//       text-transform: none;
+//       line-height: 1;
+//       vertical-align: baseline;
+//       display: inline-block;
+//       -webkit-font-smoothing: antialiased;
+//       &::before {
+//         content: "\E78E";
+//         position: absolute;
+//         right: 9px;
+//         top: 12px;
+//       }
+//     }
+//   }
+
 
 
 // 公共样式

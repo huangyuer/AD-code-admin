@@ -14,7 +14,7 @@ const actions = {
         getLvMsgAdmin({page:params.page,limit:params.limit,name:params.name,status:params.status,tag:params.tag,export:params.export})
         .then(response => {
           const { data } = response;
-          resolve(data);
+          resolve(response);
         })
         .catch(error => {
           reject(error);

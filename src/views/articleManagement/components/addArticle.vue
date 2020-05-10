@@ -71,19 +71,20 @@
         <span :class="{active :!active}" @click="selectLink">内容</span>
       </span>
       <input-tool v-if="active" :value="link" @input="input_link"></input-tool>
-          <!-- <input-tool @input="input_content" v-if="activeTab"></input-tool> -->
-      <el-input
-      v-else
+      <!-- <input-tool @input="input_content" v-if="activeTab"></input-tool> -->
+      <!-- <el-input
+        v-else
         style="width:856px;margin-top:12px"
         type="textarea"
         :autosize="{ minRows: 23}"
         placeholder="请输入文章简介…"
         v-model="intro"
-      ></el-input>
+      ></el-input>-->
+      <quill-editor v-else :value="contentHtml" @quillData="quillData1"></quill-editor>
     </div>
     <div class="quill-editor-container" v-if="menuVal!=='关爱行动'">
       <span>内容：</span>
-      <quill-editor @quillData="quillData"></quill-editor>
+      <quill-editor :value="contentHtml" @quillData="quillData"></quill-editor>
     </div>
 
     <el-button type="primary" class="commit-btn" @click="submit">提交</el-button>
@@ -127,7 +128,7 @@ export default {
       menuTag: [],
       fileId: "",
       intro: "",
-      link:"",
+      link: "",
       content: "",
       contentHtml: ""
     };
@@ -142,12 +143,12 @@ export default {
       this.active = !this.active;
     },
     input_link(val) {
-      this.link=val
-        // this.content = val;
-        // this.contentHtml = val;
+      this.link = val;
+      // this.content = val;
+      // this.contentHtml = val;
     },
     imgFile(val) {
-      console.log("------222",val)
+      console.log("------222", val);
       this.imgUrl = val.httpUrl;
       this.fileId = val._id;
 
@@ -177,10 +178,15 @@ export default {
         this.tagVal = "";
       });
     },
-    select_tag(val) {
-    },
+    select_tag(val) {},
 
     quillData(content, contentHtml) {
+      console.log("-----quill", content, contentHtml);
+      // this.link = "";
+      this.content = content;
+      this.contentHtml = contentHtml;
+    },
+    quillData1(content, contentHtml) {
       console.log("-----quill", content, contentHtml);
       // this.link = "";
       this.content = content;
@@ -215,6 +221,10 @@ export default {
           this.$alert(data, {
             confirmButtonText: "确定",
             center: true
+          }).then(() => {
+            this.$router.push({
+              path: "/article"
+            });
           });
         })
         .catch(e => {

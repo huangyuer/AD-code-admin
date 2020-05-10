@@ -51,9 +51,8 @@ export default {
       // this.$emit("editInfo", data);
       this.$router.push({
         name: "AlterArticle",
-        params: {
-          data: data
-        }
+        path: "/article",
+        query: { id: data._id }
       });
     },
     del(id) {

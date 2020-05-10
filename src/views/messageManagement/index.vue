@@ -3,7 +3,7 @@
     <right-title :title="'留言管理'"></right-title>
     <div class="select-container">
       <div class="input-name">
-        <span>名称：</span>
+        <span>姓名：</span>
         <input-tool @input="input_title"></input-tool>
       </div>
          <div class="select-block">
@@ -58,7 +58,12 @@ export default {
   methods: {
     exportBtn() {
       this.params.export = true;
-      this.$store.dispatch("message/getLvMsgAdmin", this.params);
+      this.$store.dispatch("message/getLvMsgAdmin", this.params).then((res)=>{
+         this.$message({
+                type: "success",
+                message:  res.msg
+              });
+      });
     },
     selectTag(val){
       this.params.tag = val;
@@ -79,9 +84,9 @@ export default {
       this.params.export = false;
       this.$store
         .dispatch("message/getLvMsgAdmin", this.params)
-        .then(data => {
-          this.tableData = data.lvMsg;
-          this.total = data.total;
+        .then(res => {
+          this.tableData = res.data.lvMsg;
+          this.total = res.data.total;
           this.loading = false;
         })
         .catch(e => {

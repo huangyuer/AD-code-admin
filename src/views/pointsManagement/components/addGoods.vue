@@ -38,7 +38,7 @@
         <span>库存：</span>
         <input-tool :value="stockNum" @input="input_stock" style="width:180px"></input-tool>
       </div>
-      <div class="add-input-name" style="padding-top:20px">
+      <div class="add-input-name" style="padding-top:20px;padding-left:30px">
         <span>积分：</span>
         <input-tool :value="score" @input="input_score" style="width:180px"></input-tool>
       </div>
@@ -48,7 +48,7 @@
         :src="coverUrl"
         :value="'封面：'"
         :valueBtn="'选取图片'"
-        :tip="'建议图片尺寸140*90px'"
+        :tip="'建议图片尺寸150*90px'"
         @select_picture="coverFile"
       ></picture-upload>
       <picture-upload
@@ -66,8 +66,9 @@
         :src="goodsUrl"
         :value="'商品图：'"
         :valueBtn="'选取图片'"
-        :tip="'建议图片尺寸140*90px'"
+        :tip="'图片可多选，最多可上传6张'"
         @select_picture="goodsFile"
+        :ismultiple="true"
       ></picture-upload>
     </div>
     <div class="add-input-intro" v-if="typeVal=='入场券'">
@@ -127,12 +128,12 @@ export default {
   data() {
     return {
       typeData: ["实体书", "电子书", "科普视频", "入场券"],
-      stockData: ["库存类型", "有限库存", "无限库存"],
+      stockData: ["有限库存", "无限库存"],
       importChecked: radioChecked,
       importUnchecked: radioUnchecked,
       name: "",
       coverUrl: "",
-      goodsUrl: "",
+      goodsUrl: [],
       videoUrl: "",
       active: true,
       title: "",
@@ -142,7 +143,7 @@ export default {
       stockType: "",
       stockNum: "",
       coverImg: "",
-      goodsImg: "",
+      goodsImg: [],
       qtText: "",
       video: "",
       isDel: false
@@ -195,8 +196,15 @@ export default {
       // });
     },
     goodsFile(val) {
-      this.goodsUrl = val.httpUrl;
-      this.goodsImg = val._id;
+      console.log("-----",val)
+      val.forEach(el => {
+        this.goodsUrl.push(el.httpUrl);
+        this.goodsImg.push(el._id);
+
+
+      });
+      // this.goodsUrl = val.httpUrl;
+      // this.goodsImg = val._id;
       // this.$store.dispatch("common/uploadFile", val).then(res => {
       //   this.goodsImg = res.fileId;
       // });
@@ -231,7 +239,7 @@ export default {
     submit() {
       if (this.stockType != "有限库存") this.stockNum = "";
       if (this.typeVal != "科普视频") this.video = "";
-      if (this.typeVal != "实体书") this.goodsImg = "";
+      if (this.typeVal != "实体书") this.goodsImg = [];
       if (this.typeVal != "入场券") this.qtText = "";
       let params = {
         name: this.title,
@@ -262,6 +270,10 @@ export default {
           this.$alert(data, {
             confirmButtonText: "确定",
             center: true
+          }).then(()=>{
+             this.$router.push({
+              path: "/pointsShop"
+            });
           });
         })
         .catch(e => {

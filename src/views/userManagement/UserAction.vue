@@ -71,7 +71,12 @@ export default {
   methods: {
     exportBtn() {
       this.params.export = true;
-      this.$store.dispatch("user/getPageLogs", this.params);
+      this.$store.dispatch("user/getPageLogs", this.params).then(res => {
+          this.$message({
+            type: "success",
+            message: res.msg
+          });
+        });
     },
     isDel(id) {
       this.getPageLogs();
@@ -108,9 +113,9 @@ export default {
 
       this.$store
         .dispatch("user/getPageLogs", this.params)
-        .then(data => {
-          this.tableData = data.logs;
-          this.total = data.total;
+        .then(res => {
+          this.tableData = res.data.logs;
+          this.total = res.data.total;
           this.loading = false;
         })
         .catch(e => {

@@ -10,6 +10,12 @@ let router= new Router({
   linkActiveClass: 'navitemActive',
   routes: [
     {
+      path: '/',
+      redirect:'/article',
+      component: () => import('@/views/articleManagement'),
+      name: 'Article',
+    },
+    {
       path: '/demo',
       component: () => import('@/components/demo'),
       name: 'Demo',

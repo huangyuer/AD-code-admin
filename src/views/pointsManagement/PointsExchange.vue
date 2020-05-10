@@ -17,10 +17,10 @@
         <div class="select-block">
           <span>时间段：</span>
           <el-date-picker
-            style="width:210px;"
+            style="width:220px;"
             type="daterange"
             v-model="dateValue"
-            :clearable="false"
+            :clearable="true"
             placeholder="选择一个或多个日期"
             value-format="yyyy-MM-dd"
             format="yyyy-MM-dd"
@@ -82,14 +82,22 @@ export default {
   methods: {
     exportBtn() {
       this.params.export = true;
-      this.$store.dispatch("points/getExgLogsAdmin", this.params);
+      this.$store.dispatch("points/getExgLogsAdmin", this.params).then(res => {
+          this.$message({
+            type: "success",
+            message: res.msg
+          });
+        });
     },
     editInfo(data) {
       this.getExgLogsAdmin();
     },
     change(val) {
-      this.params.startDate = val[0];
-      this.params.endDate = val[1];
+      if(val){
+        this.params.startDate = val[0];
+        this.params.endDate = val[1];
+      }
+      
     },
     isDel(id) {
       this.getExgLogsAdmin();
@@ -119,9 +127,9 @@ export default {
 
       this.$store
         .dispatch("points/getExgLogsAdmin", this.params)
-        .then(data => {
-          this.tableData = data.logs;
-          this.total = data.total;
+        .then(res => {
+          this.tableData = res.data.logs;
+          this.total = res.data.total;
           this.loading = false;
         })
         .catch(e => {

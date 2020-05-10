@@ -49,7 +49,12 @@ export default {
   methods: {
     exportBtn() {
       this.params.export = true;
-      this.$store.dispatch("points/getScoreLogs", this.params);
+      this.$store.dispatch("points/getScoreLogs", this.params).then(res => {
+          this.$message({
+            type: "success",
+            message: res.msg
+          });
+        });
     },
     isDel(id) {
       this.getGoodsAdmin();
@@ -75,9 +80,9 @@ export default {
       this.params.export = false;
       this.$store
         .dispatch("points/getScoreLogs", this.params)
-        .then(data => {
-          this.tableData = data.scoreLogs;
-          this.total = data.total;
+        .then(res => {
+          this.tableData = res.data.scoreLogs;
+          this.total = res.data.total;
           this.loading = false;
         })
         .catch(e => {

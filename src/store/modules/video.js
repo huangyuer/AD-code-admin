@@ -1,5 +1,6 @@
 import {
   getVideos,
+  getVideo,
   addVideo,
   delVideo,
   upVideo,
@@ -60,9 +61,25 @@ const actions = {
           page: params.page,
           limit: params.limit,
           title: params.title,
-          tag:params.tag,
-          export:params.export
+          tag: params.tag,
+          export: params.export
         })
+        .then(response => {
+          const {
+            data
+          } = response;
+          resolve(response);
+        })
+        .catch(error => {
+          reject(error);
+        });
+    });
+  },
+  getVideo({
+    commit
+  }, params) {
+    return new Promise((resolve, reject) => {
+      getVideo(params)
         .then(response => {
           const {
             data
@@ -80,7 +97,7 @@ const actions = {
     return new Promise((resolve, reject) => {
       addVideo({
           title: params.title,
-          tag:params.tag,
+          tag: params.tag,
           introduction: params.introduction,
           coverImg: params.coverImg,
           video: params.video
@@ -103,7 +120,7 @@ const actions = {
     return new Promise((resolve, reject) => {
       upVideo({
           id: params.id,
-          tag:params.tag,
+          tag: params.tag,
           title: params.title,
           introduction: params.introduction,
           coverImg: params.coverImg,

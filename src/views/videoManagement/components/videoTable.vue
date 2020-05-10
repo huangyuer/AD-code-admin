@@ -6,14 +6,14 @@
 
       <el-table-column label="分类" sortable prop="tag"></el-table-column>
 
-      <el-table-column min-width="120" label="封面" >
+      <el-table-column min-width="120" label="封面">
         <template slot-scope="scope">
-         <img
+          <img
             style="max-width: 100px;max-height: 60px;"
             :src="scope.row.coverImg&&scope.row.coverImg[0].httpUrl"
             alt
           />
-           </template>
+        </template>
       </el-table-column>
       <el-table-column min-width="100" prop="clickNum" label="打开次数" sortable></el-table-column>
       <el-table-column min-width="100" prop="lookNum" label="浏览次数" sortable></el-table-column>
@@ -58,9 +58,8 @@ export default {
       // this.$emit("editInfo", data);
       this.$router.push({
         name: "AlterVideo",
-        params: {
-          data: data
-        }
+        path: "/video/alter",
+        query: { id: data._id }
       });
     },
     del(id) {
@@ -90,5 +89,4 @@ p {
   color: #999999;
   padding: 0 5px;
 }
-
 </style>

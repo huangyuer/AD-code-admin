@@ -41,7 +41,6 @@ export default {
 
 <style lang="less">
 @import "./common/font/font.css";
-@import "./common/index.less";
 @aaa: ~">>>";
 /* #app {
   display: flex;

@@ -1,5 +1,6 @@
 import {
   getArticles,
+  getArticle,
   delArticle,
   addArticle,
   updateArticle
@@ -19,6 +20,19 @@ const actions = {
         title: params.title,
         menu: params.menu
       })
+        .then(response => {
+          const { data,msg } = response;
+          resolve(response);
+        })
+        .catch(error => {
+          reject(error);
+        });
+    });
+  },
+  
+  getArticle({ commit }, params) {
+    return new Promise((resolve, reject) => {
+      getArticle(params)
         .then(response => {
           const { data } = response;
           resolve(data);

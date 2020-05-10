@@ -15,7 +15,7 @@
         </template>
       </el-table-column>
       <el-table-column min-width="100" prop="order" label="物流单号" sortable>
-        <template slot-scope="scope">
+        <template slot-scope="scope" v-if="!scope.row.isVirtual">
           <div
             v-if="!scope.row.order&&!scope.row.show"
             style="color: #009966;cursor: pointer;"

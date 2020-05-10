@@ -8,7 +8,7 @@
       </div>
       <div class="select-block">
         <span>分类：</span>
-        <select-tool :options="this.$store.getters.getMenus" @selectOption="selectBlock"></select-tool>
+        <select-tool :options="typeData" @selectOption="selectBlock"></select-tool>
       </div>
       <div class="searchBtn-box" @click="search">检索</div>
       <div class="add-article" @click="addVideo">添加详情</div>
@@ -38,6 +38,7 @@ export default {
   components: { SelectTool, videoTable, Pagination, InputTool, RightTitle },
   data() {
     return {
+      typeData: ["我的故事", "医学大咖", "家园活动"],
       tableData: [],
       total: 0,
       params: { page: 1, limit: 10, title: "", tag: "", export: false },
@@ -50,7 +51,12 @@ export default {
   methods: {
     exportBtn() {
       this.params.export = true;
-      this.$store.dispatch("video/getVideos", this.params);
+      this.$store.dispatch("video/getVideos", this.params).then(res => {
+        this.$message({
+          type: "success",
+          message: res.msg
+        });
+      });
     },
     selectBlock(val) {
       this.params.tag = val;
@@ -100,9 +106,9 @@ export default {
       this.params.export = false;
       this.$store
         .dispatch("video/getVideos", this.params)
-        .then(data => {
-          this.tableData = data.videos;
-          this.total = data.total;
+        .then(res => {
+          this.tableData = res.data.videos;
+          this.total = res.data.total;
           this.loading = false;
         })
         .catch(e => {

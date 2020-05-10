@@ -49,7 +49,7 @@ import {
         getUsers(params)
           .then(response => {
             const { data,msg } = response;
-            resolve(data);
+            resolve(response);
           })
           .catch(error => {
             reject(error);
@@ -61,7 +61,7 @@ import {
         getPageLogs(params)
           .then(response => {
             const { data,msg } = response;
-            resolve(data);
+            resolve(response);
           })
           .catch(error => {
             reject(error);

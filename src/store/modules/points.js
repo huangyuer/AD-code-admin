@@ -32,7 +32,7 @@ const actions = {
             getGoodsAdmin(params)
             .then(response => {
               const { data,msg } = response;
-              resolve(data);
+              resolve(response);
             })
             .catch(error => {
               reject(error);
@@ -68,7 +68,7 @@ const actions = {
           getExgLogsAdmin(params)
             .then(response => {
               const { data,msg } = response;
-              resolve(data);
+              resolve(response);
             })
             .catch(error => {
               reject(error);
@@ -94,7 +94,7 @@ const actions = {
           getScoreLogs(params)
             .then(response => {
               const { data,msg } = response;
-              resolve(data);
+              resolve(response);
             })
             .catch(error => {
               reject(error);

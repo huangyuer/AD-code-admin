@@ -4,6 +4,8 @@
       :centerDialogVisible="centerDialogVisible"
       v-on:hideDialog="centerDialogVisible = false"
       @imgFile="imgFile"
+      :ismultiple="ismultiple"
+      @imgFileList="imgFileList"
     ></choose-pic>
     <choose-vid
       :centerDialogVisible="centerDialogVisible1"
@@ -15,7 +17,11 @@
       <div @click="select">{{ valueBtn }}</div>
       <span>{{ tip }}</span>
     </div>
-    <img v-if="src&&isImg" :src="src " alt class />
+    <div v-if="src&&isImg&&ismultiple">
+      <img v-for="item in src" :key="item.key" :src="item " alt style="margin-right:8px" />
+    </div>
+
+    <img v-if="src&&isImg&&!ismultiple" :src="src " alt />
     <video
       v-if="src&&!isImg&&src.indexOf('iframe')<=-1"
       style="object-fit: cover; margin-top: 14px;"
@@ -46,12 +52,15 @@ export default {
     ChooseVid
   },
   props: {
+    ismultiple: {
+      type: Boolean,
+      default: false
+    },
     isImg: {
       type: Boolean,
       default: true
     },
     src: {
-      type: String,
       default: ""
       // default: require("@/assets/default-picture.png")
     },
@@ -87,6 +96,9 @@ export default {
     },
     imgFile(val) {
       this.$emit("select_picture", val, this.itemPic);
+    },
+    imgFileList(val) {
+      this.$emit("select_picture", val);
     },
     videoFile(val) {
       this.$emit("select_video", val, this.itemPic);
@@ -131,8 +143,12 @@ export default {
     }
   }
   img {
-    max-width: 200px;
-    max-height: 132px;
+    // max-width: 200px;
+    // max-width: 200px;
+    width: 150px;
+    height: 90px;
+    object-fit: cover;
+    overflow: hidden;
     margin-top: 14px;
   }
 }

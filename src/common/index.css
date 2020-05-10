@@ -46,29 +46,36 @@
 .el-checkbox__input.is-focus .el-checkbox__inner {
   border-color: #009966;
 }
-.el-date-editor .el-icon-date {
-  display: none;
+.el-table .descending .sort-caret.descending {
+  border-top-color: #009966;
+}
+.el-table .ascending .sort-caret.ascending {
+  border-bottom-color: #009966;
 }
 .el-date-editor .el-range__close-icon {
-  width: 0px;
-}
-.el-date-editor i:last-child {
-  font-family: element-icons !important;
-  speak: none;
-  font-style: normal;
-  font-weight: 400;
-  font-variant: normal;
-  text-transform: none;
-  line-height: 1;
-  vertical-align: baseline;
-  display: inline-block;
-  -webkit-font-smoothing: antialiased;
-}
-.el-date-editor i:last-child::before {
-  content: "\E78E";
   position: absolute;
-  right: 9px;
-  top: 12px;
+  right: 5px;
+}
+.el-date-editor .el-range-separator {
+  width: 0;
+}
+.el-date-editor .el-range__close-icon.el-icon-circle-close {
+  background-color: #c0c4cc;
+  border-radius: 50%;
+  text-align: center;
+  cursor: pointer;
+  font-size: 12px;
+  height: 18px;
+  width: 18px;
+  line-height: 18px;
+  transform: scale(0.8);
+  color: #909399;
+}
+.el-date-editor .el-range__close-icon.el-icon-circle-close:hover {
+  color: white;
+}
+.el-date-editor .el-range__close-icon.el-icon-circle-close::before {
+  content: "\E6DB";
 }
 .commit-btn {
   background: #009966;
@@ -81,6 +88,12 @@
   border-color: transparent;
   margin-top: 20px;
   margin-bottom: 20px;
+}
+.el-button--primary:focus,
+.el-button--primary:hover,
+.el-button--primary {
+  background: #009966;
+  border-color: #009966;
 }
 .member-radio {
   display: flex;

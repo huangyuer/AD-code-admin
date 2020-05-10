@@ -16,12 +16,7 @@
           clearable
           popper-class="select-active"
         >
-          <el-option
-            v-for="item in this.$store.getters.getMenus"
-            :key="item._id"
-            :label="item.name"
-            :value="item"
-          ></el-option>
+          <el-option v-for="item in typeData" :key="item._id" :label="item.name" :value="item"></el-option>
         </el-select>
       </div>
     </div>
@@ -89,6 +84,7 @@ export default {
   },
   data() {
     return {
+      typeData: ["我的故事", "医学大咖", "家园活动"],
       activeTab: false,
       httpUrl: "",
       name: "",
@@ -157,8 +153,7 @@ export default {
         this.tagVal = "";
       });
     },
-    select_tag(val) {
-    },
+    select_tag(val) {},
     input_title(val) {
       this.title = val;
     },
@@ -200,6 +195,10 @@ export default {
               this.$alert(data, {
                 confirmButtonText: "确定",
                 center: true
+              }).then(() => {
+                this.$router.push({
+                  path: "/video"
+                });
               });
             })
             .catch(e => {
@@ -210,6 +209,26 @@ export default {
               reject(e);
             });
         });
+      } else {
+        this.$store
+          .dispatch("video/addVideo", params)
+          .then(data => {
+            this.$alert(data, {
+              confirmButtonText: "确定",
+              center: true
+            }).then(() => {
+              this.$router.push({
+                path: "/video"
+              });
+            });
+          })
+          .catch(e => {
+            // this.$alert(e, {
+            //   confirmButtonText: "确定",
+            //   center: true
+            // });
+            reject(e);
+          });
       }
     }
   }

@@ -44,7 +44,7 @@ const actions = {
         getHospitals({page:params.page,limit:params.limit,name:params.name,export:params.export})
         .then(response => {
           const { data } = response;
-          resolve(data);
+          resolve(response);
         })
         .catch(error => {
           reject(error);

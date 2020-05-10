@@ -5,10 +5,10 @@
       <div class="select-block">
         <span>时间段：</span>
         <el-date-picker
-          style="width:210px;"
+          style="width:220px;"
           type="daterange"
           v-model="dateValue"
-          :clearable="false"
+          :clearable="true"
           placeholder="选择一个或多个日期"
           value-format="yyyy-MM-dd"
           format="yyyy-MM-dd"
