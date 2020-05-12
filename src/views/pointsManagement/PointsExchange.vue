@@ -96,6 +96,9 @@ export default {
       if(val){
         this.params.startDate = val[0];
         this.params.endDate = val[1];
+      }else{
+        this.params.startDate = '';
+        this.params.endDate = '';
       }
       
     },

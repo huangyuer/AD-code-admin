@@ -19,6 +19,14 @@
       <el-table-column label="得分" sortable prop="score"></el-table-column>
       <el-table-column min-width="300" label="结论" sortable prop="conclusion"></el-table-column>
     </el-table>
+      <el-table :data="tableData" tooltip-effect="dark" style="width: 100%" v-else-if="menu.indexOf('收藏')>-1||menu.indexOf('点击')>-1">
+      <el-table-column width="25"></el-table-column>
+
+      <el-table-column prop="date" label="收藏时间" sortable></el-table-column>
+
+      <el-table-column label="名称" sortable prop="title"></el-table-column>
+      <el-table-column min-width="100" label="用户" sortable prop="user"></el-table-column>
+    </el-table>
 
     <el-table :data="tableData" tooltip-effect="dark" style="width: 100%" v-else>
       <el-table-column width="25"></el-table-column>
@@ -51,7 +59,11 @@ export default {
     type: {
       type: String,
       default: ""
-    }
+    },
+     menu: {
+      type: String,
+      default: ""
+    },
   },
   methods: {
     editInfo(data) {

@@ -32,19 +32,20 @@ export default {
           info.stockNum = good.stockNum;
           info.qtText = good.qtText;
           info.isDel = good.isDel;
-          info.coverImg = good.coverImg && good.coverImg[0]._id;
+          info.coverImg = good.coverImg[0] && good.coverImg[0]._id;
           good.goodsImg && good.goodsImg.forEach(el => {
             info.goodsImg.push(el._id)
           });
+          info.limit=6-good.goodsImg.length
           // info.goodsImg.push(good.goodsImg && good.goodsImg[0]._id);
-          info.video = good.video && good.video[0]._id;
+          info.video = good.video&&good.video[0] && good.video[0]._id;
 
-          info.coverUrl = good.coverImg && good.coverImg[0].httpUrl;
+          info.coverUrl = good.coverImg[0] && good.coverImg[0].httpUrl;
           // info.goodsUrl.push(good.goodsImg && good.goodsImg[0].httpUrl);
           good.goodsImg && good.goodsImg.forEach(el => {
             info.goodsUrl.push(el.httpUrl)
           });
-          info.videoUrl = good.video && good.video[0].httpUrl;
+          info.videoUrl = good.video&&good.video[0] && good.video[0].httpUrl;
         })
         .catch(e => {
           // this.$alert(e, {

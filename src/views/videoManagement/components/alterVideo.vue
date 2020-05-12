@@ -23,13 +23,13 @@ export default {
         info.menuVal = video.tag;
         info.typeVal = video.childMenu;
         info.tagVal = video.tag;
-        info.imgUrl = video.coverImg[0].httpUrl;
-        info.videoUrl = video.video[0].httpUrl;
-        info.fileId = video.coverImg[0]._id;
-        info.videoId = video.video[0]._id;
+        info.imgUrl = video.coverImg[0]&&video.coverImg[0].httpUrl;
+        info.videoUrl = video.video[0]&&video.video[0].httpUrl;
+        info.fileId = video.coverImg[0]&&video.coverImg[0]._id;
+        info.videoId = video.video[0]&&video.video[0]._id;
         info.content = video.introduction;
         info.intro = video.introduction;
-        info.httpUrl = video.video[0].httpUrl;
+        info.httpUrl = video.video[0]&&video.video[0].httpUrl;
       });
     });
   },

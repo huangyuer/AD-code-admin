@@ -69,6 +69,7 @@
         :tip="'图片可多选，最多可上传6张'"
         @select_picture="goodsFile"
         :ismultiple="true"
+        :limit='limit'
       ></picture-upload>
     </div>
     <div class="add-input-intro" v-if="typeVal=='入场券'">
@@ -127,6 +128,7 @@ export default {
   },
   data() {
     return {
+      limit:6,
       typeData: ["实体书", "电子书", "科普视频", "入场券"],
       stockData: ["有限库存", "无限库存"],
       importChecked: radioChecked,

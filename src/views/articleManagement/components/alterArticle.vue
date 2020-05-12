@@ -23,8 +23,8 @@ export default {
         info.menuVal = article.menu;
         info.typeVal = article.childMenu;
         info.tagVal = article.tag;
-        info.imgUrl = article.coverImg[0].httpUrl;
-        info.fileId = article.coverImg[0]._id;
+        info.imgUrl = article.coverImg[0]&&article.coverImg[0].httpUrl;
+        info.fileId = article.coverImg[0]&&article.coverImg[0]._id;
         info.intro = article.introduction;
         info.content = article.content;
         info.contentHtml = article.contentHtml;

@@ -6,6 +6,7 @@
       @imgFile="imgFile"
       :ismultiple="ismultiple"
       @imgFileList="imgFileList"
+      :limit="limit"
     ></choose-pic>
     <choose-vid
       :centerDialogVisible="centerDialogVisible1"
@@ -52,6 +53,9 @@ export default {
     ChooseVid
   },
   props: {
+    limit:{
+      type: Number,
+    },
     ismultiple: {
       type: Boolean,
       default: false

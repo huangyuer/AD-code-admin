@@ -129,6 +129,9 @@ export default {
       type: Boolean,
       default: false
     },
+     limit: {
+      type: Number,
+    },
     ismultiple: {
       type: Boolean,
       default: false
@@ -227,6 +230,7 @@ export default {
           this.currentchooseimage = item;
         }
       } else {
+        if(this.currentchooseimagelist.length>=this.limit)return
         if (!this.currentchooseimagelist.includes(item)) {
           this.currentchooseimagelist.push(item);
         } else {

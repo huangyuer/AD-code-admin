@@ -24,7 +24,7 @@
         <div class="searchBtn-box" @click="search">检索</div>
       </div>
     </div>
-    <ActionTable :tableData="tableData" @isDel="isDel" :type="params.menu"></ActionTable>
+    <ActionTable :tableData="tableData" @isDel="isDel" :type="tableType" :menu="tableMenu"></ActionTable>
     <div style="display: flex;justify-content: space-between;">
       <el-button type="primary" class="commit-btn" @click="exportBtn">导出</el-button>
       <div class="pagination-box">
@@ -49,6 +49,8 @@ export default {
   data() {
     return {
       title: "用户行为",
+      tableType:'',
+      tableMenu:"",
       typeData: ["浏览记录", "视频收藏", "视频点击","文章收藏", "文章点击"],
       menuData: ['浏览记录',"医院地图", "评估记录"],
       tableData: [],
@@ -111,6 +113,9 @@ export default {
     getPageLogs() {
       this.params.export = false;
       if(this.params.menu!='浏览记录')this.params.type=''
+      this.tableType=this.params.menu;
+      this.tableMenu=this.params.type;
+
       this.$store
         .dispatch("user/getPageLogs", this.params)
         .then(res => {
