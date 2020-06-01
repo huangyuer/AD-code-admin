@@ -22,5 +22,21 @@ export function importHospitals(data) {
       data
     });
   }
+
+  export function getHospital(data) {
+    return request({
+      url: "/getHospital",
+      method: "post",
+      data
+    });
+  }
+  
+  export function upHospital(data) {
+    return request({
+      url: "/upHospital",
+      method: "post",
+      data
+    });
+  }
   
 

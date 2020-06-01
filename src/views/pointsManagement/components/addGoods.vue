@@ -42,6 +42,20 @@
         <span>积分：</span>
         <input-tool :value="score" @input="input_score" style="width:180px"></input-tool>
       </div>
+      <div style="padding-left: 30px;" v-if="typeVal=='电子书'">
+        <div class="add-detail-file">
+          <span style="padding-right: 10px;">附件：</span>
+          <!-- :accept="'.pdf,.jpg,.png,.docx,.xlsx'" -->
+          <file-upload :value="'添加附件'" @fileName="file_name" :selectFile="selectFile"></file-upload>
+          <!-- <div class="add-detail-upload">
+            <span>允许附件格式：pdf，jpg，png，docx，xlsx</span>
+          </div>-->
+        </div>
+        <div class="select-file" v-if="selectFile">
+          <span>{{ selectFile }}</span>
+          <span @click="delFile">删除</span>
+        </div>
+      </div>
     </div>
     <div class="add-col_2">
       <picture-upload
@@ -69,7 +83,7 @@
         :tip="'图片可多选，最多可上传6张'"
         @select_picture="goodsFile"
         :ismultiple="true"
-        :limit='limit'
+        :limit="limit"
       ></picture-upload>
     </div>
     <div class="add-input-intro" v-if="typeVal=='入场券'">
@@ -101,20 +115,20 @@
   </div>
 </template>
 <script>
-import InputTool from "@/components/InputTool";
-import SelectTool from "@/components/SelectTool";
-import QuillEditor from "@/components/QuillEditor";
-import RightTitle from "@/components/RightTitle";
-import PictureUpload from "@/components/PictureUpload";
-import FileUpload from "@/components/FileUpload";
-import ChoosePic from "@/components/ChoosePic";
-import radioChecked from "@/assets/icon-radio-checked.svg";
-import radioUnchecked from "@/assets/icon-radio.svg";
+import InputTool from '@/components/InputTool';
+import SelectTool from '@/components/SelectTool';
+import QuillEditor from '@/components/QuillEditor';
+import RightTitle from '@/components/RightTitle';
+import PictureUpload from '@/components/PictureUpload';
+import FileUpload from '@/components/FileUpload';
+import ChoosePic from '@/components/ChoosePic';
+import radioChecked from '@/assets/icon-radio-checked.svg';
+import radioUnchecked from '@/assets/icon-radio.svg';
 export default {
-  name: "addGoods",
+  name: 'addGoods',
   props: {
     type: {
-      default: "添加"
+      default: '添加'
     }
   },
   components: {
@@ -128,26 +142,29 @@ export default {
   },
   data() {
     return {
-      limit:6,
-      typeData: ["实体书", "电子书", "科普视频", "入场券"],
-      stockData: ["有限库存", "无限库存"],
+      attachFile: {},
+      attachment: '',
+      selectFile: '',
+      limit: 6,
+      typeData: ['实体书', '电子书', '科普视频', '入场券'],
+      stockData: ['有限库存', '无限库存'],
       importChecked: radioChecked,
       importUnchecked: radioUnchecked,
-      name: "",
-      coverUrl: "",
+      name: '',
+      coverUrl: '',
       goodsUrl: [],
-      videoUrl: "",
+      videoUrl: '',
       active: true,
-      title: "",
-      score: "",
-      typeVal: "",
-      introduction: "",
-      stockType: "",
-      stockNum: "",
-      coverImg: "",
+      title: '',
+      score: '',
+      typeVal: '',
+      introduction: '',
+      stockType: '',
+      stockNum: '',
+      coverImg: '',
       goodsImg: [],
-      qtText: "",
-      video: "",
+      qtText: '',
+      video: '',
       isDel: false
     };
   },
@@ -169,10 +186,21 @@ export default {
   },
   created() {
     this.init();
-    this.name = "积分商城-" + this.type + "商品";
+    this.name = '积分商城-' + this.type + '商品';
   },
   methods: {
     init() {},
+    file_name(val, f) {
+      this.selectFile = val;
+      this.attachFile = f.raw;
+      console.log('-----d--d-d', this.attachFile);
+    },
+    delFile() {
+      this.selectFile = '';
+      this.attachFile = {};
+      this.attachment = '';
+      // this.$set(this.addData, "attachFile", null);
+    },
     importAdd() {
       if (this.importChecked === radioUnchecked) {
         this.importChecked = radioChecked;
@@ -198,12 +226,10 @@ export default {
       // });
     },
     goodsFile(val) {
-      console.log("-----",val)
+      console.log('-----', val);
       val.forEach(el => {
         this.goodsUrl.push(el.httpUrl);
         this.goodsImg.push(el._id);
-
-
       });
       // this.goodsUrl = val.httpUrl;
       // this.goodsImg = val._id;
@@ -239,10 +265,10 @@ export default {
     },
 
     submit() {
-      if (this.stockType != "有限库存") this.stockNum = "";
-      if (this.typeVal != "科普视频") this.video = "";
-      if (this.typeVal != "实体书") this.goodsImg = [];
-      if (this.typeVal != "入场券") this.qtText = "";
+      if (this.stockType != '有限库存') this.stockNum = '';
+      if (this.typeVal != '科普视频') this.video = '';
+      if (this.typeVal != '实体书') this.goodsImg = [];
+      if (this.typeVal != '入场券') this.qtText = '';
       let params = {
         name: this.title,
         score: this.score && parseInt(this.score),
@@ -262,19 +288,55 @@ export default {
       if (this.goodsImg) params.goodsImg = this.goodsImg;
       if (this.qtText) params.qtText = this.qtText;
       if (this.video) params.video = this.video;
-      if (this.type == "修改") {
-        this.$emit("alterBtn", params);
+      if (this.attachment) params.attachment = this.attachment;
+      if (this.type == '修改') {
+        if (this.selectFile && this.attachFile.uid) {
+          let info = {
+            file: this.attachFile,
+            group: '附件信息'
+          };
+          this.$store
+            .dispatch('details/uploadFile', info)
+            .then(data => {
+              this.attachment = data.fileId;
+              params.attachment = data.fileId;
+              this.$emit('alterBtn', params);
+            })
+            .catch(e => {
+              reject(e);
+            });
+        }
+
         return;
       }
+      if (this.selectFile && this.attachFile.uid) {
+        let info = {
+          file: this.attachFile,
+          group: '附件信息'
+        };
+        this.$store
+          .dispatch('details/uploadFile', info)
+          .then(data => {
+            this.attachment = data.fileId;
+            params.attachment = data.fileId;
+
+            this.addGoods(params);
+          })
+          .catch(e => {
+            reject(e);
+          });
+      } else this.addGoods(params);
+    },
+    addGoods(params) {
       this.$store
-        .dispatch("points/addGoods", params)
+        .dispatch('points/addGoods', params)
         .then(data => {
           this.$alert(data, {
-            confirmButtonText: "确定",
+            confirmButtonText: '确定',
             center: true
-          }).then(()=>{
-             this.$router.push({
-              path: "/pointsShop"
+          }).then(() => {
+            this.$router.push({
+              path: '/pointsShop'
             });
           });
         })
@@ -291,7 +353,7 @@ export default {
 </script>
 
 <style lang="less" scoped>
-@aaa: ~">>>";
+@aaa: ~'>>>';
 .add-container {
   .member-radio {
     display: flex;
@@ -342,7 +404,7 @@ export default {
       position: relative;
       margin-right: 55px;
       &::after {
-        content: "*";
+        content: '*';
         color: #fc4b4b;
         font-size: 18px;
         position: absolute;
@@ -377,6 +439,26 @@ export default {
     .add-select-category {
       padding-top: 20px;
       padding-right: 30px;
+    }
+  }
+  .add-detail-file {
+    display: flex;
+    padding-top: 20px;
+    align-items: center;
+    span {
+      font-size: 16px;
+      font-family: PingFangSC-Regular;
+      font-weight: 400;
+      color: rgba(51, 51, 51, 1);
+    }
+    .add-detail-upload {
+      display: flex;
+      span {
+        font-size: 14px;
+        font-family: PingFangSC-Regular;
+        font-weight: 400;
+        color: rgba(102, 102, 102, 1);
+      }
     }
   }
   .add-input-intro {
@@ -461,14 +543,14 @@ export default {
     }
   }
   .select-file {
-    padding-top: 12px;
+    // padding-top: 12px;
     span {
       font-size: 14px;
       font-family: PingFangSC-Regular;
       font-weight: 400;
       color: rgba(102, 102, 102, 1);
       &:nth-child(2) {
-        color: #4373f9;
+        color: #009966;
         padding-left: 12px;
         cursor: pointer;
       }
@@ -555,8 +637,8 @@ export default {
   .el-icon-arrow-up {
     position: relative;
     &::before {
-      content: "";
-      background-image: url("../../../assets/select-down.png");
+      content: '';
+      background-image: url('../../../assets/select-down.png');
       position: absolute;
       width: 12px;
       height: 9px;
@@ -587,7 +669,7 @@ export default {
       color: white;
     }
     &::before {
-      content: "\E6DB";
+      content: '\E6DB';
       transform: translate(0, 0.5px);
       //  position: absolute;
       // top: 15px;

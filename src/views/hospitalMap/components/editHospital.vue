@@ -1,88 +1,17 @@
 <template>
   <div class="add-container">
-    <right-title :title="name"></right-title>
+    <right-title :title="'医院地图-编辑详情'"></right-title>
     <div class="add-col_1">
       <div class="add-input-name">
         <span>名称：</span>
-        <input-tool :value="title" @input="input_title"></input-tool>
+        <input-tool :value="name" @input="input_name"></input-tool>
       </div>
-      <div class="add-select-block">
-        <span>板块/分类：</span>
-        <el-select
-          v-model="menuVal"
-          placeholder="请选择"
-          @change="select_block"
-          value-key="_id"
-          clearable
-          popper-class="select-active"
-        >
-          <el-option
-            v-for="item in this.$store.getters.getMenus"
-            :key="item._id"
-            :label="item.name"
-            :value="item"
-          ></el-option>
-        </el-select>
+      <div class="add-input-name">
+        <span>地址：</span>
+        <input-tool :value="address" @input="input_address"></input-tool>
       </div>
     </div>
-    <div class="add-col_2">
-      <div class="add-select-category" v-if="menuType.length>0||typeVal">
-        <span>分类：</span>
-        <el-select
-          v-model="typeVal"
-          placeholder="请选择"
-          @change="select_type"
-          value-key="_id"
-          clearable
-          popper-class="select-active"
-        >
-          <el-option v-for="item in menuType" :key="item._id" :label="item.name" :value="item"></el-option>
-        </el-select>
-      </div>
-      <div class="add-select-category" v-if="menuTag.length>0||tagVal">
-        <span>子分类：</span>
-        <el-select
-          v-model="tagVal"
-          placeholder="请选择"
-          @change="select_tag"
-          value-key="_id"
-          clearable
-          popper-class="select-active"
-        >
-          <el-option v-for="item in menuTag" :key="item._id" :label="item.name" :value="item"></el-option>
-        </el-select>
-      </div>
-    </div>
-    <picture-upload
-      :src="imgUrl"
-      :value="'封面：'"
-      :valueBtn="'选取图片'"
-      :tip="'建议图片尺寸140*90px'"
-      @select_picture="imgFile"
-    ></picture-upload>
-    <div class="add-input-intro" v-if="menuVal !=='关爱行动'">
-      <span>简介：</span>
-      <input-tool :value="intro" @input="input_intro"></input-tool>
-    </div>
-    <div class="add-input-intro content" v-else>
-      <span>
-        <span :class="{active :active}" @click="selectLink">链接</span>
-        <span>|</span>
-        <span :class="{active :!active}" @click="selectLink">内容</span>
-      </span>
-      <input-tool v-if="active" :value="link" @input="input_link"></input-tool>
-      <!-- <input-tool @input="input_content" v-if="activeTab"></input-tool> -->
-      <!-- <el-input
-        v-else
-        style="width:856px;margin-top:12px"
-        type="textarea"
-        :autosize="{ minRows: 23}"
-        placeholder="请输入文章简介…"
-        v-model="intro"
-      ></el-input>-->
-      <quill-editor v-else :value="contentHtml" @quillData="quillData1"></quill-editor>
-    </div>
-    <div class="quill-editor-container" v-if="menuVal!=='关爱行动'">
+    <div class="quill-editor-container">
       <span>内容：</span>
       <quill-editor :value="contentHtml" @quillData="quillData"></quill-editor>
     </div>
@@ -91,21 +20,16 @@
   </div>
 </template>
 <script>
-import InputTool from '@/components/InputTool';
-import SelectTool from '@/components/SelectTool';
-import QuillEditor from '@/components/QuillEditor';
-import RightTitle from '@/components/RightTitle';
-import PictureUpload from '@/components/PictureUpload';
-import FileUpload from '@/components/FileUpload';
-import ChoosePic from '@/components/ChoosePic';
+import InputTool from "@/components/InputTool";
+import SelectTool from "@/components/SelectTool";
+import QuillEditor from "@/components/QuillEditor";
+import RightTitle from "@/components/RightTitle";
+import PictureUpload from "@/components/PictureUpload";
+import FileUpload from "@/components/FileUpload";
+import ChoosePic from "@/components/ChoosePic";
 
 export default {
-  name: 'AddArticle',
-  props: {
-    type: {
-      default: '添加'
-    }
-  },
+  name: "EditHospital",
   components: {
     InputTool,
     SelectTool,
@@ -117,122 +41,65 @@ export default {
   },
   data() {
     return {
-      name: '',
-      imgUrl: '',
-      active: true,
-      title: '',
-      menuVal: '',
-      typeVal: '',
-      tagVal: '',
-      menuType: [],
-      menuTag: [],
-      fileId: '',
-      intro: '',
-      link: '',
-      content: '',
-      contentHtml: ''
+        id:'',
+        name:'',
+        address:'',
+        title:'',
+      content: "",
+      contentHtml: ""
     };
   },
   created() {
     this.init();
-    this.name = '文章管理-' + this.type + '详情';
   },
   methods: {
-    init() {},
-    selectLink() {
-      this.active = !this.active;
-    },
-    input_link(val) {
-      this.link = val;
-      // this.content = val;
-      // this.contentHtml = val;
-    },
-    imgFile(val) {
-      console.log('------222', val);
-      this.imgUrl = val.httpUrl;
-      this.fileId = val._id;
-
-      // this.$store.dispatch("common/uploadFile", val).then(res => {
-      //   this.fileId = res.fileId;
-      // });
-    },
-    select_type(val) {
-      this.typeVal = val;
-      let params = {
-        menu: this.menuVal,
-        type: this.typeVal
-      };
-      this.menuTag = [];
-      if (!params.menu || !params.type) {
-        this.tagVal = '';
-        return;
-      }
-      this.$store.dispatch('common/getMenuTags', params).then(res => {
-        this.menuTag = res;
-        this.tagVal = '';
+    init() {
+        this.id = this.$route.query.id;
+         this.$nextTick(() => {
+      this.$store.dispatch("hospitalMap/getHospital", { id: this.id }).then(data => {
+        let hospital = data.hospital;
+        this.name = hospital.name;
+        this.address = hospital.address;
+        this.content = hospital.content;
+        this.contentHtml = hospital.contentHtml;
       });
+    });
     },
-    select_block(val) {
-      this.menuVal = val;
-      this.menuType = [];
-      if (!val) {
-        this.typeVal = '';
-        this.tagVal = '';
-        return;
-      }
-      this.$store.dispatch('common/getMenuTypes', { menu: val }).then(res => {
-        this.menuType = res;
-        this.menuTag = [];
-        this.typeVal = '';
-        this.tagVal = '';
-      });
-    },
-    select_tag(val) {},
 
     quillData(content, contentHtml) {
-      console.log('-----quill', content, contentHtml);
+      console.log("-----quill", content, contentHtml);
       // this.link = "";
       this.content = content;
       this.contentHtml = contentHtml;
     },
-    quillData1(content, contentHtml) {
-      console.log('-----quill', content, contentHtml);
-      // this.link = "";
-      this.content = content;
-      this.contentHtml = contentHtml;
+    input_name(val) {
+      this.name = val;
     },
-    input_title(val) {
-      this.title = val;
+     input_address(val) {
+      this.address = val;
     },
-    input_intro(val) {
-      this.intro = val;
-    },
+
 
     submit() {
       let params = {
-        title: this.title,
-        menu: this.menuVal,
-        childMenu: this.typeVal,
-        tag: this.tagVal,
-        coverImg: this.fileId,
-        introduction: this.intro,
+        id: this.id,
+        name: this.name,
+        address: this.address,
+     
         content: this.content,
         contentHtml: this.contentHtml,
-        link: this.link
+
       };
-      if (this.type == '修改') {
-        this.$emit('alterBtn', params);
-        return;
-      }
+
       this.$store
-        .dispatch('article/addArticle', params)
+        .dispatch("hospitalMap/upHospital", params)
         .then(data => {
           this.$alert(data, {
-            confirmButtonText: '确定',
+            confirmButtonText: "确定",
             center: true
           }).then(() => {
             this.$router.push({
-              path: '/article'
+              path: "/hospitalMap"
             });
           });
         })
@@ -249,7 +116,7 @@ export default {
 </script>
 
 <style lang="less" scoped>
-@aaa: ~'>>>';
+@aaa: ~">>>";
 .add-container {
   .add-col_1 {
     display: flex;
@@ -271,7 +138,7 @@ export default {
       position: relative;
       margin-right: 55px;
       &::after {
-        content: '*';
+        content: "*";
         color: #fc4b4b;
         font-size: 18px;
         position: absolute;
@@ -286,7 +153,7 @@ export default {
     .add-select-block {
       position: relative;
       &::after {
-        content: '*';
+        content: "*";
         color: #fc4b4b;
         font-size: 18px;
         position: absolute;
@@ -484,8 +351,8 @@ export default {
   .el-icon-arrow-up {
     position: relative;
     &::before {
-      content: '';
-      background-image: url('../../../assets/select-down.png');
+      content: "";
+      background-image: url("../../../assets/select-down.png");
       position: absolute;
       width: 12px;
       height: 9px;
@@ -516,7 +383,7 @@ export default {
       color: white;
     }
     &::before {
-      content: '\E6DB';
+      content: "\E6DB";
       transform: translate(0, 0.5px);
       //  position: absolute;
       // top: 15px;

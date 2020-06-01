@@ -46,6 +46,7 @@ export default {
             info.goodsUrl.push(el.httpUrl)
           });
           info.videoUrl = good.video&&good.video[0] && good.video[0].httpUrl;
+          info.attachment = good.attachment;
         })
         .catch(e => {
           // this.$alert(e, {
@@ -79,7 +80,8 @@ export default {
           // });
           reject(e);
         });
-    }
+    },
+    
   }
 };
 </script>

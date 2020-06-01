@@ -1,4 +1,4 @@
-import { getHospitals,importHospitals,importDoctors } from "@/api/hospitalMap";
+import { getHospitals,importHospitals,importDoctors,getHospital,upHospital } from "@/api/hospitalMap";
 
 const state = {
 
@@ -9,6 +9,34 @@ const mutations = {
 };
 
 const actions = {
+  upHospital({ commit },params) {
+   
+    return new Promise((resolve, reject) => {
+      upHospital(params)
+        .then(response => {
+          const { data,msg } = response;
+          resolve(data);
+        })
+        .catch(error => {
+          reject(error);
+        });
+    });
+  },
+
+  getHospital({ commit },params) {
+   
+    return new Promise((resolve, reject) => {
+      getHospital(params)
+        .then(response => {
+          const { data,msg } = response;
+          resolve(data);
+        })
+        .catch(error => {
+          reject(error);
+        });
+    });
+  },
+
     importDoctors({ commit },params) {
         let form = new FormData();
         form.append("file",params);
