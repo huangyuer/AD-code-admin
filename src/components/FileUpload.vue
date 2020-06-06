@@ -5,7 +5,7 @@
     action=""
     :on-change="handleChange"
     :auto-upload="false"
-    :accept="accept"
+    :accept="''"
     :show-file-list="false"
     :disabled="disabled"
   >

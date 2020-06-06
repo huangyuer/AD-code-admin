@@ -75,7 +75,7 @@
         @select_video="videoFile"
       ></picture-upload>
     </div>
-    <div class="add-col_2" v-if="typeVal=='实体书'">
+    <div class="add-col_2" v-if="typeVal=='实体书'||typeVal=='电子书'">
       <picture-upload
         :src="goodsUrl"
         :value="'商品图：'"
@@ -227,6 +227,8 @@ export default {
     },
     goodsFile(val) {
       console.log('-----', val);
+      this.goodsUrl=[];
+      this.goodsImg=[];
       val.forEach(el => {
         this.goodsUrl.push(el.httpUrl);
         this.goodsImg.push(el._id);
@@ -265,9 +267,9 @@ export default {
     },
 
     submit() {
+      console.log("----we-we--")
       if (this.stockType != '有限库存') this.stockNum = '';
       if (this.typeVal != '科普视频') this.video = '';
-      if (this.typeVal != '实体书') this.goodsImg = [];
       if (this.typeVal != '入场券') this.qtText = '';
       let params = {
         name: this.title,
@@ -305,8 +307,9 @@ export default {
             .catch(e => {
               reject(e);
             });
+        }else {
+          this.$emit('alterBtn', params);
         }
-
         return;
       }
       if (this.selectFile && this.attachFile.uid) {

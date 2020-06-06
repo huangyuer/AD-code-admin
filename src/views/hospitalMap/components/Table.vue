@@ -39,7 +39,7 @@ export default {
       // this.$emit("editInfo", data);
       this.$router.push({
         name: "EditHospital",
-        path: "/editHospital",
+        path: "/hospitalMap/edit",
         query: { id: data._id }
       });
     },

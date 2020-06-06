@@ -15,7 +15,7 @@ const actions = {
       upHospital(params)
         .then(response => {
           const { data,msg } = response;
-          resolve(data);
+          resolve(msg);
         })
         .catch(error => {
           reject(error);

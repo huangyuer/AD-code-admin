@@ -36,7 +36,7 @@ export default {
           good.goodsImg && good.goodsImg.forEach(el => {
             info.goodsImg.push(el._id)
           });
-          info.limit=6-good.goodsImg.length
+          info.limit=6
           // info.goodsImg.push(good.goodsImg && good.goodsImg[0]._id);
           info.video = good.video&&good.video[0] && good.video[0]._id;
 
@@ -46,7 +46,8 @@ export default {
             info.goodsUrl.push(el.httpUrl)
           });
           info.videoUrl = good.video&&good.video[0] && good.video[0].httpUrl;
-          info.attachment = good.attachment;
+          info.attachment = good.attachment&&good.attachment[0]&&good.attachment[0]._id;
+          info.selectFile= good.attachment&&good.attachment[0]&&good.attachment[0].httpUrl;
         })
         .catch(e => {
           // this.$alert(e, {

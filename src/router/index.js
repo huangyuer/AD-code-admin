@@ -76,7 +76,7 @@ let router= new Router({
       name: 'HospitalMap',
     },
     {
-      path: '/editHospital',
+      path: '/hospitalMap/edit',
       component: () => import('@/views/hospitalMap/components/editHospital'),
       name: 'EditHospital',
     },
