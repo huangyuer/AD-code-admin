@@ -107,8 +107,17 @@ export default {
   created() {
     this.init();
     this.name = "视频管理-" + this.type + "详情";
+    this.getMenuSelect();
   },
   methods: {
+    getMenuSelect() {
+      this.$store
+        .dispatch("details/getMenuSelect", "科普视频")
+        .then(data => {
+          this.typeData = data.selects[0].tags;
+        })
+        .catch(e => {});
+    },
     init() {},
     selectLink(val) {
       this.activeTab = val;

@@ -526,13 +526,13 @@ const actions = {
   //获取模块/分类筛选框
   getMenuSelect({ commit }, platform) {
     let form = new FormData();
-    form.append("platform", platform);
+    form.append("menu", platform);
     return new Promise((resolve, reject) => {
       getMenuSelect(form)
         .then(response => {
           const { data, msg } = response;
           commit("SET_MENUSELECT", data.menus);
-          resolve(msg);
+          resolve(data);
         })
         .catch(error => {
           reject(error);

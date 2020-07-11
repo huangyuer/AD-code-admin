@@ -47,8 +47,18 @@ export default {
   },
   created() {
     this.getVideos();
+    this.getMenuSelect()
   },
   methods: {
+    getMenuSelect(){
+      this.$store
+        .dispatch("details/getMenuSelect",'科普视频')
+        .then(data => {
+          this.typeData=data.selects[0].tags
+        })
+        .catch(e => {
+        });
+    },
     exportBtn() {
       this.params.export = true;
       this.$store.dispatch("video/getVideos", this.params).then(res => {
