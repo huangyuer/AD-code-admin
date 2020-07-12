@@ -25,6 +25,11 @@ let router= new Router({
       component: () => import('@/views/login'),
       name: 'Login',
     }, 
+      {
+        path:'/templatePage',
+        name:'templatePage',
+        component: () => import('@/views/templatePage'),
+      },
     {
       path: '/exportLog',
       component: () => import('@/views/exportManagement/ExportLog.vue'),

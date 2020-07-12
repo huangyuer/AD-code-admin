@@ -47,7 +47,8 @@ export default {
         { title: "用户行为", link: "/userAction" },
         { title: "批量导出", link: "/batchExport" },
         { title: "导出记录", link: "/exportLog" },
-        { title: "素材管理", link: "/material/materialPic" }
+        { title: "素材管理", link: "/material/materialPic" },
+        { title: "模板网页", link: "/templatePage" },
       ],
 
      
