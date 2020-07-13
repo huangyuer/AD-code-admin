@@ -9,30 +9,19 @@
       <div class="searchBtn-box" @click="search">检索</div>
       <!-- <div class="add-article" @click="importHos">导入医院</div>
       <div class="add-article" @click="importdoc">导入医生</div>-->
-      <el-upload
+      <!-- <el-upload
         class="upload"
         ref="upload"
         action
         :on-change="importHos"
         :auto-upload="false"
         :show-file-list="false"
-      >
-        <div class="add-article">导入医院</div>
-      </el-upload>
-      <el-upload
-        class="upload"
-        ref="upload"
-        action
-        :on-change="importdoc"
-        :auto-upload="false"
-        :show-file-list="false"
-      >
-        <div class="add-article">导入医生</div>
-      </el-upload>
+      >-->
+      <div class="upload add-article" @click="addTemp">添加详情</div>
+      <!-- </el-upload> -->
     </div>
-    <videoTable :tableData="tableData"></videoTable>
-    <div style="display: flex;justify-content: space-between;">
-      <el-button type="primary" class="commit-btn" @click="exportBtn">导出</el-button>
+    <videoTable :tableData="tableData" @del="del"></videoTable>
+    <div style="display: flex;justify-content: flex-end;">
       <div class="pagination-box">
         <div>
           文章总数量
@@ -55,82 +44,73 @@ export default {
     return {
       tableData: [],
       total: 0,
-      params: { page: 1, limit: 10, name: "", export: false },
+      params: { page: 1, limit: 10, name: "" },
       loading: true
     };
   },
   created() {
-    this.getHospitals();
+    this.getTempHtmls();
   },
   methods: {
-    exportBtn() {
-      this.params.export = true;
-      this.$store
-        .dispatch("hospitalMap/getHospitals", this.params)
-        .then(res => {
+    del(id) {
+      this.$confirm("确认删除", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        center: true
+      })
+        .then(() => {
+          this.$store
+            .dispatch("tempHtml/delTempHtml", { id: id })
+            .then(data => {
+              this.$message({
+                type: "success",
+                message: data
+              });
+              this.getTempHtmls();
+            })
+            .catch(e => {
+              // this.$alert(e, {
+              //   confirmButtonText: "确定",
+              //   center: true
+              // });
+              reject(e);
+            });
+        })
+        .catch(() => {
           this.$message({
-            type: "success",
-            message: res.msg
+            type: "info",
+            message: "已取消"
           });
         });
     },
-    importHos(file) {
-      this.$store
-        .dispatch("hospitalMap/importHospitals", file.raw)
-        .then(data => {
-          this.$alert(data, {
-            confirmButtonText: "确定",
-            center: true
-          });
-        })
-        .catch(e => {
-          // this.$alert(e, {
-          //   confirmButtonText: "确定",
-          //   center: true
-          // });
-        });
-    },
-    importdoc(file) {
-      this.$store
-        .dispatch("hospitalMap/importDoctors", file.raw)
-        .then(data => {
-          this.$alert(data, {
-            confirmButtonText: "确定",
-            center: true
-          });
-        })
-        .catch(e => {
-          // this.$alert(e, {
-          //   confirmButtonText: "确定",
-          //   center: true
-          // });
-        });
+    addTemp() {
+      this.$router.push({
+        path: "/templatePage/add"
+      });
     },
     input_title(val) {
       this.params.name = val;
     },
     search() {
       this.params.page = 1;
-      this.getHospitals();
+      this.getTempHtmls();
     },
-    getHospitals() {
-      this.params.export = false;
-
+    getTempHtmls() {
       this.$store
-        .dispatch("hospitalMap/getHospitals", this.params)
+        .dispatch("tempHtml/getTempHtmls", this.params)
         .then(res => {
-          this.tableData = res.data.hospitals;
-          this.total = res.data.total;
+          this.tableData = res.htmls;
+          this.total = res.total;
           this.loading = false;
         })
         .catch(e => {
           this.loading = false;
-          reject(e);
+          // reject(e);
         });
     },
     jumpPage(val) {
       this.params.page = val;
-      this.getHospitals();
+      this.getTempHtmls();
     }
   }
 };

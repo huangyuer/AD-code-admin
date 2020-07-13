@@ -30,6 +30,16 @@ let router= new Router({
         name:'templatePage',
         component: () => import('@/views/templatePage'),
       },
+      {
+        path:'/templatePage/add',
+        name:'AddTemp',
+        component: () => import('@/views/templatePage/components/AddTemp.vue'),
+      },
+      {
+        path:'/templatePage/alter',
+        name:'AlterTemp',
+        component: () => import('@/views/templatePage/components/AlterTemp.vue'),
+      },
     {
       path: '/exportLog',
       component: () => import('@/views/exportManagement/ExportLog.vue'),
