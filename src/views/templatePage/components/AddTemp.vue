@@ -85,7 +85,6 @@ export default {
           return data;
         }
       });
-      console.log("----3-3-33", clipboard);
       clipboard.on("success", e => {
         this.$message({
           message: "复制成功",
@@ -95,6 +94,11 @@ export default {
         // 释放内存
         clipboard.destroy();
         this.dialogFormVisible = false;
+        setTimeout(() => {
+          this.$router.push({
+            path: "/templatePage"
+          });
+        }, 200);
       });
       clipboard.on("error", e => {
         this.$message({ message: "复制失败,", showClose: true, type: "error" });
@@ -105,11 +109,14 @@ export default {
       this.title = val;
     },
     addPic() {
-      this.images.push({ link: "", url: "" });
+      this.images.push({ link: "",file:'', url: "" });
     },
     imgFile(val, index) {
-      if (!val) this.$set(this.images[index], "url", "");
+      if (!val) {this.$set(this.images[index], "url", "");
+      this.$set(this.images[index], "file", '');
+      }
       if (val && val.httpUrl) {
+        this.$set(this.images[index], "file", val._id);
         this.$set(this.images[index], "url", val.httpUrl);
       }
       console.log("-----3333", val, index, this.images);
