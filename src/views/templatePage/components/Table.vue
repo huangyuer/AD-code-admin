@@ -11,6 +11,7 @@
           </div>
         </template>
       </el-table-column>
+       <el-table-column min-width="80" prop="num" label="打开次数" sortable></el-table-column>
       <el-table-column min-width="100" label="操作">
         <template slot-scope="scope">
           <span style="display: flex;">

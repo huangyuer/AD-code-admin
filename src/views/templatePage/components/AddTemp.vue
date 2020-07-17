@@ -1,5 +1,11 @@
 <template>
   <div class="video-live">
+    <choose-pic
+      :centerDialogVisible="centerDialogVisible"
+      v-on:hideDialog="centerDialogVisible = false"
+      :ismultiple="true"
+      @imgFileList="addPic"
+    ></choose-pic>
     <right-title :title="name"></right-title>
     <div class="add-col_1">
       <div class="add-input-name">
@@ -10,7 +16,11 @@
     <div style="display:flex">
       <span style="padding-top:20px;word-break: keep-all;">内容：</span>
       <div style="display:flex;flex-wrap: wrap;">
-        <div style="display:block;padding-left:10px;padding-right: 10px;" v-for="(item,index) in images" :key="index">
+        <div
+          style="display:block;padding-left:10px;padding-right: 10px;"
+          v-for="(item,index) in images"
+          :key="index"
+        >
           <picUpload
             :itemPic="index"
             :src="item.url"
@@ -24,7 +34,10 @@
             <input-tool :value="item.link" :sortIndex="index" @input="input_link"></input-tool>
           </div>
         </div>
-        <div @click="addPic" style="padding-top:20px;padding-left:10px;cursor:pointer">
+        <div
+          v-on:click="centerDialogVisible = true"
+          style="padding-top:20px;padding-left:10px;cursor:pointer"
+        >
           <img src="@/assets/upload-pic.svg" alt />
         </div>
       </div>
@@ -45,6 +58,7 @@
 </template>
 
 <script>
+import ChoosePic from "@/components/ChoosePic";
 import RightTitle from "@/components/RightTitle";
 import picUpload from "./picUpload";
 import InputTool from "./InputTool";
@@ -54,7 +68,8 @@ export default {
   components: {
     InputTool,
     picUpload,
-    RightTitle
+    RightTitle,
+    ChoosePic
   },
   props: {
     type: {
@@ -63,6 +78,7 @@ export default {
   },
   data() {
     return {
+      centerDialogVisible: false,
       dialogFormVisible: false,
       linkRes: "",
 
@@ -79,6 +95,17 @@ export default {
     this.name = "模板网页-" + this.type + "详情";
   },
   methods: {
+    addPic(val) {
+      val.forEach(el => {
+        this.images.push({ link: "", file: el._id, url: el.httpUrl });
+      });
+    },
+    imgFile1(val) {
+      // this.$emit("select_picture", val, this.itemPic);
+    },
+    imgFileList(val) {
+      // this.$emit("select_picture", val);
+    },
     copyLink(data) {
       let clipboard = new Clipboard(".tag", {
         text: function() {
@@ -108,12 +135,10 @@ export default {
     input_title(val) {
       this.title = val;
     },
-    addPic() {
-      this.images.push({ link: "",file:'', url: "" });
-    },
     imgFile(val, index) {
-      if (!val) {this.$set(this.images[index], "url", "");
-      this.$set(this.images[index], "file", '');
+      if (!val) {
+        this.$set(this.images[index], "url", "");
+        this.$set(this.images[index], "file", "");
       }
       if (val && val.httpUrl) {
         this.$set(this.images[index], "file", val._id);
