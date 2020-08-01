@@ -45,15 +45,17 @@
 
     <el-button type="primary" class="commit-btn" @click="submit">提交</el-button>
 
-    <el-dialog title="生成链接" :visible.sync="dialogFormVisible">
-      <div class="dialog-content">
-        <span>复制下方链接到微信模版</span>
-        <div>{{linkRes}}</div>
-      </div>
-      <div slot="footer" class="dialog-footer">
-        <el-button class="tag" @click="copyLink(linkRes)">复制</el-button>
-      </div>
-    </el-dialog>
+    <div class="dialog-style">
+      <el-dialog title="生成链接" :visible.sync="dialogFormVisible">
+        <div class="dialog-content">
+          <span>复制下方链接到微信模版</span>
+          <div>{{linkRes}}</div>
+        </div>
+        <div slot="footer" class="dialog-footer">
+          <el-button class="tag" @click="copyLink(linkRes)">复制</el-button>
+        </div>
+      </el-dialog>
+    </div>
   </div>
 </template>
 
@@ -259,68 +261,70 @@ export default {
 .commit-btn {
   margin-left: 57px;
 }
-@{aaa} .el-dialog {
-  width: 500px;
-  height: 360px;
-  background: rgba(255, 255, 255, 1);
-  border-radius: 4px;
-}
-@{aaa} .el-dialog__title {
-  font-size: 18px;
-  font-weight: 500;
-  color: rgba(36, 36, 36, 1);
-}
-@{aaa} .el-dialog__header {
-  border-bottom: 1px solid rgba(229, 229, 229, 1);
-  padding: 18px 20px 13px;
-}
-@{aaa} .el-dialog__headerbtn {
-  top: 12px;
-  right: 12px;
-}
-@{aaa} .el-icon-close:before {
-  width: 20px;
-  height: 20px;
-  border-radius: 100%;
-  background: rgb(200, 200, 200);
-  color: #fff;
-}
-@{aaa} .el-dialog__body {
-  padding: 0;
-}
-.dialog-content {
-  padding: 14px 0 0 35px;
-  span {
-    font-weight: 500;
-    color: rgba(51, 51, 51, 1);
-    font-size: 16px;
-  }
-  div {
-    margin-top: 16px;
-    width: 431px;
-    height: 150px;
-    background: rgba(240, 240, 240, 1);
+.dialog-style {
+  @{aaa} .el-dialog {
+    width: 500px;
+    height: 360px;
+    background: rgba(255, 255, 255, 1);
     border-radius: 4px;
-    border: 1px solid rgba(199, 199, 199, 1);
-    color: rgba(0, 153, 102, 1);
+  }
+  @{aaa} .el-dialog__title {
     font-size: 18px;
-    padding: 12px;
-    box-sizing: border-box;
+    font-weight: 500;
+    color: rgba(36, 36, 36, 1);
   }
-}
-.dialog-footer {
-  padding-top: 16px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  .el-button {
-    width: 160px;
-    height: 36px;
-    background: rgba(0, 153, 102, 1);
-    border-radius: 4px;
-    color: rgba(255, 255, 255, 1);
-    font-size: 16px;
-    padding: 0px;
+  @{aaa} .el-dialog__header {
+    border-bottom: 1px solid rgba(229, 229, 229, 1);
+    padding: 18px 20px 13px;
+  }
+  @{aaa} .el-dialog__headerbtn {
+    top: 12px;
+    right: 12px;
+  }
+  @{aaa} .el-icon-close:before {
+    width: 20px;
+    height: 20px;
+    border-radius: 100%;
+    background: rgb(200, 200, 200);
+    color: #fff;
+  }
+  @{aaa} .el-dialog__body {
+    padding: 0;
+  }
+  .dialog-content {
+    padding: 14px 0 0 35px;
+    span {
+      font-weight: 500;
+      color: rgba(51, 51, 51, 1);
+      font-size: 16px;
+    }
+    div {
+      margin-top: 16px;
+      width: 431px;
+      height: 150px;
+      background: rgba(240, 240, 240, 1);
+      border-radius: 4px;
+      border: 1px solid rgba(199, 199, 199, 1);
+      color: rgba(0, 153, 102, 1);
+      font-size: 18px;
+      padding: 12px;
+      box-sizing: border-box;
+    }
+  }
+  .dialog-footer {
+    padding-top: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    .el-button {
+      width: 160px;
+      height: 36px;
+      background: rgba(0, 153, 102, 1);
+      border-radius: 4px;
+      color: rgba(255, 255, 255, 1);
+      font-size: 16px;
+      padding: 0px;
+    }
   }
 }
 </style>
