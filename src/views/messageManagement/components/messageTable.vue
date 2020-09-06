@@ -10,7 +10,8 @@
       <el-table-column  prop="age" label="年龄" sortable></el-table-column>
       <el-table-column min-width="100" prop="tag" label="疾病种类" sortable></el-table-column>
       <el-table-column min-width="100" prop="level" label="疾病程度" sortable></el-table-column>
-      <el-table-column min-width="100" prop="diaTime" label="审核时间" sortable></el-table-column>
+      <el-table-column min-width="120" prop="date" label="发布时间" sortable></el-table-column>
+      <el-table-column min-width="150" prop="diaTime" label="审核时间" sortable></el-table-column>
       <el-table-column prop="status" label="状态" sortable>
         <template slot-scope="scope">
         <span :class="{active1 :scope.row.status=='驳回',active2 :scope.row.status=='审核通过'}">{{ scope.row.status }}</span>
