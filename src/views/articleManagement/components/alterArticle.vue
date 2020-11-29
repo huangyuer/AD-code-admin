@@ -29,6 +29,8 @@ export default {
         info.content = article.content;
         info.contentHtml = article.contentHtml;
         info.link = article.link;
+        info.province = article.province;
+        info.city = article.city;
         let params = {
           menu: info.menuVal,
           type: info.typeVal

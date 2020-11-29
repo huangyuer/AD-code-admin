@@ -24,8 +24,12 @@
           ></el-option>
         </el-select>
       </div>
+       <div class="add-input-name" style="margin-left:55px">
+        <span>省份/地区：</span>
+        <input-tool style="width:200px" :value="province" @input="input_province"></input-tool>
+      </div>
     </div>
-    <div class="add-col_2">
+    <div class="add-col_2 add-col_1">
       <div class="add-select-category" v-if="menuType.length>0||typeVal">
         <span>分类：</span>
         <el-select
@@ -51,6 +55,10 @@
         >
           <el-option v-for="item in menuTag" :key="item._id" :label="item.name" :value="item"></el-option>
         </el-select>
+      </div>
+      <div class="add-other" style="margin-top:20px">
+        <span>城市：</span>
+        <input-tool style="width:200px" :value="city" @input="input_city"></input-tool>
       </div>
     </div>
     <picture-upload
@@ -130,7 +138,9 @@ export default {
       intro: '',
       link: '',
       content: '',
-      contentHtml: ''
+      contentHtml: '',
+      city:'',
+      province :''
     };
   },
   created() {
@@ -147,6 +157,7 @@ export default {
       // this.content = val;
       // this.contentHtml = val;
     },
+
     imgFile(val) {
       console.log('------222', val);
       this.imgUrl = val.httpUrl;
@@ -207,7 +218,12 @@ export default {
     input_intro(val) {
       this.intro = val;
     },
-
+    input_province(val){
+      this.province = val
+    },
+     input_city(val){
+      this.city = val
+    },
     submit() {
       let params = {
         title: this.title,
@@ -218,7 +234,9 @@ export default {
         introduction: this.intro,
         content: this.content,
         contentHtml: this.contentHtml,
-        link: this.link
+        link: this.link,
+        province:this.province,
+        city:this.city
       };
       if (this.type == '修改') {
         this.$emit('alterBtn', params);
@@ -255,7 +273,8 @@ export default {
     display: flex;
     // padding-top: 30px;
     .add-input-name,
-    .add-select-block {
+    .add-select-block,
+    .add-other {
       display: flex;
       align-items: center;
       span {
