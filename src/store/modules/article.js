@@ -92,7 +92,9 @@ const actions = {
         introduction: params.introduction,
         content: params.content,
         contentHtml: params.contentHtml,
-        link: params.link
+        link: params.link,
+        province:params.province,
+        city:params.city
       })
         .then(response => {
           const { data, msg } = response;

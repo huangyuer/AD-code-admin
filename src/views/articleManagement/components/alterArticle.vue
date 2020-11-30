@@ -35,7 +35,7 @@ export default {
           menu: info.menuVal,
           type: info.typeVal
         };
-        this.$store.dispatch('common/getMenuTags', params).then(res => {
+        info.menuVal&&info.typeVal&&this.$store.dispatch('common/getMenuTags', params).then(res => {
           info.menuTag = res;
         });
         if (info.menuVal) {
